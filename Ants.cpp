@@ -6,8 +6,8 @@
 class Ant{
     public:
     int wander = 10;
-    int xpos;
-    int ypos;
+    double xpos;
+    double ypos;
     double xdir;
     double ydir;
     Ant(){
@@ -16,7 +16,7 @@ class Ant{
         xdir = ((rand() % 3000)/1000 - 1);
         ydir = ((rand() % 3000)/1000 - 1);
     }
-    Ant(int awidth, int aheight){
+    Ant(double awidth, double aheight){
         xpos = awidth;
         ypos = aheight;
         xdir = ((rand() % 3000)/1000 - 1);
@@ -26,23 +26,6 @@ class Ant{
         if ((rand() % wander + 1) == wander){
             xdir = ((rand() % 3000)/1000 - 1);
             ydir = ((rand() % 3000)/1000 - 1);
-        }
-        else{
-            if ((rand() % 2) == 1){
-                xdir = xdir + 0.5;
-            }
-
-            if ((rand() % 2) == 1){
-                xdir = xdir - 0.5;
-            }
-            
-            if ((rand() % 2) == 1){
-                ydir = ydir + 0.5;
-            }
-            
-            if ((rand() % 2) == 1){
-                ydir = ydir - 0.5;
-            }
         }
 
         xpos = xpos + xdir;
@@ -72,7 +55,7 @@ class Colony{
         colour.a = 0;
     }
 
-    Colony(int AnumAnts, int strtx, int strty,int r,int g,int b){
+    Colony(int AnumAnts, double strtx, double strty,int r,int g,int b){
         numAnts = AnumAnts;
         ants = new Ant[numAnts];
         for (int i = 0; i < numAnts; i++){
@@ -101,11 +84,11 @@ class Colony{
 
 int main(){
     srand(time(NULL));
-    int width = sf::VideoMode::getDesktopMode().width;
-    int height = sf::VideoMode::getDesktopMode().height;
-    Colony colony1(500, (width/3), (height/2),255,182,193);
-    Colony colony2(500, (width*2/3), (height/2),255,105,180);
-    Colony colony3(500, (width/2), (height/2),255,20,147);
+    double width = sf::VideoMode::getDesktopMode().width;
+    double height = sf::VideoMode::getDesktopMode().height;
+    Colony colony1(1000, (width/3), (height/2),255,182,193);
+    Colony colony2(1000, (width*2/3), (height/2),255,105,180);
+    Colony colony3(1000, (width/2), (height/2),255,20,147);
     sf::RenderWindow window(sf::VideoMode(width, height), "GAME");
     while (window.isOpen())
     {
