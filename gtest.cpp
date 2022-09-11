@@ -4,6 +4,7 @@
 #include <cmath>
 #include <random>
 
+
 class Platforms{
     public:
     double screenWidth;
@@ -266,9 +267,6 @@ class Player{
 
 
 int main(){
-
-    int direction = 0;
-
     double width = sf::VideoMode::getDesktopMode().width;
     double height = sf::VideoMode::getDesktopMode().height;
     Player P1(width/2,height/2, width, height);

@@ -8,32 +8,25 @@ static double xpos, ypos;
 
 class Player{
     public:
-    double gravity = 5;
-    double fallTime = 0;
-    double movSpeed = 10;
-    double jumpSpeed = 50;
-
-    //collision detections
-    int floorTouch = 0;
-    int roofTouch = 0;
-    int leftTouch = 0;
-    int rightTouch = 0;
-
+    double movSpeed;
     sf::RectangleShape sprite;
+    sf::RenderWindow* window;
+    sf::View camera;
+    sf::Texture texture;
     
-    Player(){
-        xpos = 0;
-        ypos = 0;
-        sprite.setSize(sf::Vector2f(50,50));
-        sprite.setFillColor(sf::Color(255,255,255));
-    }
-
-    Player(double Pxpos, double Pypos, double width, double height){
+    Player(double Pxpos, double Pypos, double width, double height, sf::RenderWindow* window){
         xpos = Pxpos;
         ypos = Pypos;
-        sprite.setPosition(sf::Vector2f(xpos-25,ypos-25));
-        sprite.setSize(sf::Vector2f(50,50));
-        sprite.setFillColor(sf::Color(255,255,255));
+        this->movSpeed = 5;
+        this->window = window;
+        this->sprite.setPosition(sf::Vector2f(xpos-20,ypos-20));
+        this->sprite.setSize(sf::Vector2f(40,40));
+        // texture.loadFromFile("player.gif");
+        // texture.setSmooth(true);
+        // sprite.setTexture(&texture);
+        camera.setCenter(0,0);
+        camera.setSize(width, height);
+        window->setView(camera);
     }
 
 
@@ -74,8 +67,10 @@ class Player{
 
     void DrawPlayer(sf::RenderWindow* window){
         this->getPosition();
-        sprite.setPosition(sf::Vector2f(xpos-25,ypos-25));
+        sprite.setPosition(sf::Vector2f(xpos-20,ypos-20));
         window->draw(sprite);
+        camera.setCenter(sprite.getPosition());
+        window->setView(camera);
     }
 
     };
@@ -85,8 +80,9 @@ class Player{
 
     double width = sf::VideoMode::getDesktopMode().width;
     double height = sf::VideoMode::getDesktopMode().height;
-    Player P1(width/2,height/2, width, height);
     sf::RenderWindow window(sf::VideoMode(width, height), "GAME");
+
+    Player P1(width/2,height/2, width, height, &window);
 
     while (window.isOpen())
     {
@@ -96,18 +92,13 @@ class Player{
             if (event.type == sf::Event::Closed)
                 window.close();
         }
-
-        sf::RectangleShape rectangle(sf::Vector2f(width, height));
-        rectangle.setFillColor(sf::Color(0,0,0));
-        window.draw(rectangle);
         
 
 
         P1.DrawPlayer(&window);
         
-        std::cout << xpos << "  " << ypos << std::endl;
-        
         window.display();
+        window.clear(sf::Color::Green);
     }
 
     return 0;
