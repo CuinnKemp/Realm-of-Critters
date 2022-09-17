@@ -26,35 +26,36 @@ SpinningBlade::SpinningBlade(int num){
     return;
 }
 
-    SpinningBlade::~SpinningBlade(){
-        delete[] this->coordinates;
-        return;
-    }
+SpinningBlade::~SpinningBlade(){
+    delete[] this->coordinates;
+    return;
+}
+    
 
-    void SpinningBlade::hitEnemy(Enemies* enemies){
-        for (int i = 0; i < enemies->enemyCounter; i++){
-            if (this->sprite.getGlobalBounds().intersects(enemies->enemies[i]->sprite.getGlobalBounds())){
-                enemies->enemies[i]->health = enemies->enemies[i]->health - 50;
-            }
+void SpinningBlade::hitEnemy(Enemies* enemies){
+    for (int i = 0; i < enemies->enemyCounter; i++){
+        if (this->sprite.getGlobalBounds().intersects(enemies->enemies[i]->sprite.getGlobalBounds())){
+            enemies->enemies[i]->health = enemies->enemies[i]->health - 50;
         }
-        return;
     }
+    return;
+}
 
-    void SpinningBlade::movement(){
-        this->coordinates[0] = xpos - (200 * sin((3.14 / 100) * count));
-        this->coordinates[1] = ypos - (200 * cos((3.14 / 100) * count));
-        this->sprite.setPosition(sf::Vector2f(this->coordinates[0], this->coordinates[1]));
-        count++;
-        if (count == 200){
-            count = 0;
-        }
-        return;
+void SpinningBlade::movement(){
+    this->coordinates[0] = xpos - (200 * sin((3.14 / 100) * count));
+    this->coordinates[1] = ypos - (200 * cos((3.14 / 100) * count));
+    this->sprite.setPosition(sf::Vector2f(this->coordinates[0], this->coordinates[1]));
+    count++;
+    if (count == 200){
+        count = 0;
     }
+    return;
+}
 
-    bool SpinningBlade::updateAbility(){
-        this->movement();
+bool SpinningBlade::updateAbility(){
+    this->movement();
 
-        window.draw(this->sprite);
+    window.draw(this->sprite);
 
-        return 1;
-    }
+    return 1;
+}
