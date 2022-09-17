@@ -28,6 +28,10 @@ Archer::Archer(){
     this->health = 50;
 }
 
+Archer::~Archer(){
+    delete[] this->coordinates;
+}
+
 void Archer::attack(){
     Arrow* holdArrows = this->Arrows;
     Arrows = new Arrow[arrowCounter+1];
@@ -36,7 +40,7 @@ void Archer::attack(){
     }
     delete[] holdArrows;
 
-    Arrow A(this->coordinates[0], this->coordinates[1]);
+    Arrow A(coordinates[0], this->coordinates[1]);
 
     Arrows[arrowCounter] = A;
     arrowCounter++;

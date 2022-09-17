@@ -13,7 +13,7 @@ extern sf::RenderWindow window;
 class Arrow{
     public:
     double* arrowCoordinates = new double[2];
-    int* damage = new int;
+    int damage;
     double* targetCoordinates = new double[2];
     double* speedVector = new double[2];
     sf::RectangleShape ArrowShape;

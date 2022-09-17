@@ -15,7 +15,7 @@ Arrow::Arrow(){
 }
 
 Arrow::Arrow(double xspawn, double yspawn){
-    *(this->damage) = 10;
+    this->damage = 10;
     this->arrowCoordinates[0] = xspawn;
     this->arrowCoordinates[1] = yspawn;
 
@@ -29,11 +29,11 @@ Arrow::Arrow(double xspawn, double yspawn){
     this->ArrowShape.setFillColor(sf::Color::Red);
     this->ArrowShape.setPosition(sf::Vector2f(this->arrowCoordinates[0], this->arrowCoordinates[1]));
     this->ArrowShape.setSize(sf::Vector2f(10, 10));
-}  
+}
 
 bool Arrow::collisionDetection(){
     if (P1.sprite.getGlobalBounds().intersects(ArrowShape.getGlobalBounds())){
-        P1.health = P1.health - *(this->damage);
+        P1.health = P1.health - this->damage;
         return 1;
     }
     return 0;

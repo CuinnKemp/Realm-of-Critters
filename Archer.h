@@ -12,16 +12,15 @@
 
 class Archer : public Enemy{
     public:
-    double* coordinates = new double[2];
     int arrowCounter;
     int fireCounter;
     Arrow* Arrows;
-    int health;
-    sf::RectangleShape sprite;
     sf::Texture texture1;
     sf::Texture texture2;
 
     Archer();
+
+    ~Archer();
 
     void attack();
 

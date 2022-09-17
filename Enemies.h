@@ -6,6 +6,7 @@
 
 class Enemies{
     public:
+    double* coordinates;
     int enemyCounter;
     Enemy** enemies;
     int spawnRate;
