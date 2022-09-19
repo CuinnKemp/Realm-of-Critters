@@ -50,7 +50,8 @@ void Enemies::updateEnemies(){
 
 Enemies::~Enemies(){
     for (int i = 0; i < enemyCounter; i++){
-        delete[] enemies[i];
+        delete enemies[i];
     }
+    delete[] enemies;
 }
 

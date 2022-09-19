@@ -14,12 +14,10 @@ SpinningBlade::SpinningBlade(int num){
     this->coordinates[0] = xpos + 200;
     this->coordinates[1] = ypos;
 
-    this->sprite.setPosition(sf::Vector2f(this->coordinates[0], this->coordinates[1]));
+    this->sprite.setPosition(sf::Vector2f(this->coordinates[0] + 20, this->coordinates[1] + 20));
     this->sprite.setSize(sf::Vector2f(20,20));
-    // this->texture1.loadFromFile("ARCHER1.png");
-    // this->texture2.loadFromFile("ARCHER2.png");
-    // this->sprite.setTexture(&texture1);
-    this->sprite.setFillColor(sf::Color::Blue);
+    this->texture1.loadFromFile("SPINNINGBLADE.png");
+    this->sprite.setTexture(&texture1);
 
     count = 0;
     
@@ -45,6 +43,7 @@ void SpinningBlade::movement(){
     this->coordinates[0] = xpos - (200 * sin((3.14 / 100) * count));
     this->coordinates[1] = ypos - (200 * cos((3.14 / 100) * count));
     this->sprite.setPosition(sf::Vector2f(this->coordinates[0], this->coordinates[1]));
+    this->sprite.rotate((3.14 / 100) * count);
     count++;
     if (count == 200){
         count = 0;

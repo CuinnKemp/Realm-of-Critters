@@ -22,9 +22,8 @@ sf::RenderWindow window(sf::VideoMode(width, height), "GAME");
 
 Player P1(width/2,height/2, width, height, &window);
 
-SpinningBlade b1(0);
-
 int main(){
+    window.setFramerateLimit(120);
     while (window.isOpen()){
         sf::Event event;
         while (window.pollEvent(event))
@@ -34,6 +33,7 @@ int main(){
         }
 
         Enemies a1;
+        SpinningBlade b1(0);
         while (P1.isAlive() && window.isOpen()){
             sf::Event eventInner;
             while (window.pollEvent(eventInner))
