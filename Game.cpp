@@ -45,7 +45,7 @@ int main() {
       if (!mapImage.loadFromFile("backgroundMap.png")) {
         std::cout << "Could not load \"backgroundMap.png\"!" << std::endl;
       }
-      backgroundMap.scale(5, 5);
+      backgroundMap.scale(1, 1);
       backgroundMap.setTexture(mapImage);
       window.draw(backgroundMap);
       P1.DrawPlayer(&window);
