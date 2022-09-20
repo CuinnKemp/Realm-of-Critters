@@ -64,7 +64,7 @@ int main() {
     deathText.setFont(deathFont);
     deathText.setCharacterSize(80);
     deathText.setString("   YOU DIED!\n\nPRESS ENTER");
-    deathText.setPosition(sf::Vector2f(-width / 5, -height / 4));
+    deathText.setPosition(sf::Vector2f(-width / 10, -height / 10));
     window.draw(deathText);
     window.display();
     bool waiting = 1;
