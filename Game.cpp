@@ -27,12 +27,19 @@ Player P1(width / 2, height / 2, width, height, &window);
 
 int main() {
   window.setFramerateLimit(120);
+  sf::Texture mapImage;
+  sf::Sprite backgroundMap;
+  if (!mapImage.loadFromFile("backgroundMap.png")) {
+    std::cout << "Could not load \"backgroundMap.png\"!" << std::endl;
+  }
+  backgroundMap.scale(1, 1);
+  backgroundMap.setTexture(mapImage);
   while (window.isOpen()) {
     sf::Event event;
     while (window.pollEvent(event)) {
       if (event.type == sf::Event::Closed) window.close();
     }
-
+    backgroundMap.setOrigin(-512, -512);
     Enemies a1;
     SpinningBlade b1(0);
     while (P1.isAlive() && window.isOpen()) {
@@ -40,13 +47,6 @@ int main() {
       while (window.pollEvent(eventInner)) {
         if (eventInner.type == sf::Event::Closed) window.close();
       }
-      sf::Texture mapImage;
-      sf::Sprite backgroundMap;
-      if (!mapImage.loadFromFile("backgroundMap.png")) {
-        std::cout << "Could not load \"backgroundMap.png\"!" << std::endl;
-      }
-      backgroundMap.scale(1, 1);
-      backgroundMap.setTexture(mapImage);
       window.draw(backgroundMap);
       P1.DrawPlayer(&window);
       a1.updateEnemies();
