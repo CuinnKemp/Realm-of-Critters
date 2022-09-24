@@ -6,7 +6,7 @@ Player::Player(double Pxpos, double Pypos, double width, double height,
                sf::RenderWindow* window) {
   xpos = Pxpos;
   ypos = Pypos;
-  this->health = 200;
+  this->health = 500;
   this->movSpeed = 5;
   this->window = window;
   this->sprite.setPosition(sf::Vector2f(0, 0));

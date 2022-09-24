@@ -24,6 +24,7 @@ double width = sf::VideoMode::getDesktopMode().width;
 double height = sf::VideoMode::getDesktopMode().height;
 sf::RenderWindow window(sf::VideoMode(width, height), "GAME");
 Player P1(0, 0, width, height, &window);
+SpinningBlade b1(0);
 
 int main() {
   window.setFramerateLimit(120);
@@ -50,7 +51,6 @@ int main() {
     }
     backgroundMap.setOrigin(-512, -512);
     Enemies a1;
-    SpinningBlade b1(0);
     while (P1.isAlive() && window.isOpen()) {
       sf::Event eventInner;
       while (window.pollEvent(eventInner)) {

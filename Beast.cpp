@@ -39,11 +39,12 @@ Beast::Beast() {
   walkRight3.loadFromFile("beastAnimation/WalkRight3.png");
   walkRight4.loadFromFile("beastAnimation/WalkRight4.png");
   this->sprite.setTextureRect(rectSourceSprite);
-  this->sprite.setScale(2, 2);
+  this->sprite.setSize(sf::Vector2f(32, 32));
   this->sprite.setTexture(&walkDown1);
   this->direction = 4;
   this->isMoving - false;
   this->animationCount = 0;
+  this->sprite.setOrigin(0, 0);
 
   this->Arrows = new Arrow[0];
 

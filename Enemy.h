@@ -1,5 +1,7 @@
 #ifndef ENEMY_H
 #define ENEMY_H
+
+#include <SFML/Window.hpp>
 class Enemy {
  public:
   double* coordinates = new double[2];

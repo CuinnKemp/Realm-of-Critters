@@ -12,12 +12,12 @@ extern double xpos, ypos;
 extern sf::RenderWindow window;
 
 SpinningBlade::SpinningBlade(int num) {
-  this->coordinates[0] = xpos + 200;
+  this->coordinates[0] = xpos;
   this->coordinates[1] = ypos;
 
   this->sprite.setPosition(
       sf::Vector2f(this->coordinates[0] + 20, this->coordinates[1] + 20));
-  this->sprite.setSize(sf::Vector2f(20, 20));
+  this->sprite.setSize(sf::Vector2f(14, 32));
   this->texture1.loadFromFile("Fork.png");
   this->sprite.setTexture(&texture1);
 
@@ -33,8 +33,13 @@ SpinningBlade::~SpinningBlade() {
 
 void SpinningBlade::hitEnemy(Enemies* enemies) {
   for (int i = 0; i < enemies->enemyCounter; i++) {
-    if (this->sprite.getGlobalBounds().intersects(
-            enemies->enemies[i]->sprite.getGlobalBounds())) {
+    float weaponX = sprite.getPosition().x;
+    float weaponY = sprite.getPosition().y;
+    float enemyX = enemies->enemies[i]->coordinates[0];
+    float enemyY = enemies->enemies[i]->coordinates[1];
+    std::cout << weaponX << " " << weaponY << " " << enemyX << " " << enemyY
+              << std::endl;
+    if (abs(weaponX - enemyX) <= 20 && abs(weaponY - enemyY) <= 20) {
       enemies->enemies[i]->health = enemies->enemies[i]->health - 50;
     }
   }

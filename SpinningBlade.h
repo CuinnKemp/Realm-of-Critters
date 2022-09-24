@@ -1,32 +1,30 @@
 #ifndef SPINNINGBLADE_H
 #define SPINNINGBLADE_H
 
-#include <SFML/Window.hpp>
 #include <SFML/Graphics.hpp>
-#include <iostream>
+#include <SFML/Window.hpp>
 #include <cmath>
+#include <iostream>
 #include <random>
 
-#include "PowerUp.h"
 #include "Enemies.h"
+#include "PowerUp.h"
 
-class SpinningBlade : public PowerUp{
-    public:
-    sf::Texture texture1;
-    int count;
+class SpinningBlade : public PowerUp {
+ public:
+  sf::Texture texture1;
+  int count;
 
-    SpinningBlade(int num);
+  SpinningBlade(int num);
 
-    ~SpinningBlade();
+  ~SpinningBlade();
 
-    void hitEnemy(Enemies* enemies);
+  void hitEnemy(Enemies* enemies);
 
-    void movement();
-    
-    void updatePosition();
+  void movement();
 
-    bool updateAbility();
+  void updatePosition();
 
-
+  bool updateAbility();
 };
-#endif //SPINNINGBLADE_H
+#endif  // SPINNINGBLADE_H
