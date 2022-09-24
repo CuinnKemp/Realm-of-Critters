@@ -1,25 +1,25 @@
 #ifndef ENEMIES_H
 #define ENEMIES_H
 
+#include "Beast.h"
 #include "Enemy.h"
-#include "Archer.h"
 
-class Enemies{
-    public:
-    double* coordinates;
-    int enemyCounter;
-    Enemy** enemies;
-    int spawnRate;
-    int timer;
+class Enemies {
+ public:
+  double* coordinates;
+  int enemyCounter;
+  Enemy** enemies;
+  int spawnRate;
+  int timer;
 
-    Enemies();
-    
-    ~Enemies();
-    
-    void spawnNewEnemy();
+  Enemies();
 
-    void checkAlives();
-    
-    void updateEnemies();
+  ~Enemies();
+
+  void spawnNewEnemy();
+
+  void checkAlives();
+
+  void updateEnemies();
 };
-#endif //ENEMIES_H
+#endif  // ENEMIES_H

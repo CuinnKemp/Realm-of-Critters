@@ -11,8 +11,8 @@
 #include <iostream>
 #include <random>
 
-#include "Archer.h"
 #include "Arrow.h"
+#include "Beast.h"
 #include "Enemies.h"
 #include "Enemy.h"
 #include "Player.h"
