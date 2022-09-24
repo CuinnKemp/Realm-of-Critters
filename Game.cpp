@@ -23,17 +23,26 @@ double xpos, ypos;
 double width = sf::VideoMode::getDesktopMode().width;
 double height = sf::VideoMode::getDesktopMode().height;
 sf::RenderWindow window(sf::VideoMode(width, height), "GAME");
-Player P1(width / 2, height / 2, width, height, &window);
+Player P1(0, 0, width, height, &window);
 
 int main() {
   window.setFramerateLimit(120);
   sf::Texture mapImage;
+  sf::Texture extrasImage;
   sf::Sprite backgroundMap;
+  sf::Sprite mapExtras;
   if (!mapImage.loadFromFile("backgroundMap.png")) {
     std::cout << "Could not load \"backgroundMap.png\"!" << std::endl;
   }
-  backgroundMap.scale(1, 1);
+  if (!extrasImage.loadFromFile("mapExtras.png")) {
+    std::cout << "Could not load \"mapExtras.png\"!" << std::endl;
+  }
+  backgroundMap.scale(2, 2);
   backgroundMap.setTexture(mapImage);
+  backgroundMap.setPosition(-3072, -3072);
+  mapExtras.scale(2, 2);
+  mapExtras.setTexture(extrasImage);
+  mapExtras.setPosition(-2048, -2048);
   while (window.isOpen()) {
     sf::Event event;
     while (window.pollEvent(event)) {
@@ -49,6 +58,7 @@ int main() {
       }
       window.draw(backgroundMap);
       P1.DrawPlayer(&window);
+      window.draw(mapExtras);
       a1.updateEnemies();
 
       b1.updateAbility();

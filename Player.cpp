@@ -9,7 +9,7 @@ Player::Player(double Pxpos, double Pypos, double width, double height,
   this->health = 200;
   this->movSpeed = 5;
   this->window = window;
-  this->sprite.setPosition(sf::Vector2f(xpos - 20, ypos - 20));
+  this->sprite.setPosition(sf::Vector2f(0, 0));
   this->sprite.setSize(sf::Vector2f(40, 40));
   idleDown.loadFromFile("playerAnimation/Idle/idleDown.png");
   idleUp.loadFromFile("playerAnimation/Idle/idleUp.png");
@@ -55,7 +55,6 @@ void Player::resetPlayer() {
   xpos = 0;
   ypos = 0;
   camera.setCenter(0, 0);
-  this->sprite.setPosition(sf::Vector2f(xpos - 20, ypos - 20));
   this->sprite.setSize(sf::Vector2f(40, 40));
   this->animationCount = 0;
   this->health = 100;
