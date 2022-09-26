@@ -15,6 +15,8 @@
 #include "Beast.h"
 #include "Enemies.h"
 #include "Enemy.h"
+#include "Obstacle.h"
+#include "ObstacleGenerator.h"
 #include "Player.h"
 #include "SpinningBlade.h"
 
@@ -32,6 +34,7 @@ int main() {
   sf::Texture extrasImage;
   sf::Sprite backgroundMap;
   sf::Sprite mapExtras;
+
   if (!mapImage.loadFromFile("backgroundMap.png")) {
     std::cout << "Could not load \"backgroundMap.png\"!" << std::endl;
   }
@@ -44,6 +47,14 @@ int main() {
   mapExtras.scale(2, 2);
   mapExtras.setTexture(extrasImage);
   mapExtras.setPosition(-2048, -2048);
+  ObstacleGenerator og;
+  for (int i = 0; i < 2048; i = i + 32) {
+    for (int j = 0; j < 2048; j = j + 32) {
+      if (i == 0) {
+      }
+      og.obstacles[og.obstacleCounter] = new Obstacle(1, i, j);
+    }
+  }
   while (window.isOpen()) {
     sf::Event event;
     while (window.pollEvent(event)) {
@@ -59,6 +70,9 @@ int main() {
       window.draw(backgroundMap);
       P1.DrawPlayer(&window);
       window.draw(mapExtras);
+      for (int i = 0; i < 64; i++) {
+        window.draw(og.obstacles[i]->sprite);
+      }
       a1.updateEnemies();
 
       b1.updateAbility();
