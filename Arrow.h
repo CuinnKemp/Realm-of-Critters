@@ -21,7 +21,7 @@ class Arrow{
     
     Arrow();
     Arrow(double xspawn, double yspawn);
-    bool collisionDetection();
+    bool EnemycollisionDetection();
     bool outOfBounds();
     bool UpdatePosition();
     void DrawArrows();

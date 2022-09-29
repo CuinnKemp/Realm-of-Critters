@@ -7,6 +7,8 @@
 #include <iostream>
 #include <random>
 
+#include "PowerUp.h"
+
 class Player {
  public:
   double movSpeed;
@@ -22,12 +24,17 @@ class Player {
   double health;
   int direction;  // 1 = left, 2 = right, 3 = up, 4 = down
   bool isMoving;
+  int currentExp;
+  int expCap;
+  int level;
   int animationCount;
 
   Player(double Pxpos, double Pypos, double width, double height,
          sf::RenderWindow* window);
 
   void resetPlayer();
+
+  void levelPlayer();
 
   void moveRight();
 

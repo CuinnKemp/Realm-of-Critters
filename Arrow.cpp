@@ -31,7 +31,7 @@ Arrow::Arrow(double xspawn, double yspawn){
     this->ArrowShape.setSize(sf::Vector2f(10, 10));
 }
 
-bool Arrow::collisionDetection(){
+bool Arrow::EnemycollisionDetection(){
     if (P1.sprite.getGlobalBounds().intersects(ArrowShape.getGlobalBounds())){
         P1.health = P1.health - this->damage;
         return 1;
@@ -47,7 +47,7 @@ bool Arrow::outOfBounds(){
 }
 
 bool Arrow::UpdatePosition(){
-    if (this->collisionDetection() || this->outOfBounds()){
+    if (this->EnemycollisionDetection() || this->outOfBounds()){
         return 0;
     }
 

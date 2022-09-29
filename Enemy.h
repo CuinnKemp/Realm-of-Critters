@@ -7,6 +7,7 @@ class Enemy {
   double* coordinates = new double[2];
   double* lastCoordinates = new double[2];
   int health;
+  double expGiven;
   sf::IntRect rectSourceSprite;
   sf::Sprite sprite;
   virtual bool updateEnemy();
