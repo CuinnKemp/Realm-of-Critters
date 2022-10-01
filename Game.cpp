@@ -76,7 +76,6 @@ int main() {
         float playerY = P1.sprite.getPosition().y + 20;
         float obstacleX = og.obstacles[i]->sprite.getPosition().x - 1888;
         float obstacleY = og.obstacles[i]->sprite.getPosition().y - 1888;
-        std::cout << obstacleX << " " << obstacleY << std::endl;
         if (abs(playerX - obstacleX) <= 50 && abs(playerY - obstacleY) <= 50) {
           xpos = P1.oldXpos;
           ypos = P1.oldYpos;
