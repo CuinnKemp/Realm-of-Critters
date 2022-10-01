@@ -37,8 +37,6 @@ void SpinningBlade::hitEnemy(Enemies* enemies) {
     float weaponY = sprite.getPosition().y;
     float enemyX = enemies->enemies[i]->coordinates[0];
     float enemyY = enemies->enemies[i]->coordinates[1];
-    std::cout << weaponX << " " << weaponY << " " << enemyX << " " << enemyY
-              << std::endl;
     if (abs(weaponX - enemyX) <= 20 && abs(weaponY - enemyY) <= 20) {
       enemies->enemies[i]->health = enemies->enemies[i]->health - 50;
     }
@@ -51,7 +49,7 @@ void SpinningBlade::movement() {
   this->coordinates[1] = ypos - (200 * cos((3.14 / 100) * count));
   this->sprite.setPosition(
       sf::Vector2f(this->coordinates[0], this->coordinates[1]));
-  this->sprite.rotate((3.14 / 100) * count);
+  this->sprite.rotate((3.14 / 100) * 250);
   count++;
   if (count == 200) {
     count = 0;

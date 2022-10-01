@@ -6,7 +6,7 @@ Player::Player(double Pxpos, double Pypos, double width, double height,
                sf::RenderWindow* window) {
   xpos = Pxpos;
   ypos = Pypos;
-  this->health = 500;
+  this->health = 100;
   this->movSpeed = 5;
   this->window = window;
   this->sprite.setPosition(sf::Vector2f(0, 0));
@@ -43,17 +43,19 @@ Player::Player(double Pxpos, double Pypos, double width, double height,
   this->healthBarBack.setFillColor(sf::Color::Black);
   this->healthBarBack.setPosition(camera.getCenter().x - width / 2,
                                   camera.getCenter().y - height / 2);
-  this->healthBarBack.setSize(sf::Vector2f(200, 20));
 
   this->healthBarFront.setFillColor(sf::Color::Red);
   this->healthBarFront.setPosition(camera.getCenter().x - width / 2,
                                    camera.getCenter().y - height / 2);
-  this->healthBarFront.setSize(sf::Vector2f(200, 20));
+  this->healthBarBack.setSize(sf::Vector2f(200 * camera.getSize().x / 1000,
+                                           20 * camera.getSize().x / 1000));
 }
 
 void Player::resetPlayer() {
   xpos = 0;
   ypos = 0;
+  oldXpos = 0;
+  oldYpos = 0;
   camera.setCenter(0, 0);
   this->sprite.setSize(sf::Vector2f(40, 40));
   this->animationCount = 0;
@@ -65,15 +67,28 @@ void Player::resetPlayer() {
   this->healthBarFront.setPosition(
       camera.getCenter().x - camera.getSize().x / 2,
       camera.getCenter().y - camera.getSize().y / 2);
-  this->healthBarFront.setSize(sf::Vector2f(200, 20));
+  this->healthBarBack.setSize(sf::Vector2f(200 * camera.getSize().x / 1000,
+                                           20 * camera.getSize().x / 1000));
 }
 
-void Player::moveRight() { xpos = xpos + movSpeed; }
-void Player::moveLeft() { xpos = xpos - movSpeed; }
+void Player::moveRight() {
+  oldXpos = xpos;
+  xpos = xpos + movSpeed;
+}
+void Player::moveLeft() {
+  oldXpos = xpos;
+  xpos = xpos - movSpeed;
+}
 
-void Player::moveUp() { ypos = ypos - movSpeed; }
+void Player::moveUp() {
+  oldYpos = ypos;
+  ypos = ypos - movSpeed;
+}
 
-void Player::moveDown() { ypos = ypos + movSpeed; }
+void Player::moveDown() {
+  oldYpos = ypos;
+  ypos = ypos + movSpeed;
+}
 
 void Player::getPosition() {
   if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
@@ -220,7 +235,8 @@ void Player::DrawPlayer(sf::RenderWindow* window) {
   this->healthBarFront.setPosition(
       camera.getCenter().x - camera.getSize().x / 2,
       camera.getCenter().y - camera.getSize().y / 2);
-  this->healthBarFront.setSize(sf::Vector2f(health * 2, 20));
+  this->healthBarFront.setSize(sf::Vector2f(
+      health * 2 * camera.getSize().x / 1000, 20 * camera.getSize().x / 1000));
 
   window->draw(healthBarBack);
   window->draw(healthBarFront);
