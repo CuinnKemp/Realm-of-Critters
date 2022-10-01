@@ -16,14 +16,13 @@ Obstacle::Obstacle() {
   this->snow.loadFromFile("barrier/snow.png");
   this->dirt.loadFromFile("barrier/dirt.png");
   sf::Texture textureArray[] = {grass, desert, snow, dirt};
-  this->sprite.setTexture(textureArray[0]);
+  // this->sprite.setTexture(textureArray[0]);
   this->sprite.setScale(sf::Vector2f(2, 2));
   this->sprite.setOrigin(960, 960);
   return;
 }
 
 bool Obstacle::updateObstacle() {
-  sprite.setTexture(grass);
   window.draw(this->sprite);
 
   return 1;

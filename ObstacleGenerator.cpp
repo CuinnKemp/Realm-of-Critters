@@ -35,6 +35,23 @@ void ObstacleGenerator::spawnNewObstacle() {
     obstacles[obstacleCounter]->coordinates[0] = 3776;
     obstacles[obstacleCounter]->coordinates[1] = (obstacleCounter - 179) * 64;
   }
+  if (obstacles[obstacleCounter]->coordinates[0] <= 1888 &&
+      obstacles[obstacleCounter]->coordinates[1] <= 1888) {
+    obstacles[obstacleCounter]->sprite.setTexture(
+        obstacles[obstacleCounter]->grass);
+  } else if (obstacles[obstacleCounter]->coordinates[0] >= 1888 &&
+             obstacles[obstacleCounter]->coordinates[1] <= 1888) {
+    obstacles[obstacleCounter]->sprite.setTexture(
+        obstacles[obstacleCounter]->desert);
+  } else if (obstacles[obstacleCounter]->coordinates[0] <= 1888 &&
+             obstacles[obstacleCounter]->coordinates[1] >= 1888) {
+    obstacles[obstacleCounter]->sprite.setTexture(
+        obstacles[obstacleCounter]->snow);
+  } else if (obstacles[obstacleCounter]->coordinates[0] >= 1888 &&
+             obstacles[obstacleCounter]->coordinates[1] >= 1888) {
+    obstacles[obstacleCounter]->sprite.setTexture(
+        obstacles[obstacleCounter]->dirt);
+  }
 
   obstacles[obstacleCounter]->sprite.setPosition(
       obstacles[obstacleCounter]->coordinates[0],
