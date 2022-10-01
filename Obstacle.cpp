@@ -24,7 +24,6 @@ Obstacle::Obstacle() {
 
 bool Obstacle::updateObstacle() {
   window.draw(this->sprite);
-
   return 1;
 }
 

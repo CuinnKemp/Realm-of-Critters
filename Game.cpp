@@ -27,6 +27,7 @@ double height = sf::VideoMode::getDesktopMode().height;
 sf::RenderWindow window(sf::VideoMode(width, height), "GAME");
 Player P1(0, 0, width, height, &window);
 SpinningBlade b1(0);
+ObstacleGenerator og;
 
 int main() {
   window.setFramerateLimit(120);
@@ -53,8 +54,8 @@ int main() {
       if (event.type == sf::Event::Closed) window.close();
     }
     backgroundMap.setOrigin(-512, -512);
-    ObstacleGenerator og;
-    for (int i = 0; i <= 256; i++) {
+
+    for (int i = 0; i <= 237; i++) {
       og.spawnNewObstacle();
 
       //  og.obstacles[og.obstacleCounter] = new Obstacle(1, i, j);
@@ -69,6 +70,19 @@ int main() {
       window.draw(mapExtras);
       a1.updateEnemies();
       og.updateObstacles();
+
+      for (int i = 0; i < og.obstacleCounter; i++) {
+        float playerX = P1.sprite.getPosition().x + 20;
+        float playerY = P1.sprite.getPosition().y + 20;
+        float obstacleX = og.obstacles[i]->sprite.getPosition().x - 1888;
+        float obstacleY = og.obstacles[i]->sprite.getPosition().y - 1888;
+        std::cout << obstacleX << " " << obstacleY << std::endl;
+        if (abs(playerX - obstacleX) <= 50 && abs(playerY - obstacleY) <= 50) {
+          xpos = P1.oldXpos;
+          ypos = P1.oldYpos;
+        }
+      }
+
       P1.DrawPlayer(&window);
 
       b1.updateAbility();

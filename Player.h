@@ -9,7 +9,7 @@
 
 class Player {
  public:
-  double movSpeed;
+  double movSpeed, oldXpos, oldYpos;
   sf::RectangleShape sprite;
   sf::RenderWindow* window;
   sf::View camera;
