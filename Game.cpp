@@ -44,7 +44,7 @@ int main() {
   }
   backgroundMap.scale(2, 2);
   backgroundMap.setTexture(mapImage);
-  backgroundMap.setPosition(-3072, -3072);
+  backgroundMap.setPosition(-3586, -3616);
   mapExtras.scale(2, 2);
   mapExtras.setTexture(extrasImage);
   mapExtras.setPosition(-2048, -2048);
