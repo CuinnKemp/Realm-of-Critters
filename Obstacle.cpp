@@ -10,18 +10,23 @@
 extern double xpos, ypos;
 extern sf::RenderWindow window;
 
-Obstacle::Obstacle(int type, float posX, float posY) {
+Obstacle::Obstacle() {
   this->grass.loadFromFile("barrier/grass.png");
   this->desert.loadFromFile("barrier/desert.png");
   this->snow.loadFromFile("barrier/snow.png");
   this->dirt.loadFromFile("barrier/dirt.png");
   sf::Texture textureArray[] = {grass, desert, snow, dirt};
-  this->sprite.setTexture(textureArray[type - 1]);
-  this->coordinates[0] = posX;
-  this->coordinates[1] = posY;
-  this->sprite.setScale(sf::Vector2f(14, 32));
-
+  this->sprite.setTexture(textureArray[0]);
+  this->sprite.setScale(sf::Vector2f(2, 2));
+  this->sprite.setOrigin(960, 960);
   return;
+}
+
+bool Obstacle::updateObstacle() {
+  sprite.setTexture(grass);
+  window.draw(this->sprite);
+
+  return 1;
 }
 
 Obstacle::~Obstacle() {

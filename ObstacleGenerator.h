@@ -13,6 +13,8 @@ class ObstacleGenerator {
 
   void spawnNewObstacle();
 
+  void updateObstacles();
+
   ~ObstacleGenerator();
 };
 #endif  // OBSTACLEGENERATOR_H

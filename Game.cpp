@@ -47,20 +47,18 @@ int main() {
   mapExtras.scale(2, 2);
   mapExtras.setTexture(extrasImage);
   mapExtras.setPosition(-2048, -2048);
-  ObstacleGenerator og;
-  for (int i = 0; i < 2048; i = i + 32) {
-    for (int j = 0; j < 2048; j = j + 32) {
-      if (i == 0) {
-      }
-      og.obstacles[og.obstacleCounter] = new Obstacle(1, i, j);
-    }
-  }
   while (window.isOpen()) {
     sf::Event event;
     while (window.pollEvent(event)) {
       if (event.type == sf::Event::Closed) window.close();
     }
     backgroundMap.setOrigin(-512, -512);
+    ObstacleGenerator og;
+    for (int i = 0; i <= 256; i++) {
+      og.spawnNewObstacle();
+
+      //  og.obstacles[og.obstacleCounter] = new Obstacle(1, i, j);
+    }
     Enemies a1;
     while (P1.isAlive() && window.isOpen()) {
       sf::Event eventInner;
@@ -68,12 +66,10 @@ int main() {
         if (eventInner.type == sf::Event::Closed) window.close();
       }
       window.draw(backgroundMap);
-      P1.DrawPlayer(&window);
       window.draw(mapExtras);
-      for (int i = 0; i < 64; i++) {
-        window.draw(og.obstacles[i]->sprite);
-      }
       a1.updateEnemies();
+      og.updateObstacles();
+      P1.DrawPlayer(&window);
 
       b1.updateAbility();
       b1.hitEnemy(&a1);

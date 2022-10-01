@@ -8,8 +8,8 @@ class Obstacle {
   sf::Sprite sprite;
   sf::Texture grass, desert, snow, dirt;
 
-  Obstacle(int type, float posX,
-           float posY);  // 1 - grass, 2 - desert, 3 - snow, 4 - dirt
+  Obstacle();  // 1 - grass, 2 - desert, 3 - snow, 4 - dirt
+  bool updateObstacle();
   ~Obstacle();
 };
 #endif
