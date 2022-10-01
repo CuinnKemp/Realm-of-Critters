@@ -49,7 +49,7 @@ void SpinningBlade::movement() {
   this->coordinates[1] = ypos - (200 * cos((3.14 / 100) * count));
   this->sprite.setPosition(
       sf::Vector2f(this->coordinates[0], this->coordinates[1]));
-  this->sprite.rotate((3.14 / 100) * count);
+  this->sprite.rotate((3.14 / 100) * 250);
   count++;
   if (count == 200) {
     count = 0;
