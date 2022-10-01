@@ -16,6 +16,18 @@ Beast::Beast() {
   this->arrowCounter = 0;
   this->coordinates[0] = xpos + rand() % 800 - 400;
   this->coordinates[1] = ypos + rand() % 800 - 400;
+  std::cout << coordinates[1] << std::endl;
+  if (coordinates[0] < -1600) {
+    coordinates[0] = coordinates[0] + 400;
+  } else if (coordinates[0] > 1600) {
+    coordinates[0] = coordinates[0] - 400;
+  }
+  if (coordinates[1] < -1600) {
+    coordinates[1] = coordinates[1] + 400;
+  } else if (coordinates[1] > 1600) {
+    coordinates[1] = coordinates[1] - 400;
+  }
+
   this->lastCoordinates[0] = coordinates[0];
   this->lastCoordinates[1] = coordinates[1];
 
