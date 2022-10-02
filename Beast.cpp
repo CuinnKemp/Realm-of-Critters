@@ -8,10 +8,11 @@
 
 #include "Arrow.h"
 #include "Enemy.h"
+#include "ExpSpawner.h"
 
 extern double xpos, ypos;
 extern sf::RenderWindow window;
-extern Player p1;
+extern ExpSpawner E1;
 
 Beast::Beast() {
   this->arrowCounter = 0;
@@ -19,7 +20,7 @@ Beast::Beast() {
   this->coordinates[1] = ypos + rand() % 800 - 400;
   this->lastCoordinates[0] = coordinates[0];
   this->lastCoordinates[1] = coordinates[1];
-  this->expGiven = 25;
+  this->expGiven = 10;
 
   this->sprite.setPosition(
       sf::Vector2f(this->coordinates[0], this->coordinates[1]));
@@ -122,9 +123,8 @@ void Beast::movement() {
 
 bool Beast::updateEnemy() {
   if (this->health <= 0) {
-      P1.currentExp = P1.currentExp + this->expGiven;
-      P1.levelPlayer();
-      return 0;
+    // E1.spawnExp(this->expGiven, coordinates[0], coordinates[1]);
+    return 0;
   }
 
   this->drawArrows();

@@ -1,4 +1,5 @@
-// g++ Game.cpp Player.cpp Enemy.cpp Beast.cpp Arrow.cpp Enemies.cpp PowerUp.cpp SpinningBlade.cpp -lsfml-graphics -lsfml-window -lsfml-system
+// g++ Game.cpp Player.cpp Enemy.cpp Beast.cpp Arrow.cpp Enemies.cpp PowerUp.cpp
+// SpinningBlade.cpp -lsfml-graphics -lsfml-window -lsfml-system
 
 #include <stdlib.h>
 
@@ -14,9 +15,10 @@
 #include "Beast.h"
 #include "Enemies.h"
 #include "Enemy.h"
+#include "ExpSpawner.h"
 #include "Player.h"
-#include "SpinningBlade.h"
 #include "PlayerArrow.h"
+#include "SpinningBlade.h"
 
 double xpos, ypos;
 
@@ -25,9 +27,10 @@ double height = sf::VideoMode::getDesktopMode().height;
 sf::RenderWindow window(sf::VideoMode(width, height), "GAME");
 Player P1(0, 0, width, height, &window);
 SpinningBlade b1(0);
+ExpSpawner E1;
 
 int main() {
-  //window.setFramerateLimit(60);
+  // window.setFramerateLimit(60);
   window.setVerticalSyncEnabled(true);
   sf::Texture mapImage;
   sf::Texture extrasImage;
@@ -63,8 +66,9 @@ int main() {
       a1.updateEnemies();
       b1.updateAbility();
       b1.hitEnemy(&a1);
+      E1.updateExps();
       pArrow pa1(&a1);
-      pa1.updateAbility(&a1,&pa1);
+      pa1.updateAbility(&a1, &pa1);
       window.display();
       window.clear(sf::Color::White);
     }

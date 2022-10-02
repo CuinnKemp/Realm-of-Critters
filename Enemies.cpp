@@ -9,7 +9,6 @@
 #include "Beast.h"
 #include "Enemy.h"
 
-
 Enemies::Enemies() {
   enemyCounter = 0;
   enemies = new Enemy*[0];
@@ -36,7 +35,7 @@ void Enemies::checkAlives() {
         enemies[j - 1] = enemies[j];
       }
       enemyCounter--;
-    } 
+    }
   }
 }
 
