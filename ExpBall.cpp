@@ -51,4 +51,3 @@ void ExpBall::collected() {
   P1.currentExp = P1.currentExp + expPoints;
   P1.levelPlayer();
 }
-// ExpBall::~ExpBall() {}

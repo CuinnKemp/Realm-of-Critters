@@ -1,6 +1,8 @@
 #ifndef ENEMY_H
 #define ENEMY_H
 
+#include <SFML/Graphics.hpp>
+#include <SFML/System.hpp>
 #include <SFML/Window.hpp>
 class Enemy {
  public:

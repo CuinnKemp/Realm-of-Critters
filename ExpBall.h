@@ -13,6 +13,7 @@ class ExpBall : public ExpContainer {
   int timer;
   sf::Texture exp1, exp2, exp3, exp4;
   ExpBall();
+  ~ExpBall() {}
   bool updateExp();
   void collected();
 };

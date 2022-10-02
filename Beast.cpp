@@ -12,7 +12,7 @@
 
 extern double xpos, ypos;
 extern sf::RenderWindow window;
-extern ExpSpawner E1;
+// extern ExpSpawner E1;
 
 Beast::Beast() {
   this->arrowCounter = 0;

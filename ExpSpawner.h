@@ -1,9 +1,6 @@
 #ifndef EXPSPAWNER_H
 #define EXPSPAWNER_H
 
-#include <SFML/Graphics.hpp>
-#include <SFML/Window.hpp>
-
 #include "ExpBall.h"
 #include "ExpContainer.h"
 
@@ -17,10 +14,10 @@ class ExpSpawner {
   ExpContainer** expBalls;
   int timer;
   ExpSpawner();
+  ~ExpSpawner();
   void checkExp();
   void updateExps();
-  void spawnExp();
   void spawnExp(int expPoints, double xpos, double ypos);
-  ~ExpSpawner();
+  void spawnExp();
 };
 #endif  // EXPSPAWNER_H

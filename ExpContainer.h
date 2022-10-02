@@ -8,6 +8,6 @@ class ExpContainer {
   sf::IntRect rectSourceSprite;
   sf::Sprite sprite;
   virtual bool updateExp() = 0;
-  virtual ~ExpContainer(){};
+  virtual ~ExpContainer() {}
 };
 #endif  // EXPCONTAINER_H
