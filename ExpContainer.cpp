@@ -1,4 +1,4 @@
-#include "Enemy.h"
+#include "ExpContainer.h"
 
 #include <SFML/Graphics.hpp>
 #include <SFML/Window.hpp>
@@ -6,4 +6,4 @@
 #include <iostream>
 #include <random>
 
-bool Enemy::updateEnemy() { return 0; }
+bool ExpContainer::updateExp() { return 0; }

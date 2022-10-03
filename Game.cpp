@@ -15,6 +15,9 @@
 #include "Beast.h"
 #include "Enemies.h"
 #include "Enemy.h"
+#include "ExpBall.h"
+#include "ExpContainer.h"
+#include "ExpSpawner.h"
 #include "Obstacle.h"
 #include "ObstacleGenerator.h"
 #include "Player.h"
@@ -57,18 +60,17 @@ int main() {
 
     for (int i = 0; i <= 237; i++) {
       og.spawnNewObstacle();
-
-      //  og.obstacles[og.obstacleCounter] = new Obstacle(1, i, j);
     }
     Enemies a1;
+    ExpSpawner E1;
     while (P1.isAlive() && window.isOpen()) {
       sf::Event eventInner;
       while (window.pollEvent(eventInner)) {
         if (eventInner.type == sf::Event::Closed) window.close();
       }
       window.draw(backgroundMap);
-      window.draw(mapExtras);
       a1.updateEnemies();
+      E1.updateExps();
       og.updateObstacles();
 
       for (int i = 0; i < og.obstacleCounter; i++) {
@@ -83,7 +85,7 @@ int main() {
       }
 
       P1.DrawPlayer(&window);
-
+      window.draw(mapExtras);
       b1.updateAbility();
       b1.hitEnemy(&a1);
       window.display();

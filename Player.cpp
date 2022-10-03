@@ -37,9 +37,11 @@ Player::Player(double Pxpos, double Pypos, double width, double height,
   camera.setSize(width / 3, height / 3);
   window->setView(camera);
   this->direction = 4;
-  this->isMoving - false;
+  this->isMoving = false;
   this->animationCount = 0;
-
+  this->currentExp = 0;
+  this->expCap = 100;
+  this->level = 1;
   this->healthBarBack.setFillColor(sf::Color::Black);
   this->healthBarBack.setPosition(camera.getCenter().x - width / 2,
                                   camera.getCenter().y - height / 2);
@@ -49,6 +51,21 @@ Player::Player(double Pxpos, double Pypos, double width, double height,
                                    camera.getCenter().y - height / 2);
   this->healthBarBack.setSize(sf::Vector2f(200 * camera.getSize().x / 1000,
                                            20 * camera.getSize().x / 1000));
+}
+
+// This should be called whenever an enemy dies to check whether player has
+// levelled up
+void Player::levelPlayer() {
+  if (currentExp >= expCap) {
+    this->level++;
+    /*
+      INSERT LEVEL UP SEQUENCE HERE
+    */
+
+    this->expCap =
+        this->expCap * 2;  // increase experience required after every level
+    this->currentExp = 0;  // resets exp
+  }
 }
 
 void Player::resetPlayer() {

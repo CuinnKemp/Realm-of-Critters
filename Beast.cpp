@@ -53,7 +53,7 @@ Beast::Beast() {
   this->sprite.setSize(sf::Vector2f(32, 32));
   this->sprite.setTexture(&walkDown1);
   this->direction = 4;
-  this->isMoving - false;
+  this->isMoving = false;
   this->animationCount = 0;
   this->sprite.setOrigin(0, 0);
 
