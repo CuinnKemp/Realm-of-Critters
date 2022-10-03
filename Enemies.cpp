@@ -7,6 +7,7 @@
 #include <random>
 
 #include "Beast.h"
+#include "Slime.h"
 #include "Enemy.h"
 
 Enemies::Enemies() {
@@ -23,8 +24,12 @@ void Enemies::spawnNewEnemy() {
     enemies[i] = holdEnemies[i];
   }
   delete[] holdEnemies;
-
-  enemies[enemyCounter] = new Beast;
+  if (rand()%2 == 0){
+      enemies[enemyCounter] = new Beast;
+  }
+  else{
+    enemies[enemyCounter] = new Slime;
+  }
   enemyCounter++;
 }
 
