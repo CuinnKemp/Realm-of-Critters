@@ -17,7 +17,7 @@ ExpSpawner::ExpSpawner() {
   expBalls = new ExpBall*[0];
   spawnRate = 5;
   timer = 0;
-  baseExpPoints = 10;
+  baseExpPoints = 5;
 }
 
 void ExpSpawner::spawnNewExp() {
@@ -32,6 +32,7 @@ void ExpSpawner::spawnNewExp() {
   expBalls[expBallsCounter]->expPoints = baseExpPoints;
   expBalls[expBallsCounter]->sprite.setPosition(rand() % 2900 - 1450,
                                                 rand() % 2900 - 1450);
+  expBalls[expBallsCounter]->sprite.setScale(1, 1);
   expBallsCounter++;
 }
 
