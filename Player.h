@@ -7,8 +7,6 @@
 #include <iostream>
 #include <random>
 
-#include "PowerUp.h"
-
 class Player {
  public:
   double movSpeed, oldXpos, oldYpos;

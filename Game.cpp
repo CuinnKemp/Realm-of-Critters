@@ -11,26 +11,16 @@
 #include <iostream>
 #include <random>
 
-#include "Arrow.h"
-#include "Beast.h"
-#include "Enemies.h"
-#include "Enemy.h"
 #include "ExpBall.h"
 #include "ExpContainer.h"
 #include "ExpSpawner.h"
-#include "Obstacle.h"
-#include "ObstacleGenerator.h"
 #include "Player.h"
-#include "SpinningBlade.h"
-
 double xpos, ypos;
 
 double width = sf::VideoMode::getDesktopMode().width;
 double height = sf::VideoMode::getDesktopMode().height;
 sf::RenderWindow window(sf::VideoMode(width, height), "GAME");
 Player P1(0, 0, width, height, &window);
-SpinningBlade b1(0);
-ObstacleGenerator og;
 ExpSpawner E1;
 
 int main() {
@@ -59,38 +49,19 @@ int main() {
     }
     backgroundMap.setOrigin(-512, -512);
 
-    for (int i = 0; i <= 237; i++) {
-      og.spawnNewObstacle();
-    }
     for (int i = 0; i < 100; i++) {
       E1.spawnNewExp();
     }
-    Enemies a1;
     while (P1.isAlive() && window.isOpen()) {
       sf::Event eventInner;
       while (window.pollEvent(eventInner)) {
         if (eventInner.type == sf::Event::Closed) window.close();
       }
       window.draw(backgroundMap);
-      a1.updateEnemies();
       E1.updateExps();
-      og.updateObstacles();
-
-      for (int i = 0; i < og.obstacleCounter; i++) {
-        float playerX = P1.sprite.getPosition().x + 20;
-        float playerY = P1.sprite.getPosition().y + 20;
-        float obstacleX = og.obstacles[i]->sprite.getPosition().x - 1888;
-        float obstacleY = og.obstacles[i]->sprite.getPosition().y - 1888;
-        if (abs(playerX - obstacleX) <= 50 && abs(playerY - obstacleY) <= 50) {
-          xpos = P1.oldXpos;
-          ypos = P1.oldYpos;
-        }
-      }
 
       P1.DrawPlayer(&window);
       window.draw(mapExtras);
-      b1.updateAbility();
-      b1.hitEnemy(&a1);
       window.display();
       window.clear(sf::Color::White);
     }
