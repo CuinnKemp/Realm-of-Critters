@@ -24,7 +24,7 @@ ExpSpawner::ExpSpawner() {
   }
 }
 
-void ExpSpawner::spawnExp(int expPoints, double xpos, double ypos) {
+void ExpSpawner::spawnExp(int expPoints, double xpos1, double ypos1) {
   ExpContainer** holdExpBalls = this->expBalls;
   expBalls = new ExpContainer*[expBallsCounter + 1];
   for (int i = 0; i < expBallsCounter; i++) {
@@ -35,7 +35,7 @@ void ExpSpawner::spawnExp(int expPoints, double xpos, double ypos) {
   expBalls[expBallsCounter] = new ExpBall;
   expBalls[expBallsCounter]->expPoints = expPoints;
 
-  expBalls[expBallsCounter]->sprite.setPosition(xpos, ypos);
+  expBalls[expBallsCounter]->sprite.setPosition(xpos1, ypos1);
   expBallsCounter++;
 }
 
