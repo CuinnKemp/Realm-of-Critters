@@ -11,7 +11,7 @@ class ExpSpawner {
   int spawnRate;
   int baseExpPoints;
   int expBallsCounter;
-  ExpContainer** expBalls;
+  ExpBall** expBalls;
   int timer;
   ExpSpawner();
   ~ExpSpawner();

@@ -14,7 +14,7 @@ extern double xpos, ypos;
 
 ExpSpawner::ExpSpawner() {
   expBallsCounter = 0;
-  expBalls = new ExpContainer*[0];
+  expBalls = new ExpBall*[0];
   baseExpPoints = 10;
   spawnRate = 5;
   timer = 0;
@@ -25,8 +25,8 @@ ExpSpawner::ExpSpawner() {
 }
 
 void ExpSpawner::spawnExp(int expPoints, double xpos1, double ypos1) {
-  ExpContainer** holdExpBalls = this->expBalls;
-  expBalls = new ExpContainer*[expBallsCounter + 1];
+  ExpBall** holdExpBalls = expBalls;
+  expBalls = new ExpBall*[expBallsCounter + 1];
   for (int i = 0; i < expBallsCounter; i++) {
     expBalls[i] = expBalls[i];
   }
@@ -40,8 +40,8 @@ void ExpSpawner::spawnExp(int expPoints, double xpos1, double ypos1) {
 }
 
 void ExpSpawner::spawnExp() {
-  ExpContainer** holdExpBalls = this->expBalls;
-  expBalls = new ExpContainer*[expBallsCounter + 1];
+  ExpBall** holdExpBalls = expBalls;
+  expBalls = new ExpBall*[expBallsCounter + 1];
   for (int i = 0; i < expBallsCounter; i++) {
     expBalls[i] = expBalls[i];
   }
@@ -59,7 +59,7 @@ void ExpSpawner::checkExp() {
   std::cout << "checkExp()" << std::endl;
   std::cout << expBallsCounter << std::endl;
   for (int i = 0; i < expBallsCounter; i++) {
-    std::cout << "loop" << std::endl;
+    std::cout << "loop " << i << std::endl;
     if (!((*(expBalls[i])).updateExp())) {
       std::cout << "true" << std::endl;
       for (int j = i + 1; j < expBallsCounter; j++) {

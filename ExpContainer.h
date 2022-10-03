@@ -5,10 +5,7 @@
 #include <SFML/Window.hpp>
 class ExpContainer {
  public:
-  int expPoints;
-  sf::IntRect rectSourceSprite;
-  sf::Sprite sprite;
-  virtual bool updateExp() = 0;
-  virtual ~ExpContainer() {}
+  bool updateExp();
+  // virtual ~ExpContainer() {}
 };
 #endif  // EXPCONTAINER_H

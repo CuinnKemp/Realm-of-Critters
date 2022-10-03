@@ -11,6 +11,8 @@ class ExpBall : public ExpContainer {
  public:
   int expPoints;
   int timer;
+  sf::IntRect rectSourceSprite;
+  sf::Sprite sprite;
   sf::Texture exp1, exp2, exp3, exp4;
   ExpBall();
   ~ExpBall() {}
