@@ -19,13 +19,16 @@ ExpBall::ExpBall() {
   exp2.loadFromFile("expAnimation/exp2.png");
   exp3.loadFromFile("expAnimation/exp3.png");
   exp4.loadFromFile("expAnimation/exp4.png");
+  exp5.loadFromFile("expAnimation/exp5.png");
+  exp6.loadFromFile("expAnimation/exp6.png");
+  exp7.loadFromFile("expAnimation/exp7.png");
+  exp8.loadFromFile("expAnimation/exp8.png");
   sprite.setTextureRect(rectSourceSprite);
   sprite.setTexture(exp1);
   sprite.setScale(sf::Vector2f(2, 2));
 }
 
 bool ExpBall::updateExp() {
-  this->timer++;
   window.draw(this->sprite);
   float expX = sprite.getPosition().x;
   float expY = sprite.getPosition().y;
@@ -36,18 +39,27 @@ bool ExpBall::updateExp() {
     return 0;
   }
 
-  if (timer == 100) {
+  if (timer >= 90) {
     timer = 0;
   }
-  if (remainder(timer / 8, 2) == 0) {
+  if (timer == 0) {
     this->sprite.setTexture(exp1);
-  } else if (remainder(timer / 6, 3) == 0) {
+  } else if (timer == 10) {
     this->sprite.setTexture(exp2);
-  } else if (remainder(timer / 4, 2) == 0) {
+  } else if (timer == 20) {
     this->sprite.setTexture(exp3);
-  } else {
+  } else if (timer == 30) {
     this->sprite.setTexture(exp4);
+  } else if (timer == 40) {
+    this->sprite.setTexture(exp5);
+  } else if (timer == 50) {
+    this->sprite.setTexture(exp6);
+  } else if (timer == 60) {
+    this->sprite.setTexture(exp7);
+  } else if (timer == 80) {
+    this->sprite.setTexture(exp8);
   }
+  timer++;
   return 1;
 }
 void ExpBall::collected() {
