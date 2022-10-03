@@ -16,7 +16,7 @@ class ExpBall : public ExpContainer {
   sf::RectangleShape sprite;
   sf::Texture exp1, exp2, exp3, exp4;
   ExpBall();
-  ~ExpBall() {}
+  ~ExpBall();
   void collected();
   void drawExp();
   bool updateExp();

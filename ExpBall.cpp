@@ -21,8 +21,11 @@ ExpBall::ExpBall() {
   sprite.setTexture(&exp1);
   sprite.setTextureRect(rectSourceSprite);
   sprite.setOrigin(960, 960);
-  sprite.setScale(2, 2);
-  sprite.setPosition(xpos + rand() % 800 - 400, ypos + rand() % 800 - 400);
+  sprite.setSize(sf::Vector2f(32, 32));
+  this->coordinates[0] = xpos + rand() % 800 - 400;
+  this->coordinates[1] = ypos + rand() % 800 - 400;
+  this->sprite.setPosition(
+      sf::Vector2f(this->coordinates[0], this->coordinates[1]));
 }
 
 bool ExpBall::updateExp() {
@@ -56,3 +59,5 @@ void ExpBall::collected() {
   P1.currentExp = P1.currentExp + expPoints;
   P1.levelPlayer();
 }
+
+ExpBall::~ExpBall() { delete[] this->coordinates; }

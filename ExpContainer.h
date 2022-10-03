@@ -5,6 +5,7 @@
 #include <SFML/Window.hpp>
 class ExpContainer {
  public:
+  double* coordinates = new double[2];
   int expPoints;
   sf::IntRect rectSourceSprite;
   sf::Sprite sprite;
