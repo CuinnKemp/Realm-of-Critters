@@ -37,7 +37,7 @@ void SpinningBlade::hitEnemy(Enemies* enemies) {
     float weaponY = sprite.getPosition().y;
     float enemyX = enemies->enemies[i]->coordinates[0];
     float enemyY = enemies->enemies[i]->coordinates[1];
-    if (abs(weaponX - enemyX) <= 20 && abs(weaponY - enemyY) <= 20) {
+    if (abs(weaponX - enemyX) <= 30 && abs(weaponY - enemyY) <= 30) {
       enemies->enemies[i]->health = enemies->enemies[i]->health - 50;
     }
   }

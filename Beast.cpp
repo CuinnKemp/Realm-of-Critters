@@ -8,9 +8,11 @@
 
 #include "Arrow.h"
 #include "Enemy.h"
+#include "ExpSpawner.h"
 
 extern double xpos, ypos;
 extern sf::RenderWindow window;
+extern ExpSpawner E1;
 
 Beast::Beast() {
   this->arrowCounter = 0;
@@ -131,6 +133,10 @@ void Beast::movement() {
 
 bool Beast::updateEnemy() {
   if (this->health == 0) {
+    int shouldSpawnExp = rand() % 2;
+    if (shouldSpawnExp == 0) {
+      E1.spawnNewExp(10, coordinates[0], coordinates[1]);
+    }
     return 0;
   }
 

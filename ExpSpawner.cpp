@@ -7,7 +7,6 @@
 #include <random>
 
 #include "ExpBall.h"
-#include "ExpContainer.h"
 
 extern double xpos, ypos;
 
@@ -15,15 +14,15 @@ extern sf::RenderWindow window;
 
 ExpSpawner::ExpSpawner() {
   expBallsCounter = 0;
-  expBalls = new ExpContainer*[0];
+  expBalls = new ExpBall*[0];
   spawnRate = 5;
   timer = 0;
-  baseExpPoints = 10;
+  baseExpPoints = 5;
 }
 
 void ExpSpawner::spawnNewExp() {
-  ExpContainer** holdExpSpawner = this->expBalls;
-  expBalls = new ExpContainer*[expBallsCounter + 1];
+  ExpBall** holdExpSpawner = this->expBalls;
+  expBalls = new ExpBall*[expBallsCounter + 1];
   for (int i = 0; i < expBallsCounter; i++) {
     expBalls[i] = holdExpSpawner[i];
   }
@@ -31,6 +30,23 @@ void ExpSpawner::spawnNewExp() {
 
   expBalls[expBallsCounter] = new ExpBall;
   expBalls[expBallsCounter]->expPoints = baseExpPoints;
+  expBalls[expBallsCounter]->sprite.setPosition(rand() % 2900 - 1450,
+                                                rand() % 2900 - 1450);
+  expBalls[expBallsCounter]->sprite.setScale(1, 1);
+  expBallsCounter++;
+}
+
+void ExpSpawner::spawnNewExp(int expPoint, double xpos, double ypos) {
+  ExpBall** holdExpSpawner = this->expBalls;
+  expBalls = new ExpBall*[expBallsCounter + 1];
+  for (int i = 0; i < expBallsCounter; i++) {
+    expBalls[i] = holdExpSpawner[i];
+  }
+  delete[] holdExpSpawner;
+
+  expBalls[expBallsCounter] = new ExpBall;
+  expBalls[expBallsCounter]->expPoints = expPoint;
+  expBalls[expBallsCounter]->sprite.setPosition(xpos, ypos);
   expBallsCounter++;
 }
 
@@ -49,7 +65,7 @@ void ExpSpawner::updateExps() {
   this->checkAlives();
 
   timer++;
-  if (timer == 100) {
+  if (timer == 500) {
     this->spawnNewExp();
     timer = 0;
   }

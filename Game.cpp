@@ -1,4 +1,6 @@
-//g++ Game.cpp Player.cpp Enemy.cpp Enemies.cpp Beast.cpp Obstacle.cpp ObstacleGenerator.cpp Arrow.cpp PowerUp.cpp SpinningBlade.cpp ExpBall.cpp ExpContainer.cpp ExpSpawner.cpp  -lsfml-graphics -lsfml-window -lsfml-system
+// g++ Game.cpp Player.cpp Enemy.cpp Enemies.cpp Beast.cpp Obstacle.cpp
+// ObstacleGenerator.cpp Arrow.cpp PowerUp.cpp SpinningBlade.cpp ExpBall.cpp
+// ExpContainer.cpp ExpSpawner.cpp  -lsfml-graphics -lsfml-window -lsfml-system
 
 #include <stdlib.h>
 
@@ -27,9 +29,10 @@ double xpos, ypos;
 double width = sf::VideoMode::getDesktopMode().width;
 double height = sf::VideoMode::getDesktopMode().height;
 sf::RenderWindow window(sf::VideoMode(width, height), "GAME");
-Player P1(0, 0, width, height, &window);
+Player P1(0, 0, width / 4, height / 4, &window);
 SpinningBlade b1(0);
 ObstacleGenerator og;
+ExpSpawner E1;
 
 int main() {
   window.setFramerateLimit(120);
@@ -60,15 +63,17 @@ int main() {
     for (int i = 0; i <= 237; i++) {
       og.spawnNewObstacle();
     }
+    for (int i = 0; i < 25; i++) {
+      E1.spawnNewExp();
+    }
     Enemies a1;
-    ExpSpawner E1;
     while (P1.isAlive() && window.isOpen()) {
       sf::Event eventInner;
       while (window.pollEvent(eventInner)) {
         if (eventInner.type == sf::Event::Closed) window.close();
       }
       window.draw(backgroundMap);
-      
+
       og.updateObstacles();
 
       for (int i = 0; i < og.obstacleCounter; i++) {
@@ -82,7 +87,6 @@ int main() {
         }
       }
 
-      
       window.draw(mapExtras);
       a1.updateEnemies();
       P1.DrawPlayer(&window);

@@ -2,19 +2,13 @@
 #define EXPBALL_H
 
 #include <SFML/Graphics.hpp>
-#include <SFML/Window.hpp>
-
-#include "ExpContainer.h"
-
-extern sf::RenderWindow window;
-
-class ExpBall : public ExpContainer {
+class ExpBall {
  public:
   int expPoints;
   int timer;
+  sf::Sprite sprite;
   sf::IntRect rectSourceSprite;
-  sf::RectangleShape sprite;
-  sf::Texture exp1, exp2, exp3, exp4;
+  sf::Texture exp1, exp2, exp3, exp4, exp5, exp6, exp7, exp8;
   ExpBall();
   ~ExpBall();
   void collected();
