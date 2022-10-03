@@ -19,10 +19,9 @@ ExpBall::ExpBall() {
   exp2.loadFromFile("expAnimation/exp2.png");
   exp3.loadFromFile("expAnimation/exp3.png");
   exp4.loadFromFile("expAnimation/exp4.png");
-  sprite.setTexture(&exp1);
-  sprite.setTextureRect(rectSourceSprite);
+  sprite.setTexture(exp1);
+  sprite.setScale(sf::Vector2f(2, 2));
   sprite.setOrigin(960, 960);
-  sprite.setSize(sf::Vector2f(32, 32));
   this->coordinates[0] = xpos + rand() % 800 - 400;
   this->coordinates[1] = ypos + rand() % 800 - 400;
   this->sprite.setPosition(
@@ -43,13 +42,13 @@ bool ExpBall::updateExp() {
     timer = 0;
   }
   if (remainder(timer / 8, 2) == 0) {
-    sprite.setTexture(&exp1);
+    sprite.setTexture(exp1);
   } else if (remainder(timer / 6, 3) == 0) {
-    sprite.setTexture(&exp2);
+    sprite.setTexture(exp2);
   } else if (remainder(timer / 4, 2) == 0) {
-    sprite.setTexture(&exp3);
+    sprite.setTexture(exp3);
   } else {
-    sprite.setTexture(&exp4);
+    sprite.setTexture(exp4);
   }
   timer++;
   window.draw(this->sprite);

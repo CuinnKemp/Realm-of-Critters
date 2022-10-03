@@ -7,24 +7,20 @@
 #include <random>
 
 #include "ExpBall.h"
-#include "ExpContainer.h"
 
 extern double xpos, ypos;
 
 ExpSpawner::ExpSpawner() {
   expBallsCounter = 0;
-  expBalls = new ExpContainer*[0];
+  expBalls = new ExpBall*[0];
   spawnRate = 5;
   timer = 0;
   baseExpPoints = 10;
-  for (int i = 0; i < 100; i++) {
-    spawnNewExp();
-  }
 }
 
 void ExpSpawner::spawnNewExp() {
-  ExpContainer** holdExpSpawner = this->expBalls;
-  expBalls = new ExpContainer*[expBallsCounter + 1];
+  ExpBall** holdExpSpawner = this->expBalls;
+  expBalls = new ExpBall*[expBallsCounter + 1];
   for (int i = 0; i < expBallsCounter; i++) {
     expBalls[i] = holdExpSpawner[i];
   }
@@ -50,7 +46,7 @@ void ExpSpawner::updateExps() {
   this->checkAlives();
 
   timer++;
-  if (timer == 100) {
+  if (timer == 50) {
     this->spawnNewExp();
     timer = 0;
   }

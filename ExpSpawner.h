@@ -2,12 +2,10 @@
 #define EXPSPAWNER_H
 
 #include "ExpBall.h"
-#include "ExpContainer.h"
-
 class ExpSpawner {
  public:
   int expBallsCounter;
-  ExpContainer** expBalls;
+  ExpBall** expBalls;
   int spawnRate;
   int timer;
   int baseExpPoints;

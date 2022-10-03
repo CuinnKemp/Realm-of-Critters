@@ -31,6 +31,7 @@ sf::RenderWindow window(sf::VideoMode(width, height), "GAME");
 Player P1(0, 0, width, height, &window);
 SpinningBlade b1(0);
 ObstacleGenerator og;
+ExpSpawner E1;
 
 int main() {
   window.setFramerateLimit(120);
@@ -61,8 +62,10 @@ int main() {
     for (int i = 0; i <= 237; i++) {
       og.spawnNewObstacle();
     }
+    for (int i = 0; i < 100; i++) {
+      E1.spawnNewExp();
+    }
     Enemies a1;
-    ExpSpawner E1;
     while (P1.isAlive() && window.isOpen()) {
       sf::Event eventInner;
       while (window.pollEvent(eventInner)) {
