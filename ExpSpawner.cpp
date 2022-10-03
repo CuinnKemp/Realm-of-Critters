@@ -65,7 +65,7 @@ void ExpSpawner::updateExps() {
   this->checkAlives();
 
   timer++;
-  if (timer == 50) {
+  if (timer == 500) {
     this->spawnNewExp();
     timer = 0;
   }
