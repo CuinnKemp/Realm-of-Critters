@@ -30,6 +30,22 @@ void ExpSpawner::spawnNewExp() {
 
   expBalls[expBallsCounter] = new ExpBall;
   expBalls[expBallsCounter]->expPoints = baseExpPoints;
+  expBalls[expBallsCounter]->sprite.setPosition(rand() % 2900 - 1450,
+                                                rand() % 2900 - 1450);
+  expBallsCounter++;
+}
+
+void ExpSpawner::spawnNewExp(int expPoint, double xpos, double ypos) {
+  ExpBall** holdExpSpawner = this->expBalls;
+  expBalls = new ExpBall*[expBallsCounter + 1];
+  for (int i = 0; i < expBallsCounter; i++) {
+    expBalls[i] = holdExpSpawner[i];
+  }
+  delete[] holdExpSpawner;
+
+  expBalls[expBallsCounter] = new ExpBall;
+  expBalls[expBallsCounter]->expPoints = expPoint;
+  expBalls[expBallsCounter]->sprite.setPosition(xpos, ypos);
   expBallsCounter++;
 }
 

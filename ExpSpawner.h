@@ -16,6 +16,8 @@ class ExpSpawner {
 
   void spawnNewExp();
 
+  void spawnNewExp(int expPoint, double xpos, double ypos);
+
   void checkAlives();
 
   void updateExps();
