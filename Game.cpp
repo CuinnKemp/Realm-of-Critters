@@ -49,7 +49,7 @@ int main() {
     }
     backgroundMap.setOrigin(-512, -512);
 
-    for (int i = 0; i < 100; i++) {
+    for (int i = 0; i < 25; i++) {
       E1.spawnNewExp();
     }
     while (P1.isAlive() && window.isOpen()) {
@@ -58,10 +58,9 @@ int main() {
         if (eventInner.type == sf::Event::Closed) window.close();
       }
       window.draw(backgroundMap);
-      E1.updateExps();
-
       P1.DrawPlayer(&window);
       window.draw(mapExtras);
+      E1.updateExps();
       window.display();
       window.clear(sf::Color::White);
     }
