@@ -44,20 +44,28 @@ bool ExpBall::updateExp() {
   }
   if (timer == 0) {
     this->sprite.setTexture(exp1);
+    sprite.setPosition(sprite.getPosition().x, sprite.getPosition().y + 2);
   } else if (timer == 10) {
     this->sprite.setTexture(exp2);
+    sprite.setPosition(sprite.getPosition().x, sprite.getPosition().y + 2);
   } else if (timer == 20) {
     this->sprite.setTexture(exp3);
+    sprite.setPosition(sprite.getPosition().x, sprite.getPosition().y + 2);
   } else if (timer == 30) {
     this->sprite.setTexture(exp4);
+    sprite.setPosition(sprite.getPosition().x, sprite.getPosition().y + 2);
   } else if (timer == 40) {
     this->sprite.setTexture(exp5);
+    sprite.setPosition(sprite.getPosition().x, sprite.getPosition().y - 2);
   } else if (timer == 50) {
     this->sprite.setTexture(exp6);
+    sprite.setPosition(sprite.getPosition().x, sprite.getPosition().y - 2);
   } else if (timer == 60) {
     this->sprite.setTexture(exp7);
+    sprite.setPosition(sprite.getPosition().x, sprite.getPosition().y - 2);
   } else if (timer == 80) {
     this->sprite.setTexture(exp8);
+    sprite.setPosition(sprite.getPosition().x, sprite.getPosition().y - 2);
   }
   timer++;
   return 1;
