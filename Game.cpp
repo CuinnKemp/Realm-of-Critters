@@ -1,5 +1,4 @@
-// g++ Game.cpp Player.cpp Enemy.cpp Archer.cpp Arrow.cpp Enemies.cpp
-// PowerUp.cpp SpinningBlade.cpp -lsfml-graphics -lsfml-window -lsfml-system
+//g++ Game.cpp Player.cpp Enemy.cpp Enemies.cpp Beast.cpp Obstacle.cpp ObstacleGenerator.cpp Arrow.cpp PowerUp.cpp SpinningBlade.cpp ExpBall.cpp ExpContainer.cpp ExpSpawner.cpp  -lsfml-graphics -lsfml-window -lsfml-system
 
 #include <stdlib.h>
 
@@ -72,8 +71,7 @@ int main() {
         if (eventInner.type == sf::Event::Closed) window.close();
       }
       window.draw(backgroundMap);
-      a1.updateEnemies();
-      E1.updateExps();
+      
       og.updateObstacles();
 
       for (int i = 0; i < og.obstacleCounter; i++) {
@@ -87,10 +85,13 @@ int main() {
         }
       }
 
-      P1.DrawPlayer(&window);
+      
       window.draw(mapExtras);
+      a1.updateEnemies();
+      P1.DrawPlayer(&window);
       b1.updateAbility();
       b1.hitEnemy(&a1);
+      E1.updateExps();
       window.display();
       window.clear(sf::Color::White);
     }

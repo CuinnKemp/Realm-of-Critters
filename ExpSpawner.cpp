@@ -10,6 +10,8 @@
 
 extern double xpos, ypos;
 
+extern sf::RenderWindow window;
+
 ExpSpawner::ExpSpawner() {
   expBallsCounter = 0;
   expBalls = new ExpBall*[0];
