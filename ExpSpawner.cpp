@@ -11,15 +11,14 @@
 
 extern double xpos, ypos;
 
+extern sf::RenderWindow window;
+
 ExpSpawner::ExpSpawner() {
   expBallsCounter = 0;
   expBalls = new ExpContainer*[0];
   spawnRate = 5;
   timer = 0;
   baseExpPoints = 10;
-  for (int i = 0; i < 100; i++) {
-    spawnNewExp();
-  }
 }
 
 void ExpSpawner::spawnNewExp() {
