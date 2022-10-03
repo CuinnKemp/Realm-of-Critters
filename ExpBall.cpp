@@ -10,6 +10,7 @@
 #include "Player.h"
 
 extern double xpos, ypos;
+extern sf::RenderWindow window;
 
 extern Player P1;
 
