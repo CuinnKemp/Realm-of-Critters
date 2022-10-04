@@ -22,6 +22,7 @@
 #include "Obstacle.h"
 #include "ObstacleGenerator.h"
 #include "Player.h"
+#include "PlayerArrow.h"
 #include "SpinningBlade.h"
 
 double xpos, ypos;
@@ -30,6 +31,7 @@ double width = sf::VideoMode::getDesktopMode().width;
 double height = sf::VideoMode::getDesktopMode().height;
 sf::RenderWindow window(sf::VideoMode(width, height), "GAME");
 Player P1(0, 0, width / 4, height / 4, &window);
+
 SpinningBlade b1(0);
 ObstacleGenerator og;
 ExpSpawner E1;
@@ -67,6 +69,7 @@ int main() {
       E1.spawnNewExp();
     }
     Enemies a1;
+    pArrow pA(&a1);
     while (P1.isAlive() && window.isOpen()) {
       sf::Event eventInner;
       while (window.pollEvent(eventInner)) {
@@ -89,6 +92,7 @@ int main() {
 
       window.draw(mapExtras);
       a1.updateEnemies();
+      pA.updateAbility(&a1, &pA);
       P1.DrawPlayer(&window);
       b1.updateAbility();
       b1.hitEnemy(&a1);
