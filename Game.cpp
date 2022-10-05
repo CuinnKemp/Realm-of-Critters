@@ -69,7 +69,7 @@ int main() {
       E1.spawnNewExp();
     }
     Enemies a1;
-    pArrow pA(&a1);
+    // pArrow pA(&a1);
     while (P1.isAlive() && window.isOpen()) {
       sf::Event eventInner;
       while (window.pollEvent(eventInner)) {
@@ -92,7 +92,7 @@ int main() {
 
       window.draw(mapExtras);
       a1.updateEnemies();
-      pA.updateAbility(&a1, &pA);
+      // pA.updateAbility(&a1, &pA);
       P1.DrawPlayer(&window);
       b1.updateAbility();
       b1.hitEnemy(&a1);
@@ -120,7 +120,8 @@ int main() {
       if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter)) {
         waiting = 0;
         P1.resetPlayer();
-      }
+        E1.deleteExpBalls();
+            }
     }
   }
   return 0;
