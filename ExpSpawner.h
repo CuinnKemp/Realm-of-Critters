@@ -14,6 +14,8 @@ class ExpSpawner {
 
   ~ExpSpawner();
 
+  void deleteExpBalls();
+
   void spawnNewExp();
 
   void spawnNewExp(int expPoint, double xpos, double ypos);

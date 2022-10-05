@@ -26,6 +26,7 @@ ExpBall::ExpBall() {
   sprite.setTextureRect(rectSourceSprite);
   sprite.setTexture(exp1);
   sprite.setScale(sf::Vector2f(2, 2));
+  timer = 0;
 }
 
 bool ExpBall::updateExp() {

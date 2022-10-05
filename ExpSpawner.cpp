@@ -65,10 +65,22 @@ void ExpSpawner::updateExps() {
   this->checkAlives();
 
   timer++;
-  if (timer == 500) {
+  if (timer == 2000) {
     this->spawnNewExp();
     timer = 0;
   }
 }
 
-ExpSpawner::~ExpSpawner() { delete[] expBalls; }
+ExpSpawner::~ExpSpawner() {
+  for (int i = 0; i < expBallsCounter; i++) {
+    delete expBalls[i];
+  }
+  delete[] expBalls;
+}
+
+void ExpSpawner::deleteExpBalls() {
+  for (int i = 0; i < expBallsCounter; i++) {
+    delete expBalls[i];
+  }
+  expBallsCounter = 0;
+}
