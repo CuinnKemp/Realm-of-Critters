@@ -41,7 +41,9 @@ void PlayerArrowSpawner::drawArrows() {
       }
       playerArrowCounter--;
     }
-    this->playerArrows[i].movement(&a1, &playerArrows[i]);
+    if (this->playerArrows[i].movement(&a1, &playerArrows[i])== 0) {
+      delete &playerArrows[i];
+    }
     window.draw(playerArrows[i].sprite);
   }
   return;

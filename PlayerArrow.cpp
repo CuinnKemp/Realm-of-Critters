@@ -78,7 +78,7 @@ PlayerArrow::PlayerArrow(Enemies* enemies) {
     this->speedVector[1] =
         10 * (this->targetCoordinates[1] - this->arrowCoordinates[1]) / divisor;
     // sets sprite (my pc for some reason doesnt like to load it)
-    this->sprite.setScale(sf::Vector2f(10, 10));
+    this->sprite.setSize(sf::Vector2f(10, 10));
     this->texture1.loadFromFile("Arrow.png");
     this->sprite.setTexture(&texture1);
   }
@@ -110,7 +110,7 @@ bool PlayerArrow::outOfBounds() {
 
 bool PlayerArrow::UpdatePosition() {
   std::cout << "UpdatePosition() 1" << std::endl;
-  if (this->EnemycollisionDetection(&a1) || this->outOfBounds()) {
+  if (this->EnemycollisionDetection(&a1) == 1 || this->outOfBounds() == 1) {
     std::cout << "UpdatePosition() 2" << std::endl;
     return 0;
   }

@@ -1,6 +1,4 @@
-// g++ Game.cpp Player.cpp Enemy.cpp Enemies.cpp Beast.cpp Obstacle.cpp
-// ObstacleGenerator.cpp Arrow.cpp PowerUp.cpp SpinningBlade.cpp ExpBall.cpp
-// ExpContainer.cpp ExpSpawner.cpp  -lsfml-graphics -lsfml-window -lsfml-system
+// g++ Game.cpp Player.cpp Enemy.cpp Enemies.cpp Beast.cpp Obstacle.cpp ObstacleGenerator.cpp Arrow.cpp PowerUp.cpp SpinningBlade.cpp ExpBall.cpp ExpContainer.cpp ExpSpawner.cpp PlayerArrow.cpp PlayerArrowSpawner.cpp -lsfml-graphics -lsfml-window -lsfml-system
 
 #include <stdlib.h>
 
@@ -31,13 +29,13 @@ double xpos, ypos;
 double width = sf::VideoMode::getDesktopMode().width;
 double height = sf::VideoMode::getDesktopMode().height;
 sf::RenderWindow window(sf::VideoMode(width, height), "GAME");
-Player P1(0, 0, width / 4, height / 4, &window);
+Player P1(0, 0, width, height, &window);
 
-SpinningBlade b1(0);
 ObstacleGenerator og;
-PlayerArrowSpawner pA;
+SpinningBlade b1(0);
 ExpSpawner E1;
 Enemies a1;
+PlayerArrowSpawner pA;
 
 int main() {
   window.setFramerateLimit(120);
@@ -45,6 +43,7 @@ int main() {
   sf::Texture extrasImage;
   sf::Sprite backgroundMap;
   sf::Sprite mapExtras;
+
 
   if (!mapImage.loadFromFile("backgroundMap.png")) {
     std::cout << "Could not load \"backgroundMap.png\"!" << std::endl;
@@ -58,6 +57,8 @@ int main() {
   mapExtras.scale(2, 2);
   mapExtras.setTexture(extrasImage);
   mapExtras.setPosition(-2048, -2048);
+
+
   while (window.isOpen()) {
     sf::Event event;
     while (window.pollEvent(event)) {
@@ -71,8 +72,6 @@ int main() {
     for (int i = 0; i < 25; i++) {
       E1.spawnNewExp();
     }
-    // PlayerArrow pA(&a1);
-    // pU.pA = new PlayerArrow[0];
     while (P1.isAlive() && window.isOpen()) {
       sf::Event eventInner;
       while (window.pollEvent(eventInner)) {
@@ -93,20 +92,18 @@ int main() {
         }
       }
 
+      
       window.draw(mapExtras);
-      a1.updateEnemies();
       pA.drawArrows();
       pA.fireCounter = pA.fireCounter + 2;
       if (pA.fireCounter == 100) {
         pA.attack();
         pA.fireCounter = 0;
       }
-      // pA.spawnNewArrow();
-      // pA.updateArrows();
-      //  pA.updateAbility(&a1, &pA);
-      P1.DrawPlayer(&window);
+      a1.updateEnemies();
       b1.updateAbility();
       b1.hitEnemy(&a1);
+      P1.DrawPlayer(&window);
       E1.updateExps();
       window.display();
       window.clear(sf::Color::White);
