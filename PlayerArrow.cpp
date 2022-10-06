@@ -78,7 +78,7 @@ PlayerArrow::PlayerArrow(Enemies* enemies) {
     this->speedVector[1] =
         10 * (this->targetCoordinates[1] - this->arrowCoordinates[1]) / divisor;
     // sets sprite (my pc for some reason doesnt like to load it)
-    this->sprite.setSize(sf::Vector2f(10, 10));
+    this->sprite.setScale(sf::Vector2f(10, 10));
     this->texture1.loadFromFile("Arrow.png");
     this->sprite.setTexture(&texture1);
   }
@@ -87,6 +87,7 @@ PlayerArrow::PlayerArrow(Enemies* enemies) {
 // detects if the sprite has collided with the closest enemy
 bool PlayerArrow::EnemycollisionDetection(Enemies* enemies) {
   std::cout << "EnemycollisionDetection() 1" << std::endl;
+  std::cout << closestenemy << std::endl;
   if (enemies->enemies[closestenemy]->sprite.getGlobalBounds().intersects(
           this->sprite.getGlobalBounds())) {
     std::cout << "EnemycollisionDetection() 2" << std::endl;

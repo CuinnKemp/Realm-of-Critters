@@ -17,7 +17,7 @@ SpinningBlade::SpinningBlade(int num) {
 
   this->sprite.setPosition(
       sf::Vector2f(this->coordinates[0] + 20, this->coordinates[1] + 20));
-  this->sprite.setSize(sf::Vector2f(14, 32));
+  this->sprite.setScale(sf::Vector2f(14, 32));
   this->texture1.loadFromFile("Fork.png");
   this->sprite.setTexture(&texture1);
 

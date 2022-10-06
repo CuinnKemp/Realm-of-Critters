@@ -49,6 +49,13 @@ void Enemies::updateEnemies() {
   }
 }
 
+void Enemies::deleteEnemies() {
+  for (int i = 0; i < enemyCounter; i++) {
+    delete enemies[i];
+  }
+  enemyCounter = 0;
+}
+
 Enemies::~Enemies() {
   for (int i = 0; i < enemyCounter; i++) {
     delete enemies[i];

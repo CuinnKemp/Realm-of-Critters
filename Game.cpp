@@ -132,6 +132,7 @@ int main() {
         waiting = 0;
         P1.resetPlayer();
         E1.deleteExpBalls();
+        a1.~Enemies();
       }
     }
   }

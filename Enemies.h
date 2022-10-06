@@ -18,6 +18,8 @@ class Enemies {
 
   void spawnNewEnemy();
 
+  void deleteEnemies();
+
   void checkAlives();
 
   void updateEnemies();
