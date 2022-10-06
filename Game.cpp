@@ -23,6 +23,7 @@
 #include "ObstacleGenerator.h"
 #include "Player.h"
 #include "PlayerArrow.h"
+#include "PlayerArrowSpawner.h"
 #include "SpinningBlade.h"
 
 double xpos, ypos;
@@ -34,7 +35,9 @@ Player P1(0, 0, width / 4, height / 4, &window);
 
 SpinningBlade b1(0);
 ObstacleGenerator og;
+PlayerArrowSpawner pA;
 ExpSpawner E1;
+Enemies a1;
 
 int main() {
   window.setFramerateLimit(120);
@@ -68,8 +71,8 @@ int main() {
     for (int i = 0; i < 25; i++) {
       E1.spawnNewExp();
     }
-    Enemies a1;
-    // pArrow pA(&a1);
+    // PlayerArrow pA(&a1);
+    // pU.pA = new PlayerArrow[0];
     while (P1.isAlive() && window.isOpen()) {
       sf::Event eventInner;
       while (window.pollEvent(eventInner)) {
@@ -92,6 +95,8 @@ int main() {
 
       window.draw(mapExtras);
       a1.updateEnemies();
+      pA.spawnNewArrow();
+      pA.updateArrows();
       // pA.updateAbility(&a1, &pA);
       P1.DrawPlayer(&window);
       b1.updateAbility();
@@ -121,7 +126,7 @@ int main() {
         waiting = 0;
         P1.resetPlayer();
         E1.deleteExpBalls();
-            }
+      }
     }
   }
   return 0;

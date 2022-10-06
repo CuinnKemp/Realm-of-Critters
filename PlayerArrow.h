@@ -10,7 +10,7 @@
 #include "Enemies.h"
 #include "PowerUp.h"
 
-class pArrow : public PowerUp {
+class PlayerArrow : public PowerUp {
  public:
   sf::Texture texture1;
   int count;
@@ -23,7 +23,8 @@ class pArrow : public PowerUp {
   double* speedVector = new double[2];
   int counter;
 
-  pArrow(Enemies* enemies);
+  PlayerArrow(Enemies* enemies);
+  PlayerArrow();
 
   bool outOfBounds();
 
@@ -33,8 +34,8 @@ class pArrow : public PowerUp {
 
   bool EnemycollisionDetection(Enemies* enemies);
 
-  bool movement(Enemies* enemies, pArrow* arrow1);
+  bool movement(Enemies* enemies, PlayerArrow* arrow1);
 
-  bool updateAbility(Enemies* enemies, pArrow* arrow1);
+  bool updateAbility(Enemies* enemies, PlayerArrow* arrow1);
 };
-#endif  // SPINNINGBLADE_H
+#endif  // PlayerArrow_H

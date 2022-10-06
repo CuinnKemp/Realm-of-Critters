@@ -14,7 +14,14 @@ extern Enemies* a1;
 extern double xpos, ypos;
 extern sf::RenderWindow window;
 
-pArrow::pArrow(Enemies* enemies) {
+PlayerArrow::PlayerArrow() {
+  // sets sprite (my pc for some reason doesnt like to load it)
+  this->sprite.setSize(sf::Vector2f(10, 10));
+  this->texture1.loadFromFile("Arrow.png");
+  this->sprite.setTexture(&texture1);
+}
+
+PlayerArrow::PlayerArrow(Enemies* enemies) {
   if (enemies->enemyCounter >= 3) {
     // set damage
     this->damage = 10;
@@ -75,13 +82,13 @@ pArrow::pArrow(Enemies* enemies) {
 
     // sets sprite (my pc for some reason doesnt like to load it)
     this->sprite.setSize(sf::Vector2f(10, 10));
-    this->texture1.loadFromFile("fork.png");
+    this->texture1.loadFromFile("Arrow.png");
     this->sprite.setTexture(&texture1);
   }
 }
 
 // detects if the sprite has collided with the closest enemy
-bool pArrow::EnemycollisionDetection(Enemies* enemies) {
+bool PlayerArrow::EnemycollisionDetection(Enemies* enemies) {
   if (enemies->enemies[closestenemy]->sprite.getGlobalBounds().intersects(
           this->sprite.getGlobalBounds())) {
     enemies->enemies[closestenemy]->health =
@@ -92,7 +99,7 @@ bool pArrow::EnemycollisionDetection(Enemies* enemies) {
 }
 
 // same as arrow, detects if projectile is out of bounds
-bool pArrow::outOfBounds() {
+bool PlayerArrow::outOfBounds() {
   if (sqrt(pow(targetCoordinates[0] - arrowCoordinates[0], 2) +
            pow(targetCoordinates[1] - arrowCoordinates[1], 2)) == 0) {
     return 1;
@@ -102,7 +109,7 @@ bool pArrow::outOfBounds() {
 
 // Movement function, for some reason this doesnt seem to work, its similair to
 // how arrow works
-bool pArrow::movement(Enemies* enemies, pArrow* arrow1) {
+bool PlayerArrow::movement(Enemies* enemies, PlayerArrow* arrow1) {
   if (enemies->enemyCounter >= 3) {
     if (this->EnemycollisionDetection(enemies) == 1 ||
         this->outOfBounds() == 1) {
@@ -120,7 +127,7 @@ bool pArrow::movement(Enemies* enemies, pArrow* arrow1) {
 
 // update ability is the same as SpinningBlade, also something wrong here i
 // think
-bool pArrow::updateAbility(Enemies* enemies, pArrow* arrow1) {
+bool PlayerArrow::updateAbility(Enemies* enemies, PlayerArrow* arrow1) {
   this->movement(enemies, arrow1);
 
   window.draw(this->sprite);
