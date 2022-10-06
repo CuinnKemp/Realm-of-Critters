@@ -12,33 +12,43 @@ extern Enemies a1;
 
 PlayerArrowSpawner::PlayerArrowSpawner() {
   playerArrowCounter = 0;
-  playerArrows = new PlayerArrow*[0];
+  playerArrows = new PlayerArrow[0];
 }
 
-void PlayerArrowSpawner::spawnNewArrow() {
-  PlayerArrow** holdPlayerArrowSpawner = this->playerArrows;
-  playerArrows = new PlayerArrow*[playerArrowCounter + 1];
-  for (int i = 0; i < playerArrowCounter; i++) {
-    playerArrows[i] = holdPlayerArrowSpawner[i];
-  }
-  delete[] holdPlayerArrowSpawner;
-  playerArrows[playerArrowCounter] = new PlayerArrow;
-  // std::cout << obstacleCounter << std::endl;
+void PlayerArrowSpawner::attack() {
+  if (a1.enemyCounter >= 3) {
+    PlayerArrow* holdPlayerArrowSpawner = this->playerArrows;
+    playerArrows = new PlayerArrow[playerArrowCounter + 1];
+    for (int i = 0; i < playerArrowCounter; i++) {
+      playerArrows[i] = holdPlayerArrowSpawner[i];
+    }
+    delete[] holdPlayerArrowSpawner;
 
-  playerArrows[playerArrowCounter]->sprite.setPosition(
-      playerArrows[playerArrowCounter]->coordinates[0],
-      playerArrows[playerArrowCounter]->coordinates[1]);
-  playerArrowCounter++;
+    PlayerArrow A(&a1);
+
+    playerArrows[playerArrowCounter] = A;
+    playerArrowCounter++;
+    return;
+  }
 }
 
-void PlayerArrowSpawner::updateArrows() {
+void PlayerArrowSpawner::drawArrows() {
   for (int i = 0; i < playerArrowCounter; i++) {
-    playerArrows[i]->updateAbility(&a1, playerArrows[i]);
+    if (!(this->playerArrows[i].UpdatePosition())) {
+      std::cout << "UpdatePosition() done" << std::endl;
+      for (int j = i + 1; j < playerArrowCounter; j++) {
+        playerArrows[j - 1] = playerArrows[j];
+      }
+      playerArrowCounter--;
+    }
+    this->playerArrows[i].movement(&a1, &playerArrows[i]);
+    window.draw(playerArrows[i].sprite);
   }
+  return;
 }
 PlayerArrowSpawner::~PlayerArrowSpawner() {
   for (int i = 0; i < playerArrowCounter; i++) {
-    delete playerArrows[i];
+    delete &playerArrows[i];
   }
   delete[] playerArrows;
 }

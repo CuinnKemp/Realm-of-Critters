@@ -7,13 +7,14 @@ class PlayerArrowSpawner {
  public:
   double* coordinates;
   int playerArrowCounter;
-  PlayerArrow** playerArrows;
+  int fireCounter;
+  PlayerArrow* playerArrows;
 
   PlayerArrowSpawner();
 
-  void spawnNewArrow();
+  void attack();
 
-  void updateArrows();
+  void drawArrows();
 
   ~PlayerArrowSpawner();
 };

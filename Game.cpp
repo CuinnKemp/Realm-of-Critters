@@ -95,9 +95,15 @@ int main() {
 
       window.draw(mapExtras);
       a1.updateEnemies();
-      pA.spawnNewArrow();
-      pA.updateArrows();
-      // pA.updateAbility(&a1, &pA);
+      pA.drawArrows();
+      pA.fireCounter = pA.fireCounter + 2;
+      if (pA.fireCounter == 100) {
+        pA.attack();
+        pA.fireCounter = 0;
+      }
+      // pA.spawnNewArrow();
+      // pA.updateArrows();
+      //  pA.updateAbility(&a1, &pA);
       P1.DrawPlayer(&window);
       b1.updateAbility();
       b1.hitEnemy(&a1);
