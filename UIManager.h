@@ -9,9 +9,9 @@
 
 class UIManager {
  public:
-  sf::Texture emptyInfoTex;
+  sf::Texture emptyInfoTex, healthBarBottomTex, healthBarTopTex;
   sf::Sprite emptyInfo;
-  sf::RectangleShape healthBar;
+  sf::RectangleShape healthBarBottom, healthBarTop;
   double UIwidth, UIheight;
 
   UIManager(double Pxpos, double Pypos, double width, double height,
