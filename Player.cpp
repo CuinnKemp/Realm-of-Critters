@@ -42,15 +42,6 @@ Player::Player(double Pxpos, double Pypos, double width, double height,
   this->currentExp = 0;
   this->expCap = 100;
   this->level = 1;
-  this->healthBarBack.setFillColor(sf::Color::Black);
-  this->healthBarBack.setPosition(camera.getCenter().x - width / 2,
-                                  camera.getCenter().y - height / 2);
-
-  this->healthBarFront.setFillColor(sf::Color::Red);
-  this->healthBarFront.setPosition(camera.getCenter().x - width / 2,
-                                   camera.getCenter().y - height / 2);
-  this->healthBarBack.setSize(sf::Vector2f(200 * camera.getSize().x / 1000,
-                                           20 * camera.getSize().x / 1000));
 }
 
 // This should be called whenever an enemy dies to check whether player has
@@ -77,15 +68,6 @@ void Player::resetPlayer() {
   this->sprite.setSize(sf::Vector2f(40, 40));
   this->animationCount = 0;
   this->health = 100;
-
-  this->healthBarBack.setPosition(
-      camera.getCenter().x - camera.getSize().x / 2,
-      camera.getCenter().y - camera.getSize().y / 2);
-  this->healthBarFront.setPosition(
-      camera.getCenter().x - camera.getSize().x / 2,
-      camera.getCenter().y - camera.getSize().y / 2);
-  this->healthBarBack.setSize(sf::Vector2f(200 * camera.getSize().x / 1000,
-                                           20 * camera.getSize().x / 1000));
 }
 
 void Player::moveRight() {
@@ -245,16 +227,4 @@ void Player::DrawPlayer(sf::RenderWindow* window) {
   window->draw(sprite);
   camera.setCenter(sprite.getPosition());
   window->setView(camera);
-
-  this->healthBarBack.setPosition(
-      camera.getCenter().x - camera.getSize().x / 2,
-      camera.getCenter().y - camera.getSize().y / 2);
-  this->healthBarFront.setPosition(
-      camera.getCenter().x - camera.getSize().x / 2,
-      camera.getCenter().y - camera.getSize().y / 2);
-  this->healthBarFront.setSize(sf::Vector2f(
-      health * 2 * camera.getSize().x / 1000, 20 * camera.getSize().x / 1000));
-
-  window->draw(healthBarBack);
-  window->draw(healthBarFront);
 }

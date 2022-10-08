@@ -122,6 +122,7 @@ int main() {
       if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter)) {
         waiting = 0;
         P1.resetPlayer();
+        UI.resetUI();
         E1.deleteExpBalls();
       }
     }

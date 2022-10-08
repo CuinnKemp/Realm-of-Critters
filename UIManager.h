@@ -11,12 +11,14 @@ class UIManager {
  public:
   sf::Texture emptyInfoTex;
   sf::Sprite emptyInfo;
+  sf::RectangleShape healthBar;
   double UIwidth, UIheight;
 
   UIManager(double Pxpos, double Pypos, double width, double height,
             sf::RenderWindow* window);
 
   void DrawUIManager(sf::RenderWindow* window);
+  void resetUI();
   ~UIManager() {}
 };
 
