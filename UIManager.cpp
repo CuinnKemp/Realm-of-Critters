@@ -26,12 +26,15 @@ void UIManager::DrawUIManager(sf::RenderWindow* window) {
                         P1.sprite.getPosition().y - UIheight / 4.1);
   healthBarBottom.setPosition(P1.sprite.getPosition().x - UIwidth / 5.275,
                               P1.sprite.getPosition().y - UIheight / 4.225);
-  healthBarBottom.setSize(
-      sf::Vector2f(P1.health * 1.01 * UIwidth / 1000, 8 * UIwidth / 1000));
   healthBarTop.setPosition(P1.sprite.getPosition().x - UIwidth / 5.275,
                            P1.sprite.getPosition().y - UIheight / 4.225);
-  healthBarTop.setSize(
-      sf::Vector2f(P1.health * .95 * UIwidth / 1000, 8 * UIwidth / 1000));
+
+  if (P1.health > 5) {
+    healthBarBottom.setSize(
+        sf::Vector2f(P1.health * 1.01 * UIwidth / 1000, 8 * UIwidth / 1000));
+    healthBarTop.setSize(
+        sf::Vector2f(healthBarBottom.getSize().x - 10, 8 * UIwidth / 1000));
+  }
   window->draw(emptyInfo);
   window->draw(healthBarBottom);
   window->draw(healthBarTop);
