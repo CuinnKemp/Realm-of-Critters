@@ -34,7 +34,7 @@ Player::Player(double Pxpos, double Pypos, double width, double height,
   walkRight4.loadFromFile("playerAnimation/Walk/walkRight4.png");
   sprite.setTexture(&idleDown);
   camera.setCenter(0, 0);
-  camera.setSize(width, height);
+  camera.setSize(1920 / 2, 1080 / 2);
   window->setView(camera);
   this->direction = 4;
   this->isMoving = false;
