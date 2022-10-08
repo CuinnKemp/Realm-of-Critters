@@ -23,13 +23,15 @@
 #include "ObstacleGenerator.h"
 #include "Player.h"
 #include "SpinningBlade.h"
+#include "UIManager.h"
 
 double xpos, ypos;
 
 double width = sf::VideoMode::getDesktopMode().width;
 double height = sf::VideoMode::getDesktopMode().height;
 sf::RenderWindow window(sf::VideoMode(width, height), "GAME");
-Player P1(0, 0, width / 4, height / 4, &window);
+Player P1(0, 0, width / 2, height / 2, &window);
+UIManager UI(0, 0, width / 2, height / 2, &window);
 
 SpinningBlade b1(0);
 ObstacleGenerator og;
@@ -96,6 +98,7 @@ int main() {
       b1.updateAbility();
       b1.hitEnemy(&a1);
       E1.updateExps();
+      UI.DrawUIManager(&window);
       window.display();
       window.clear(sf::Color::White);
     }
