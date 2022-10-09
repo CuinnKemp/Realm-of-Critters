@@ -13,6 +13,8 @@ class UIManager {
       levelBarBottomTex, levelBarTopTex;
   sf::Sprite emptyInfo;
   sf::RectangleShape healthBarBottom, healthBarTop, levelBarBottom, levelBarTop;
+  sf::Text timerText;
+  sf::Font timerFont;
   double UIwidth, UIheight;
 
   UIManager(double Pxpos, double Pypos, double width, double height,

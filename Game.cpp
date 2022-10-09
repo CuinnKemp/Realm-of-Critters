@@ -106,7 +106,7 @@ int main() {
     window.clear(sf::Color::Black);
     sf::Text deathText;
     sf::Font deathFont;
-    deathFont.loadFromFile("Yagora.ttf");
+    deathFont.loadFromFile("OfMiceAndCats.ttf");
     deathText.setFont(deathFont);
     deathText.setCharacterSize(80);
     deathText.setString("   YOU DIED!\n\nPRESS ENTER");
