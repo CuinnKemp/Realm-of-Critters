@@ -36,9 +36,13 @@ UIManager UI(0, 0, width / 2, height / 2, &window);
 SpinningBlade b1(0);
 ObstacleGenerator og;
 ExpSpawner E1;
+const sf::Time TimePerFrame = sf::seconds(1.f / 90.f);
 
 int main() {
+  sf::Clock clk;
+  sf::Time timeSinceLastUpdate = sf::Time::Zero;
   window.setFramerateLimit(120);
+  // window.setVerticalSyncEnabled(true);
   sf::Texture mapImage;
   sf::Texture extrasImage;
   sf::Sprite backgroundMap;
@@ -61,6 +65,7 @@ int main() {
     while (window.pollEvent(event)) {
       if (event.type == sf::Event::Closed) window.close();
     }
+
     backgroundMap.setOrigin(-512, -512);
 
     for (int i = 0; i <= 237; i++) {
@@ -76,31 +81,36 @@ int main() {
       while (window.pollEvent(eventInner)) {
         if (eventInner.type == sf::Event::Closed) window.close();
       }
-      window.draw(backgroundMap);
+      sf::Time dt = clk.restart();
+      timeSinceLastUpdate += dt;
+      while (timeSinceLastUpdate > TimePerFrame) {
+        timeSinceLastUpdate -= TimePerFrame;
 
-      og.updateObstacles();
+        window.draw(backgroundMap);
 
-      for (int i = 0; i < og.obstacleCounter; i++) {
-        float playerX = P1.sprite.getPosition().x + 20;
-        float playerY = P1.sprite.getPosition().y + 20;
-        float obstacleX = og.obstacles[i]->sprite.getPosition().x - 1888;
-        float obstacleY = og.obstacles[i]->sprite.getPosition().y - 1888;
-        if (abs(playerX - obstacleX) <= 50 && abs(playerY - obstacleY) <= 50) {
-          xpos = P1.oldXpos;
-          ypos = P1.oldYpos;
+        og.updateObstacles();
+
+        for (int i = 0; i < og.obstacleCounter; i++) {
+          float playerX = P1.sprite.getPosition().x + 20;
+          float playerY = P1.sprite.getPosition().y + 20;
+          float obstacleX = og.obstacles[i]->sprite.getPosition().x - 1888;
+          float obstacleY = og.obstacles[i]->sprite.getPosition().y - 1888;
+          if (abs(playerX - obstacleX) <= 50 &&
+              abs(playerY - obstacleY) <= 50) {
+            xpos = P1.oldXpos;
+            ypos = P1.oldYpos;
+          }
         }
-      }
 
-      window.draw(mapExtras);
-      a1.updateEnemies();
-      // pA.updateAbility(&a1, &pA);
-      P1.DrawPlayer(&window);
-      b1.updateAbility();
-      b1.hitEnemy(&a1);
-      E1.updateExps();
-      UI.DrawUIManager(&window);
-      window.display();
-      window.clear(sf::Color::White);
+        window.draw(mapExtras);
+        a1.updateEnemies();
+        P1.DrawPlayer(&window);
+        b1.updateAbility();
+        b1.hitEnemy(&a1);
+        E1.updateExps();
+        UI.DrawUIManager(&window);
+        window.display();
+      }
     }
 
     window.clear(sf::Color::Black);
