@@ -15,7 +15,9 @@ class UIManager {
   sf::RectangleShape healthBarBottom, healthBarTop, levelBarBottom, levelBarTop;
   sf::Text timerText;
   sf::Font timerFont;
+  sf::Clock clock;
   double UIwidth, UIheight;
+  int timer;
 
   UIManager(double Pxpos, double Pypos, double width, double height,
             sf::RenderWindow* window);
