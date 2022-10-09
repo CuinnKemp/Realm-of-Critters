@@ -11,14 +11,18 @@ UIManager::UIManager(double Pxpos, double Pypos, double width, double height,
   emptyInfoTex.loadFromFile("UI/EmptyInfo.png");
   healthBarBottomTex.loadFromFile("UI/HealthBarBottom.png");
   healthBarTopTex.loadFromFile("UI/HealthBarTop.png");
+  levelBarBottomTex.loadFromFile("UI/LevelBarBottom.png");
+  levelBarTopTex.loadFromFile("UI/LevelBarTop.png");
   emptyInfo.setTexture(emptyInfoTex);
   healthBarBottom.setTexture(&healthBarBottomTex);
   healthBarTop.setTexture(&healthBarTopTex);
-  emptyInfo.setScale(sf::Vector2f(1, 1));
-  healthBarBottom.setSize(sf::Vector2f(1, 1));
-  healthBarTop.setSize(sf::Vector2f(1, 1));
-  healthBarBottom.setPosition(0 - width / 2, 0 - height / 2);
-  healthBarTop.setPosition(0 - width / 2, 0 - height / 2);
+  levelBarBottom.setTexture(&levelBarBottomTex);
+  levelBarTop.setTexture(&levelBarTopTex);
+  /*   emptyInfo.setScale(sf::Vector2f(1, 1));
+    healthBarBottom.setSize(sf::Vector2f(1, 1));
+    healthBarTop.setSize(sf::Vector2f(1, 1));
+    healthBarBottom.setPosition(0 - width / 2, 0 - height / 2);
+    healthBarTop.setPosition(0 - width / 2, 0 - height / 2); */
 }
 
 void UIManager::DrawUIManager(sf::RenderWindow* window) {
@@ -28,19 +32,35 @@ void UIManager::DrawUIManager(sf::RenderWindow* window) {
                               P1.sprite.getPosition().y - UIheight / 4.225);
   healthBarTop.setPosition(P1.sprite.getPosition().x - UIwidth / 5.275,
                            P1.sprite.getPosition().y - UIheight / 4.225);
+  levelBarBottom.setPosition(P1.sprite.getPosition().x - UIwidth / 5.275,
+                             P1.sprite.getPosition().y - UIheight / 4.670);
+  levelBarTop.setPosition(P1.sprite.getPosition().x - UIwidth / 5.275,
+                          P1.sprite.getPosition().y - UIheight / 4.670);
 
-  if (P1.health > 5) {
-    healthBarBottom.setSize(
-        sf::Vector2f(P1.health * 1.01 * UIwidth / 1000, 8 * UIwidth / 1000));
+  if (P1.health > 1) {
+    healthBarBottom.setSize(sf::Vector2f(P1.health * 1.01 * UIwidth / 1000 + 2,
+                                         6 * UIwidth / 1000));
     healthBarTop.setSize(
-        sf::Vector2f(healthBarBottom.getSize().x - 10, 8 * UIwidth / 1000));
+        sf::Vector2f(healthBarBottom.getSize().x - 10, 6 * UIwidth / 1000));
+  } else {
+    healthBarBottom.setSize(sf::Vector2f(0, 0));
+    healthBarTop.setSize(sf::Vector2f(0, 0));
   }
+  if (P1.currentExp > 0) {
+    levelBarBottom.setSize(sf::Vector2f(
+        P1.currentExp * 0.865 * UIwidth / 1000 + 2, 6 * UIwidth / 1000));
+    levelBarTop.setSize(
+        sf::Vector2f(levelBarBottom.getSize().x - 10, 6 * UIwidth / 1000));
+  } else {
+    levelBarBottom.setSize(sf::Vector2f(0, 0));
+    levelBarTop.setSize(sf::Vector2f(0, 0));
+  }
+
   window->draw(emptyInfo);
   window->draw(healthBarBottom);
   window->draw(healthBarTop);
+  window->draw(levelBarBottom);
+  window->draw(levelBarTop);
 }
 
-void UIManager::resetUI() {
-  healthBarBottom.setPosition(0 - UIwidth / 2, 0 - UIheight / 2);
-  healthBarTop.setPosition(0 - UIwidth / 2, 0 - UIheight / 2);
-}
+void UIManager::resetUI() {}

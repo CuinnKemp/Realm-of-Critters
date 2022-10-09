@@ -64,6 +64,8 @@ void Player::resetPlayer() {
   ypos = 0;
   oldXpos = 0;
   oldYpos = 0;
+  currentExp = 0;
+  expCap = 100;
   camera.setCenter(0, 0);
   this->sprite.setSize(sf::Vector2f(40, 40));
   this->animationCount = 0;
