@@ -22,6 +22,7 @@
 #include "Obstacle.h"
 #include "ObstacleGenerator.h"
 #include "Player.h"
+#include "ResourceManager.h"
 #include "SpinningBlade.h"
 #include "UIManager.h"
 
@@ -36,31 +37,16 @@ Player P1(0, 0, width / 2, height / 2, &window);
 SpinningBlade b1(0);
 ObstacleGenerator og;
 ExpSpawner E1;
+ResourceManager resourceManager;
 const sf::Time TimePerFrame = sf::seconds(1.f / 90.f);
+bool showQuitGameDialouge;
 
 void gameLoop() {
   UIManager UI(0, 0, width / 2, height / 2, &window);
   sf::Clock clk;
   sf::Time timeSinceLastUpdate = sf::Time::Zero;
+  sf::Sprite backgroundMap, mapExtras;
   window.setFramerateLimit(120);
-  // window.setVerticalSyncEnabled(true);
-  sf::Texture mapImage;
-  sf::Texture extrasImage;
-  sf::Sprite backgroundMap;
-  sf::Sprite mapExtras;
-
-  if (!mapImage.loadFromFile("backgroundMap.png")) {
-    std::cout << "Could not load \"backgroundMap.png\"!" << std::endl;
-  }
-  if (!extrasImage.loadFromFile("mapExtras.png")) {
-    std::cout << "Could not load \"mapExtras.png\"!" << std::endl;
-  }
-  backgroundMap.scale(2, 2);
-  backgroundMap.setTexture(mapImage);
-  backgroundMap.setPosition(-3586, -3616);
-  mapExtras.scale(2, 2);
-  mapExtras.setTexture(extrasImage);
-  mapExtras.setPosition(-2048, -2048);
   while (window.isOpen()) {
     sf::Event event;
     while (window.pollEvent(event)) {
@@ -141,42 +127,8 @@ void gameLoop() {
 }
 
 void mainMenu() {
-  sf::Sprite background, menuTitle, playButton, loadButton, settingsButton,
-      quitButton;
-  sf::Texture backgroundTex, menuTitleTex, playButtonTex, loadButtonTex,
-      settingsButtonTex, quitButtonTex, playButtonSelectedTex,
-      loadButtonSelectedTex, quitButtonSelectedTex;
-
-  backgroundTex.loadFromFile("UI/MainMenuBackground.png");
-  menuTitleTex.loadFromFile("UI/MenuTitle.png");
-  playButtonTex.loadFromFile("UI/PlayButton.png");
-  loadButtonTex.loadFromFile("UI/LoadButton.png");
-  settingsButtonTex.loadFromFile("UI/SettingsButton.png");
-  quitButtonTex.loadFromFile("UI/QuitButton.png");
-  playButtonSelectedTex.loadFromFile("UI/PlayButtonSelected.png");
-  loadButtonSelectedTex.loadFromFile("UI/LoadButtonSelected.png");
-  quitButtonSelectedTex.loadFromFile("UI/QuitButtonSelected.png");
-
-  menuTitle.setTexture(menuTitleTex);
-  background.setTexture(backgroundTex);
-  playButton.setTexture(playButtonTex, true);
-  loadButton.setTexture(loadButtonTex);
-  settingsButton.setTexture(settingsButtonTex);
-  quitButton.setTexture(quitButtonTex);
-
-  background.setScale(6, 6);
-  background.setPosition(-480, -270);
-  menuTitle.setScale(6, 6);
-  menuTitle.setPosition(-240, -190);
-  playButton.setScale(6, 6);
-  playButton.setPosition(-190, 20);
-  loadButton.setScale(6, 6);
-  loadButton.setPosition(-90, 20);
-  settingsButton.setScale(6 * 13 / 15, 6 * 13 / 15);
-  settingsButton.setPosition(10, 20);
-  quitButton.setScale(6, 6);
-  quitButton.setPosition(110, 20);
-
+  sf::Sprite playButton, loadButton, settingsButton, quitButton,
+      quitGameDialougeBox, background, menuTitle;
   if (abs(sf::Mouse::getPosition(window).x -
           playButton.getGlobalBounds().left) > 1100 &&
       abs(sf::Mouse::getPosition(window).x -
@@ -186,7 +138,7 @@ void mainMenu() {
       abs(sf::Mouse::getPosition(window).y - playButton.getGlobalBounds().top) <
           1100) {
     playButton.setPosition(-196, 14);
-    playButton.setTexture(playButtonSelectedTex, true);
+    playButton.setTexture(resourceManager.playButtonSelectedTex, true);
     if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
       gameState = "gameLoop";
     }
@@ -199,23 +151,15 @@ void mainMenu() {
              abs(sf::Mouse::getPosition(window).y -
                  quitButton.getGlobalBounds().top) < 1100) {
     quitButton.setPosition(104, 14);
-    quitButton.setTexture(quitButtonSelectedTex, true);
+    quitButton.setTexture(resourceManager.quitButtonSelectedTex, true);
     if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
+      showQuitGameDialouge = true;
       window.close();
     }
   }
-
-  /* if (sf::Mouse::getPosition(window).x >
-          playButton.getGlobalBounds().left &&
-      sf::Mouse::getPosition(window).x <
-          playButton.getGlobalBounds().left +
-              playButton.getGlobalBounds().width &&
-      sf::Mouse::getPosition().y > playButton.getGlobalBounds().top &&
-      sf::Mouse::getPosition(window).y <
-          (playButton.getGlobalBounds().top +
-           playButton.getGlobalBounds().height))
-    ;
-  { playButton.setTexture(playButtonSelectedTex); } */
+  if (showQuitGameDialouge == true) {
+    window.draw(background);
+  }
 
   window.draw(background);
   window.draw(menuTitle);
@@ -228,6 +172,8 @@ void mainMenu() {
 }
 
 int main() {
+  showQuitGameDialouge = false;
+
   while (window.isOpen()) {
     sf::Event event;
     gameState = "mainMenu";
