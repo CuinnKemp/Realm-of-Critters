@@ -145,7 +145,7 @@ void mainMenu() {
       quitButton;
   sf::Texture backgroundTex, menuTitleTex, playButtonTex, loadButtonTex,
       settingsButtonTex, quitButtonTex, playButtonSelectedTex,
-      loadButtonSelectedTex;
+      loadButtonSelectedTex, quitButtonSelectedTex;
 
   backgroundTex.loadFromFile("UI/MainMenuBackground.png");
   menuTitleTex.loadFromFile("UI/MenuTitle.png");
@@ -155,6 +155,7 @@ void mainMenu() {
   quitButtonTex.loadFromFile("UI/QuitButton.png");
   playButtonSelectedTex.loadFromFile("UI/PlayButtonSelected.png");
   loadButtonSelectedTex.loadFromFile("UI/LoadButtonSelected.png");
+  quitButtonSelectedTex.loadFromFile("UI/QuitButtonSelected.png");
 
   menuTitle.setTexture(menuTitleTex);
   background.setTexture(backgroundTex);
@@ -173,10 +174,9 @@ void mainMenu() {
   loadButton.setPosition(-90, 20);
   settingsButton.setScale(6 * 13 / 15, 6 * 13 / 15);
   settingsButton.setPosition(10, 20);
-  quitButton.setScale(6 * 13 / 15, 6 * 13 / 15);
+  quitButton.setScale(6, 6);
   quitButton.setPosition(110, 20);
 
-  sf::Event playButtonEvent;
   if (abs(sf::Mouse::getPosition(window).x -
           playButton.getGlobalBounds().left) > 1100 &&
       abs(sf::Mouse::getPosition(window).x -
@@ -189,6 +189,19 @@ void mainMenu() {
     playButton.setTexture(playButtonSelectedTex, true);
     if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
       gameState = "gameLoop";
+    }
+  } else if (abs(sf::Mouse::getPosition(window).x -
+                 quitButton.getGlobalBounds().left) > 1750 &&
+             abs(sf::Mouse::getPosition(window).x -
+                 quitButton.getGlobalBounds().left) < 2000 &&
+             abs(sf::Mouse::getPosition(window).y -
+                 quitButton.getGlobalBounds().top) > 870 &&
+             abs(sf::Mouse::getPosition(window).y -
+                 quitButton.getGlobalBounds().top) < 1100) {
+    quitButton.setPosition(104, 14);
+    quitButton.setTexture(quitButtonSelectedTex, true);
+    if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
+      window.close();
     }
   }
 
