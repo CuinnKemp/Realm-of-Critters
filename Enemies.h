@@ -3,6 +3,7 @@
 
 #include "Beast.h"
 #include "Enemy.h"
+#include "Slime.h"
 
 class Enemies {
  public:

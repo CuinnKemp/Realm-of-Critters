@@ -1,4 +1,4 @@
-// g++ Game.cpp Player.cpp Enemy.cpp Enemies.cpp Beast.cpp Obstacle.cpp ObstacleGenerator.cpp Arrow.cpp PowerUp.cpp SpinningBlade.cpp ExpBall.cpp ExpContainer.cpp ExpSpawner.cpp PlayerArrow.cpp PlayerArrowSpawner.cpp -lsfml-graphics -lsfml-window -lsfml-system
+// g++ Game.cpp Player.cpp Enemy.cpp Enemies.cpp Beast.cpp Slime.cpp Obstacle.cpp ObstacleGenerator.cpp Arrow.cpp PowerUp.cpp SpinningBlade.cpp ExpBall.cpp ExpContainer.cpp ExpSpawner.cpp PlayerArrow.cpp PlayerArrowSpawner.cpp -lsfml-graphics -lsfml-window -lsfml-system
 
 
 #include <stdlib.h>
@@ -19,6 +19,7 @@
 #include "ExpContainer.h"
 #include "ExpSpawner.h"
 #include "Obstacle.h"
+#include "Slime.h"
 #include "ObstacleGenerator.h"
 #include "Player.h"
 #include "SpinningBlade.h"
