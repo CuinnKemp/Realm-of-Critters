@@ -26,11 +26,6 @@ UIManager::UIManager(double Pxpos, double Pypos, double width, double height,
   timerFont.loadFromFile("OfMiceAndCats.ttf");
   timerText.setFont(timerFont);
   timerText.setCharacterSize(20);
-  /*   emptyInfo.setScale(sf::Vector2f(1, 1));
-    healthBarBottom.setSize(sf::Vector2f(1, 1));
-    healthBarTop.setSize(sf::Vector2f(1, 1));
-    healthBarBottom.setPosition(0 - width / 2, 0 - height / 2);
-    healthBarTop.setPosition(0 - width / 2, 0 - height / 2); */
 }
 
 void UIManager::DrawUIManager(sf::RenderWindow* window) {

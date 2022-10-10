@@ -26,6 +26,7 @@
 #include "UIManager.h"
 
 double xpos, ypos;
+std ::string gameState;
 
 double width = sf::VideoMode::getDesktopMode().width;
 double height = sf::VideoMode::getDesktopMode().height;
@@ -38,7 +39,7 @@ ObstacleGenerator og;
 ExpSpawner E1;
 const sf::Time TimePerFrame = sf::seconds(1.f / 90.f);
 
-int main() {
+void gameLoop() {
   sf::Clock clk;
   sf::Time timeSinceLastUpdate = sf::Time::Zero;
   window.setFramerateLimit(120);
@@ -137,5 +138,94 @@ int main() {
       }
     }
   }
+}
+
+void mainMenu() {
+  sf::Sprite background, menuTitle, playButton, loadButton, settingsButton,
+      quitButton;
+  sf::Texture backgroundTex, menuTitleTex, playButtonTex, loadButtonTex,
+      settingsButtonTex, quitButtonTex, playButtonSelectedTex,
+      loadButtonSelectedTex;
+
+  backgroundTex.loadFromFile("UI/MainMenuBackground.png");
+  menuTitleTex.loadFromFile("UI/MenuTitle.png");
+  playButtonTex.loadFromFile("UI/PlayButton.png");
+  loadButtonTex.loadFromFile("UI/LoadButton.png");
+  settingsButtonTex.loadFromFile("UI/SettingsButton.png");
+  quitButtonTex.loadFromFile("UI/QuitButton.png");
+  playButtonSelectedTex.loadFromFile("UI/PlayButtonSelected.png");
+  loadButtonSelectedTex.loadFromFile("UI/LoadButtonSelected.png");
+
+  menuTitle.setTexture(menuTitleTex);
+  background.setTexture(backgroundTex);
+  playButton.setTexture(playButtonTex, true);
+  loadButton.setTexture(loadButtonTex);
+  settingsButton.setTexture(settingsButtonTex);
+  quitButton.setTexture(quitButtonTex);
+
+  background.setScale(6, 6);
+  background.setPosition(-480, -270);
+  menuTitle.setScale(6, 6);
+  menuTitle.setPosition(-240, -190);
+  playButton.setScale(6, 6);
+  playButton.setPosition(-190, 20);
+  loadButton.setScale(6, 6);
+  loadButton.setPosition(-90, 20);
+  settingsButton.setScale(6 * 13 / 15, 6 * 13 / 15);
+  settingsButton.setPosition(10, 20);
+  quitButton.setScale(6 * 13 / 15, 6 * 13 / 15);
+  quitButton.setPosition(110, 20);
+
+  sf::Event playButtonEvent;
+  if (abs(sf::Mouse::getPosition(window).x -
+          playButton.getGlobalBounds().left) > 1100 &&
+      abs(sf::Mouse::getPosition(window).x -
+          playButton.getGlobalBounds().left) < 1330 &&
+      abs(sf::Mouse::getPosition(window).y - playButton.getGlobalBounds().top) >
+          870 &&
+      abs(sf::Mouse::getPosition(window).y - playButton.getGlobalBounds().top) <
+          1100) {
+    playButton.setPosition(-196, 14);
+    playButton.setTexture(playButtonSelectedTex, true);
+    std::cout << "Pressed" << std::endl;
+  }
+
+  /* if (sf::Mouse::getPosition(window).x >
+          playButton.getGlobalBounds().left &&
+      sf::Mouse::getPosition(window).x <
+          playButton.getGlobalBounds().left +
+              playButton.getGlobalBounds().width &&
+      sf::Mouse::getPosition().y > playButton.getGlobalBounds().top &&
+      sf::Mouse::getPosition(window).y <
+          (playButton.getGlobalBounds().top +
+           playButton.getGlobalBounds().height))
+    ;
+  { playButton.setTexture(playButtonSelectedTex); } */
+
+  window.draw(background);
+  window.draw(menuTitle);
+  window.draw(playButton);
+  window.draw(loadButton);
+  window.draw(settingsButton);
+  window.draw(quitButton);
+  window.setFramerateLimit(120);
+  window.display();
+}
+
+int main() {
+  while (window.isOpen()) {
+    sf::Event event;
+    gameState = "mainMenu";
+    while (window.pollEvent(event)) {
+      if (event.type == sf::Event::Closed) window.close();
+    }
+    if (gameState == "mainMenu") {
+      mainMenu();
+    }
+    if (gameState == "gameLoop") {
+      gameLoop();
+    }
+  }
+
   return 0;
 }
