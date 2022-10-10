@@ -1,6 +1,5 @@
-// g++ Game.cpp Player.cpp Enemy.cpp Enemies.cpp Beast.cpp Obstacle.cpp
-// ObstacleGenerator.cpp Arrow.cpp PowerUp.cpp SpinningBlade.cpp ExpBall.cpp
-// ExpContainer.cpp ExpSpawner.cpp  -lsfml-graphics -lsfml-window -lsfml-system
+// g++ Game.cpp Player.cpp Enemy.cpp Enemies.cpp Beast.cpp Obstacle.cpp ObstacleGenerator.cpp Arrow.cpp PowerUp.cpp SpinningBlade.cpp ExpBall.cpp ExpContainer.cpp ExpSpawner.cpp PlayerArrow.cpp PlayerArrowSpawner.cpp -lsfml-graphics -lsfml-window -lsfml-system
+
 
 #include <stdlib.h>
 
@@ -23,13 +22,15 @@
 #include "ObstacleGenerator.h"
 #include "Player.h"
 #include "SpinningBlade.h"
+#include "PlayerArrow.h"
+#include "PlayerArrowSpawner.h"
 
 double xpos, ypos;
 
 double width = sf::VideoMode::getDesktopMode().width;
 double height = sf::VideoMode::getDesktopMode().height;
 sf::RenderWindow window(sf::VideoMode(width, height), "GAME");
-Player P1(0, 0, width / 4, height / 4, &window);
+Player P1(0, 0, width/2, height/2, &window);
 
 SpinningBlade b1(0);
 ObstacleGenerator og;
@@ -37,6 +38,7 @@ ExpSpawner E1;
 
 int main() {
   window.setFramerateLimit(120);
+  window.setVerticalSyncEnabled(1);
   sf::Texture mapImage;
   sf::Texture extrasImage;
   sf::Sprite backgroundMap;
@@ -55,6 +57,8 @@ int main() {
   mapExtras.setTexture(extrasImage);
   mapExtras.setPosition(-2048, -2048);
   while (window.isOpen()) {
+    Enemies a1;
+    PlayerArrowSpawner pA(&a1);
     sf::Event event;
     while (window.pollEvent(event)) {
       if (event.type == sf::Event::Closed) window.close();
@@ -67,8 +71,6 @@ int main() {
     for (int i = 0; i < 25; i++) {
       E1.spawnNewExp();
     }
-    Enemies a1;
-    // pArrow pA(&a1);
     while (P1.isAlive() && window.isOpen()) {
       sf::Event eventInner;
       while (window.pollEvent(eventInner)) {
@@ -90,8 +92,13 @@ int main() {
       }
 
       window.draw(mapExtras);
+      pA.drawArrows();
+      pA.fireCounter = pA.fireCounter + 2;
+      if (pA.fireCounter == 100) {
+        pA.attack();
+        pA.fireCounter = 0;
+      }
       a1.updateEnemies();
-      // pA.updateAbility(&a1, &pA);
       P1.DrawPlayer(&window);
       b1.updateAbility();
       b1.hitEnemy(&a1);
@@ -120,6 +127,7 @@ int main() {
         waiting = 0;
         P1.resetPlayer();
         E1.deleteExpBalls();
+        a1.~Enemies();
       }
     }
   }
