@@ -32,7 +32,6 @@ double width = sf::VideoMode::getDesktopMode().width;
 double height = sf::VideoMode::getDesktopMode().height;
 sf::RenderWindow window(sf::VideoMode(width, height), "GAME");
 Player P1(0, 0, width / 2, height / 2, &window);
-UIManager UI(0, 0, width / 2, height / 2, &window);
 
 SpinningBlade b1(0);
 ObstacleGenerator og;
@@ -40,6 +39,7 @@ ExpSpawner E1;
 const sf::Time TimePerFrame = sf::seconds(1.f / 90.f);
 
 void gameLoop() {
+  UIManager UI(0, 0, width / 2, height / 2, &window);
   sf::Clock clk;
   sf::Time timeSinceLastUpdate = sf::Time::Zero;
   window.setFramerateLimit(120);
@@ -187,7 +187,9 @@ void mainMenu() {
           1100) {
     playButton.setPosition(-196, 14);
     playButton.setTexture(playButtonSelectedTex, true);
-    std::cout << "Pressed" << std::endl;
+    if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
+      gameState = "gameLoop";
+    }
   }
 
   /* if (sf::Mouse::getPosition(window).x >
