@@ -1,6 +1,7 @@
-// g++ Game.cpp Player.cpp Enemy.cpp Enemies.cpp Beast.cpp Obstacle.cpp
-// ObstacleGenerator.cpp Arrow.cpp PowerUp.cpp SpinningBlade.cpp ExpBall.cpp
-// ExpContainer.cpp ExpSpawner.cpp  -lsfml-graphics -lsfml-window -lsfml-system
+// g++ Game.cpp MainMenu.cpp ResourceManager.cpp Player.cpp UIManager.cpp
+// Enemy.cpp Beast.cpp Arrow.cpp Enemies.cpp PowerUp.cpp SpinningBlade.cpp
+// ObstacleGenerator.cpp Obstacle.cpp ExpBall.cpp ExpSpawner.cpp -lsfml-graphics
+// -lsfml-window -lsfml-system
 
 #include <stdlib.h>
 
@@ -40,12 +41,19 @@ ExpSpawner E1;
 ResourceManager resourceManager;
 const sf::Time TimePerFrame = sf::seconds(1.f / 90.f);
 bool showQuitGameDialouge;
+bool isGameChanging;
 
 void gameLoop() {
   UIManager UI(0, 0, width / 2, height / 2, &window);
   sf::Clock clk;
   sf::Time timeSinceLastUpdate = sf::Time::Zero;
   sf::Sprite backgroundMap, mapExtras;
+  backgroundMap.scale(2, 2);
+  backgroundMap.setTexture(resourceManager.mapImage);
+  backgroundMap.setPosition(-3586, -3616);
+  mapExtras.scale(2, 2);
+  mapExtras.setTexture(resourceManager.extrasImage);
+  mapExtras.setPosition(-2048, -2048);
   window.setFramerateLimit(120);
   while (window.isOpen()) {
     sf::Event event;
@@ -102,9 +110,7 @@ void gameLoop() {
 
     window.clear(sf::Color::Black);
     sf::Text deathText;
-    sf::Font deathFont;
-    deathFont.loadFromFile("OfMiceAndCats.ttf");
-    deathText.setFont(deathFont);
+    deathText.setFont(resourceManager.deathFont);
     deathText.setCharacterSize(80);
     deathText.setString("   YOU DIED!\n\nPRESS ENTER");
     deathText.setPosition(sf::Vector2f(-width / 10, -height / 10));
@@ -129,6 +135,24 @@ void gameLoop() {
 void mainMenu() {
   sf::Sprite playButton, loadButton, settingsButton, quitButton,
       quitGameDialougeBox, background, menuTitle;
+  menuTitle.setTexture(resourceManager.menuTitleTex);
+  background.setTexture(resourceManager.backgroundTex);
+  playButton.setTexture(resourceManager.playButtonTex, true);
+  loadButton.setTexture(resourceManager.loadButtonTex);
+  settingsButton.setTexture(resourceManager.settingsButtonTex);
+  quitButton.setTexture(resourceManager.quitButtonTex);
+  background.setScale(6, 6);
+  background.setPosition(-480, -270);
+  menuTitle.setScale(6, 6);
+  menuTitle.setPosition(-240, -190);
+  playButton.setScale(6, 6);
+  playButton.setPosition(-190, 20);
+  loadButton.setScale(6, 6);
+  loadButton.setPosition(-90, 20);
+  settingsButton.setScale(6 * 13 / 15, 6 * 13 / 15);
+  settingsButton.setPosition(10, 20);
+  quitButton.setScale(6, 6);
+  quitButton.setPosition(110, 20);
   if (abs(sf::Mouse::getPosition(window).x -
           playButton.getGlobalBounds().left) > 1100 &&
       abs(sf::Mouse::getPosition(window).x -
@@ -141,6 +165,7 @@ void mainMenu() {
     playButton.setTexture(resourceManager.playButtonSelectedTex, true);
     if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
       gameState = "gameLoop";
+      isGameChanging = true;
     }
   } else if (abs(sf::Mouse::getPosition(window).x -
                  quitButton.getGlobalBounds().left) > 1750 &&
@@ -173,6 +198,7 @@ void mainMenu() {
 
 int main() {
   showQuitGameDialouge = false;
+  isGameChanging = true;
 
   while (window.isOpen()) {
     sf::Event event;
@@ -180,10 +206,19 @@ int main() {
     while (window.pollEvent(event)) {
       if (event.type == sf::Event::Closed) window.close();
     }
+
     if (gameState == "mainMenu") {
+      if (isGameChanging) {
+        resourceManager.loadMainMenu();
+        isGameChanging = false;
+      }
       mainMenu();
     }
     if (gameState == "gameLoop") {
+      if (isGameChanging) {
+        resourceManager.loadGame();
+        isGameChanging = false;
+      }
       gameLoop();
     }
   }

@@ -8,7 +8,10 @@ class ResourceManager {
       settingsButtonTex, quitButtonTex, playButtonSelectedTex,
       loadButtonSelectedTex, quitButtonSelectedTex, quitGameDialougeBoxTex,
       mapImage, extrasImage;
+  sf::Font deathFont;
   ResourceManager();
+  void loadMainMenu();
+  void loadGame();
   ~ResourceManager();
 };
 #endif  // RESOURCEMANAGER_H
