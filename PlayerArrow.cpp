@@ -20,7 +20,7 @@ PlayerArrow::PlayerArrow(Enemies* enemies) {
   if (enemies->enemyCounter >= 1) {
     // std::cout << "Running" << std::endl;
     // set damage
-    this->damage = 100;
+    this->damage = 50;
 
     // Sets the initial position of the arrow to the player
     this->arrowCoordinates[0] = xpos;
@@ -83,15 +83,17 @@ PlayerArrow::PlayerArrow(Enemies* enemies) {
     this->sprite.setSize(sf::Vector2f(10, 30));
 
     
- 
-    // if (a1 = b1 and a2 = b2) throw an error 
+    // Calculates angle between player and enemy
     double theta = atan2(targetCoordinates[0] - arrowCoordinates[0], targetCoordinates[1] - arrowCoordinates[1]);\
-    std::cout << theta << " b" << std::endl;
+    //std::cout << theta << " b" << std::endl;
     if (theta < 0.0) {
       theta += TWOPI; 
     }
     theta = RAD2DEG * theta;
-    std::cout << theta << std::endl;
+
+    // std::cout << theta << std::endl;
+
+    // Rotates Sprite accordingly
     this->sprite.rotate(180-theta);
   
   }
@@ -108,7 +110,7 @@ bool PlayerArrow::EnemycollisionDetection(Enemies* a1) {
     float enemyY = a1->enemies[i]->coordinates[1];
     // std::cout << "EnemycollisionDetection() qqwqweqweqwe" << std::endl;
     if (abs(weaponX - enemyX) <= 30 && abs(weaponY - enemyY) <= 30) {
-      a1->enemies[i]->health = a1->enemies[i]->health - 50;
+      a1->enemies[i]->health = a1->enemies[i]->health - this->damage;
       // std::cout << "EnemycollisionDetection() ascjnaslj" << std::endl;
       return 1;
     }

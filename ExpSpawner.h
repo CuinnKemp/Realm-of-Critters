@@ -28,10 +28,10 @@ class ExpSpawner {
   // Deletes Exp Balls from Array
   void deleteExpBalls();
 
-  // Spawns new Exp Ball
+  // Spawns new Exp Ball (on Map spawn)
   void spawnNewExp();
 
-  // Spawns new Exp Ball with parameters for specific coordinates
+  // Spawns new Exp Ball with parameters for specific coordinates (on Monster Death)
   void spawnNewExp(int expPoint, double xpos, double ypos);
 
   // Check which balls have been collided with 
