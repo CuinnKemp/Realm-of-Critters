@@ -5,7 +5,9 @@
 #include <sstream>
 
 #include "Player.h"
+#include "ResourceManager.h"
 
+extern ResourceManager resourceManager;
 extern Player P1;
 
 UIManager::UIManager(double Pxpos, double Pypos, double width, double height,
@@ -13,18 +15,13 @@ UIManager::UIManager(double Pxpos, double Pypos, double width, double height,
   UIwidth = 1920;
   UIheight = 1080;
   timer = 0;
-  emptyInfoTex.loadFromFile("UI/EmptyInfo.png");
-  healthBarBottomTex.loadFromFile("UI/HealthBarBottom.png");
-  healthBarTopTex.loadFromFile("UI/HealthBarTop.png");
-  levelBarBottomTex.loadFromFile("UI/LevelBarBottom.png");
-  levelBarTopTex.loadFromFile("UI/LevelBarTop.png");
-  emptyInfo.setTexture(emptyInfoTex);
-  healthBarBottom.setTexture(&healthBarBottomTex);
-  healthBarTop.setTexture(&healthBarTopTex);
-  levelBarBottom.setTexture(&levelBarBottomTex);
-  levelBarTop.setTexture(&levelBarTopTex);
-  timerFont.loadFromFile("OfMiceAndCats.ttf");
-  timerText.setFont(timerFont);
+
+  emptyInfo.setTexture(resourceManager.emptyInfoTex);
+  healthBarBottom.setTexture(&resourceManager.healthBarBottomTex);
+  healthBarTop.setTexture(&resourceManager.healthBarTopTex);
+  levelBarBottom.setTexture(&resourceManager.levelBarBottomTex);
+  levelBarTop.setTexture(&resourceManager.levelBarTopTex);
+  timerText.setFont(resourceManager.defaultFont);
   timerText.setCharacterSize(20);
 }
 

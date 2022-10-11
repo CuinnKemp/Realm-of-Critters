@@ -7,9 +7,11 @@
 #include <random>
 
 #include "Enemies.h"
+#include "ResourceManager.h"
 
 extern double xpos, ypos;
 extern sf::RenderWindow window;
+extern ResourceManager resourceManager;
 
 SpinningBlade::SpinningBlade(int num) {
   this->coordinates[0] = xpos;
@@ -19,8 +21,7 @@ SpinningBlade::SpinningBlade(int num) {
       sf::Vector2f(this->coordinates[0] + 20, this->coordinates[1] + 20));
   this->sprite.setOrigin(7, 7);
   this->sprite.setSize(sf::Vector2f(25, 25));
-  this->texture1.loadFromFile("Shuriken.png");
-  this->sprite.setTexture(&texture1);
+  this->sprite.setTexture(&resourceManager.shuriken);
 
   count = 0;
 

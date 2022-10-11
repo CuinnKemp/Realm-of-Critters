@@ -9,10 +9,12 @@
 #include "Arrow.h"
 #include "Enemy.h"
 #include "ExpSpawner.h"
+#include "ResourceManager.h"
 
 extern double xpos, ypos;
 extern sf::RenderWindow window;
 extern ExpSpawner E1;
+extern ResourceManager resourceManager;
 
 Beast::Beast() {
   this->arrowCounter = 0;
@@ -35,25 +37,9 @@ Beast::Beast() {
   this->sprite.setPosition(
       sf::Vector2f(this->coordinates[0], this->coordinates[1]));
   this->sprite.setSize(sf::Vector2f(16, 16));
-  walkDown1.loadFromFile("beastAnimation/walkDown1.png");
-  walkDown2.loadFromFile("beastAnimation/walkDown2.png");
-  walkDown3.loadFromFile("beastAnimation/walkDown3.png");
-  walkDown4.loadFromFile("beastAnimation/walkDown4.png");
-  walkUp1.loadFromFile("beastAnimation/walkUp1.png");
-  walkUp2.loadFromFile("beastAnimation/walkUp2.png");
-  walkUp3.loadFromFile("beastAnimation/walkUp3.png");
-  walkUp4.loadFromFile("beastAnimation/walkUp4.png");
-  walkLeft1.loadFromFile("beastAnimation/walkLeft1.png");
-  walkLeft2.loadFromFile("beastAnimation/walkLeft2.png");
-  walkLeft3.loadFromFile("beastAnimation/walkLeft3.png");
-  walkLeft4.loadFromFile("beastAnimation/walkLeft4.png");
-  walkRight1.loadFromFile("beastAnimation/walkRight1.png");
-  walkRight2.loadFromFile("beastAnimation/walkRight2.png");
-  walkRight3.loadFromFile("beastAnimation/walkRight3.png");
-  walkRight4.loadFromFile("beastAnimation/walkRight4.png");
   this->sprite.setTextureRect(rectSourceSprite);
   this->sprite.setSize(sf::Vector2f(32, 32));
-  this->sprite.setTexture(&walkDown1);
+  this->sprite.setTexture(&resourceManager.walkDown1);
   this->direction = 4;
   this->isMoving = false;
   this->animationCount = 0;
@@ -152,87 +138,87 @@ bool Beast::updateEnemy() {
   if (isMoving == false) {
     switch (direction) {
       case 1:
-        sprite.setTexture(&walkLeft1);
+        sprite.setTexture(&resourceManager.walkLeft1);
         break;
       case 2:
-        sprite.setTexture(&walkRight1);
+        sprite.setTexture(&resourceManager.walkRight1);
         break;
       case 3:
-        sprite.setTexture(&walkUp1);
+        sprite.setTexture(&resourceManager.walkUp1);
         break;
       case 4:
-        sprite.setTexture(&walkDown1);
+        sprite.setTexture(&resourceManager.walkDown1);
         break;
       default:
-        sprite.setTexture(&walkDown1);
+        sprite.setTexture(&resourceManager.walkDown1);
     }
   } else if (remainder(animationCount / 8, 2) == 0) {
     switch (direction) {
       case 1:
-        sprite.setTexture(&walkLeft4);
+        sprite.setTexture(&resourceManager.walkLeft4);
         break;
       case 2:
-        sprite.setTexture(&walkRight4);
+        sprite.setTexture(&resourceManager.walkRight4);
         break;
       case 3:
-        sprite.setTexture(&walkUp4);
+        sprite.setTexture(&resourceManager.walkUp4);
         break;
       case 4:
-        sprite.setTexture(&walkDown4);
+        sprite.setTexture(&resourceManager.walkDown4);
         break;
       default:
-        sprite.setTexture(&walkDown4);
+        sprite.setTexture(&resourceManager.walkDown4);
     }
   } else if (remainder(animationCount / 6, 3) == 0) {
     switch (direction) {
       case 1:
-        sprite.setTexture(&walkLeft3);
+        sprite.setTexture(&resourceManager.walkLeft3);
         break;
       case 2:
-        sprite.setTexture(&walkRight3);
+        sprite.setTexture(&resourceManager.walkRight3);
         break;
       case 3:
-        sprite.setTexture(&walkUp3);
+        sprite.setTexture(&resourceManager.walkUp3);
         break;
       case 4:
-        sprite.setTexture(&walkDown3);
+        sprite.setTexture(&resourceManager.walkDown3);
         break;
       default:
-        sprite.setTexture(&walkDown3);
+        sprite.setTexture(&resourceManager.walkDown3);
     }
   } else if (remainder(animationCount / 4, 2) == 0) {
     switch (direction) {
       case 1:
-        sprite.setTexture(&walkLeft2);
+        sprite.setTexture(&resourceManager.walkLeft2);
         break;
       case 2:
-        sprite.setTexture(&walkRight2);
+        sprite.setTexture(&resourceManager.walkRight2);
         break;
       case 3:
-        sprite.setTexture(&walkUp2);
+        sprite.setTexture(&resourceManager.walkUp2);
         break;
       case 4:
-        sprite.setTexture(&walkDown2);
+        sprite.setTexture(&resourceManager.walkDown2);
         break;
       default:
-        sprite.setTexture(&walkDown2);
+        sprite.setTexture(&resourceManager.walkDown2);
     }
   } else {
     switch (direction) {
       case 1:
-        sprite.setTexture(&walkLeft1);
+        sprite.setTexture(&resourceManager.walkLeft1);
         break;
       case 2:
-        sprite.setTexture(&walkRight1);
+        sprite.setTexture(&resourceManager.walkRight1);
         break;
       case 3:
-        sprite.setTexture(&walkUp1);
+        sprite.setTexture(&resourceManager.walkUp1);
         break;
       case 4:
-        sprite.setTexture(&walkDown1);
+        sprite.setTexture(&resourceManager.walkDown1);
         break;
       default:
-        sprite.setTexture(&walkDown1);
+        sprite.setTexture(&resourceManager.walkDown1);
     }
   }
   animationCount++;

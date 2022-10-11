@@ -12,7 +12,6 @@
 
 class SpinningBlade : public PowerUp {
  public:
-  sf::Texture texture1;
   int count;
 
   SpinningBlade(int num);

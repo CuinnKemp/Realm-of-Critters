@@ -1,7 +1,10 @@
 #include "Player.h"
 
+#include "ResourceManager.h"
+
 extern double xpos, ypos;
 
+extern ResourceManager resourceManager;
 Player::Player(double Pxpos, double Pypos, double width, double height,
                sf::RenderWindow* window) {
   xpos = Pxpos;
@@ -11,28 +14,7 @@ Player::Player(double Pxpos, double Pypos, double width, double height,
   this->window = window;
   this->sprite.setPosition(sf::Vector2f(0, 0));
   this->sprite.setSize(sf::Vector2f(40, 40));
-  idleDown.loadFromFile("playerAnimation/Idle/idleDown.png");
-  idleUp.loadFromFile("playerAnimation/Idle/idleUp.png");
-  idleLeft.loadFromFile("playerAnimation/Idle/idleLeft.png");
-  idleRight.loadFromFile("playerAnimation/Idle/idleRight.png");
-  idleRight.loadFromFile("playerAnimation/Idle/idleRight.png");
-  walkDown1.loadFromFile("playerAnimation/Walk/walkDown1.png");
-  walkDown2.loadFromFile("playerAnimation/Walk/walkDown2.png");
-  walkDown3.loadFromFile("playerAnimation/Walk/walkDown3.png");
-  walkDown4.loadFromFile("playerAnimation/Walk/walkDown4.png");
-  walkUp1.loadFromFile("playerAnimation/Walk/walkUp1.png");
-  walkUp2.loadFromFile("playerAnimation/Walk/walkUp2.png");
-  walkUp3.loadFromFile("playerAnimation/Walk/walkUp3.png");
-  walkUp4.loadFromFile("playerAnimation/Walk/walkUp4.png");
-  walkLeft1.loadFromFile("playerAnimation/Walk/walkLeft1.png");
-  walkLeft2.loadFromFile("playerAnimation/Walk/walkLeft2.png");
-  walkLeft3.loadFromFile("playerAnimation/Walk/walkLeft3.png");
-  walkLeft4.loadFromFile("playerAnimation/Walk/walkLeft4.png");
-  walkRight1.loadFromFile("playerAnimation/Walk/walkRight1.png");
-  walkRight2.loadFromFile("playerAnimation/Walk/walkRight2.png");
-  walkRight3.loadFromFile("playerAnimation/Walk/walkRight3.png");
-  walkRight4.loadFromFile("playerAnimation/Walk/walkRight4.png");
-  sprite.setTexture(&idleDown);
+  sprite.setTexture(&resourceManager.idleDown);
   camera.setCenter(0, 0);
   camera.setSize(1920 / 2, 1080 / 2);
   window->setView(camera);
@@ -129,87 +111,87 @@ void Player::getPosition() {
   if (isMoving == false) {
     switch (direction) {
       case 1:
-        sprite.setTexture(&idleLeft);
+        sprite.setTexture(&resourceManager.idleLeft);
         break;
       case 2:
-        sprite.setTexture(&idleRight);
+        sprite.setTexture(&resourceManager.idleRight);
         break;
       case 3:
-        sprite.setTexture(&idleUp);
+        sprite.setTexture(&resourceManager.idleUp);
         break;
       case 4:
-        sprite.setTexture(&idleDown);
+        sprite.setTexture(&resourceManager.idleDown);
         break;
       default:
-        sprite.setTexture(&idleDown);
+        sprite.setTexture(&resourceManager.idleDown);
     }
   } else if (remainder(animationCount / 8, 2) == 0) {
     switch (direction) {
       case 1:
-        sprite.setTexture(&walkLeft4);
+        sprite.setTexture(&resourceManager.pwalkLeft4);
         break;
       case 2:
-        sprite.setTexture(&walkRight4);
+        sprite.setTexture(&resourceManager.pwalkRight4);
         break;
       case 3:
-        sprite.setTexture(&walkUp4);
+        sprite.setTexture(&resourceManager.pwalkUp4);
         break;
       case 4:
-        sprite.setTexture(&walkDown4);
+        sprite.setTexture(&resourceManager.pwalkDown4);
         break;
       default:
-        sprite.setTexture(&walkDown4);
+        sprite.setTexture(&resourceManager.pwalkDown4);
     }
   } else if (remainder(animationCount / 6, 3) == 0) {
     switch (direction) {
       case 1:
-        sprite.setTexture(&walkLeft3);
+        sprite.setTexture(&resourceManager.pwalkLeft3);
         break;
       case 2:
-        sprite.setTexture(&walkRight3);
+        sprite.setTexture(&resourceManager.pwalkRight3);
         break;
       case 3:
-        sprite.setTexture(&walkUp3);
+        sprite.setTexture(&resourceManager.pwalkUp3);
         break;
       case 4:
-        sprite.setTexture(&walkDown3);
+        sprite.setTexture(&resourceManager.pwalkDown3);
         break;
       default:
-        sprite.setTexture(&walkDown3);
+        sprite.setTexture(&resourceManager.pwalkDown3);
     }
   } else if (remainder(animationCount / 4, 2) == 0) {
     switch (direction) {
       case 1:
-        sprite.setTexture(&walkLeft2);
+        sprite.setTexture(&resourceManager.pwalkLeft2);
         break;
       case 2:
-        sprite.setTexture(&walkRight2);
+        sprite.setTexture(&resourceManager.pwalkRight2);
         break;
       case 3:
-        sprite.setTexture(&walkUp2);
+        sprite.setTexture(&resourceManager.pwalkUp2);
         break;
       case 4:
-        sprite.setTexture(&walkDown2);
+        sprite.setTexture(&resourceManager.pwalkDown2);
         break;
       default:
-        sprite.setTexture(&walkDown2);
+        sprite.setTexture(&resourceManager.pwalkDown2);
     }
   } else {
     switch (direction) {
       case 1:
-        sprite.setTexture(&walkLeft1);
+        sprite.setTexture(&resourceManager.pwalkLeft1);
         break;
       case 2:
-        sprite.setTexture(&walkRight1);
+        sprite.setTexture(&resourceManager.pwalkRight1);
         break;
       case 3:
-        sprite.setTexture(&walkUp1);
+        sprite.setTexture(&resourceManager.pwalkUp1);
         break;
       case 4:
-        sprite.setTexture(&walkDown1);
+        sprite.setTexture(&resourceManager.pwalkDown1);
         break;
       default:
-        sprite.setTexture(&walkDown1);
+        sprite.setTexture(&resourceManager.pwalkDown1);
     }
   }
 }

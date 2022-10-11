@@ -5,16 +5,10 @@
 #include <iostream>
 #include <random>
 
-#include "Obstacle.h"
-
 extern double xpos, ypos;
 extern sf::RenderWindow window;
 
 Obstacle::Obstacle() {
-  this->grass.loadFromFile("barrier/grass.png");
-  this->desert.loadFromFile("barrier/desert.png");
-  this->snow.loadFromFile("barrier/snow.png");
-  this->dirt.loadFromFile("barrier/dirt.png");
   this->sprite.setScale(sf::Vector2f(2, 2));
   this->sprite.setOrigin(960, 960);
 }

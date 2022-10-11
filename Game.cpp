@@ -1,7 +1,7 @@
-// g++ Game.cpp MainMenu.cpp ResourceManager.cpp Player.cpp UIManager.cpp
-// Enemy.cpp Beast.cpp Arrow.cpp Enemies.cpp PowerUp.cpp SpinningBlade.cpp
-// ObstacleGenerator.cpp Obstacle.cpp ExpBall.cpp ExpSpawner.cpp -lsfml-graphics
-// -lsfml-window -lsfml-system
+// g++ Game.cpp ResourceManager.cpp Player.cpp UIManager.cpp Enemy.cpp Beast.cpp
+// Arrow.cpp Enemies.cpp PowerUp.cpp SpinningBlade.cpp ObstacleGenerator.cpp
+// Obstacle.cpp ExpBall.cpp ExpSpawner.cpp-lsfml-graphics -lsfml-window
+// -lsfml-system
 
 #include <stdlib.h>
 
@@ -33,17 +33,17 @@ std ::string gameState;
 double width = sf::VideoMode::getDesktopMode().width;
 double height = sf::VideoMode::getDesktopMode().height;
 sf::RenderWindow window(sf::VideoMode(width, height), "GAME");
-Player P1(0, 0, width / 2, height / 2, &window);
 
-SpinningBlade b1(0);
 ObstacleGenerator og;
 ExpSpawner E1;
 ResourceManager resourceManager;
+Player P1(0, 0, width / 2, height / 2, &window);
 const sf::Time TimePerFrame = sf::seconds(1.f / 90.f);
 bool showQuitGameDialouge;
 bool isGameChanging;
 
 void gameLoop() {
+  SpinningBlade b1(0);
   UIManager UI(0, 0, width / 2, height / 2, &window);
   sf::Clock clk;
   sf::Time timeSinceLastUpdate = sf::Time::Zero;
@@ -110,7 +110,7 @@ void gameLoop() {
 
     window.clear(sf::Color::Black);
     sf::Text deathText;
-    deathText.setFont(resourceManager.deathFont);
+    deathText.setFont(resourceManager.defaultFont);
     deathText.setCharacterSize(80);
     deathText.setString("   YOU DIED!\n\nPRESS ENTER");
     deathText.setPosition(sf::Vector2f(-width / 10, -height / 10));

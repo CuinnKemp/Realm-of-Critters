@@ -7,14 +7,13 @@
 #include <iostream>
 #include <random>
 
+#include "Player.h"
+
 class UIManager {
  public:
-  sf::Texture emptyInfoTex, healthBarBottomTex, healthBarTopTex,
-      levelBarBottomTex, levelBarTopTex;
   sf::Sprite emptyInfo;
   sf::RectangleShape healthBarBottom, healthBarTop, levelBarBottom, levelBarTop;
   sf::Text timerText;
-  sf::Font timerFont;
   sf::Clock clock;
   double UIwidth, UIheight;
   int timer;
