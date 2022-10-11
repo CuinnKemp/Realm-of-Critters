@@ -17,8 +17,9 @@ SpinningBlade::SpinningBlade(int num) {
 
   this->sprite.setPosition(
       sf::Vector2f(this->coordinates[0] + 20, this->coordinates[1] + 20));
-  this->sprite.setSize(sf::Vector2f(14, 32));
-  this->texture1.loadFromFile("Fork.png");
+  this->sprite.setOrigin(7, 7);
+  this->sprite.setSize(sf::Vector2f(25, 25));
+  this->texture1.loadFromFile("Shuriken.png");
   this->sprite.setTexture(&texture1);
 
   count = 0;
@@ -37,7 +38,7 @@ void SpinningBlade::hitEnemy(Enemies* enemies) {
     float weaponY = sprite.getPosition().y;
     float enemyX = enemies->enemies[i]->coordinates[0];
     float enemyY = enemies->enemies[i]->coordinates[1];
-    if (abs(weaponX - enemyX) <= 30 && abs(weaponY - enemyY) <= 30) {
+    if (abs(weaponX - enemyX) <= 25 && abs(weaponY - enemyY) <= 25) {
       enemies->enemies[i]->health = enemies->enemies[i]->health - 50;
     }
   }
@@ -49,7 +50,7 @@ void SpinningBlade::movement() {
   this->coordinates[1] = ypos - (200 * cos((3.14 / 100) * count));
   this->sprite.setPosition(
       sf::Vector2f(this->coordinates[0], this->coordinates[1]));
-  this->sprite.rotate((3.14 / 100) * 250);
+  this->sprite.rotate((3.14 / 100) * 500);
   count++;
   if (count == 200) {
     count = 0;
