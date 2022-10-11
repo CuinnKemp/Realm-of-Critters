@@ -1,5 +1,7 @@
-// g++ Game.cpp Player.cpp Enemy.cpp Enemies.cpp Beast.cpp Slime.cpp Obstacle.cpp ObstacleGenerator.cpp Arrow.cpp PowerUp.cpp SpinningBlade.cpp ExpBall.cpp ExpContainer.cpp ExpSpawner.cpp PlayerArrow.cpp PlayerArrowSpawner.cpp -lsfml-graphics -lsfml-window -lsfml-system
-
+// g++ Game.cpp Player.cpp Enemy.cpp Enemies.cpp Beast.cpp Slime.cpp
+// Obstacle.cpp ObstacleGenerator.cpp Arrow.cpp PowerUp.cpp SpinningBlade.cpp
+// ExpBall.cpp ExpContainer.cpp ExpSpawner.cpp PlayerArrow.cpp
+// PlayerArrowSpawner.cpp -lsfml-graphics -lsfml-window -lsfml-system
 
 #include <stdlib.h>
 
@@ -19,27 +21,34 @@
 #include "ExpContainer.h"
 #include "ExpSpawner.h"
 #include "Obstacle.h"
-#include "Slime.h"
 #include "ObstacleGenerator.h"
 #include "Player.h"
-#include "SpinningBlade.h"
 #include "PlayerArrow.h"
 #include "PlayerArrowSpawner.h"
+#include "Slime.h"
+#include "SpinningBlade.h"
 
+// coordinates for the player
 double xpos, ypos;
 
+// Window and Desktop Settings for the Viewport
 double width = sf::VideoMode::getDesktopMode().width;
 double height = sf::VideoMode::getDesktopMode().height;
 sf::RenderWindow window(sf::VideoMode(width, height), "GAME");
-Player P1(0, 0, width/2, height/2, &window);
+Player P1(0, 0, width / 2, height / 2, &window);
 
+// Initialising Objects
 SpinningBlade b1(0);
 ObstacleGenerator og;
 ExpSpawner E1;
 
+// Outer Loop to Initialise
 int main() {
+  // Frame Rate Settings
   window.setFramerateLimit(120);
-  window.setVerticalSyncEnabled(1);
+  // window.setVerticalSyncEnabled(1);
+
+  // Loading Map and Textures in
   sf::Texture mapImage;
   sf::Texture extrasImage;
   sf::Sprite backgroundMap;
@@ -51,19 +60,29 @@ int main() {
   if (!extrasImage.loadFromFile("mapExtras.png")) {
     std::cout << "Could not load \"mapExtras.png\"!" << std::endl;
   }
+
+  // Setings for Map and Extras
   backgroundMap.scale(2, 2);
   backgroundMap.setTexture(mapImage);
   backgroundMap.setPosition(-3586, -3616);
+
   mapExtras.scale(2, 2);
   mapExtras.setTexture(extrasImage);
   mapExtras.setPosition(-2048, -2048);
+
+  // Main game Loop
   while (window.isOpen()) {
+    // Initialising Enemies & Player Arrows
     Enemies a1;
     PlayerArrowSpawner pA(&a1);
+
+    // While the Window is open
     sf::Event event;
     while (window.pollEvent(event)) {
       if (event.type == sf::Event::Closed) window.close();
     }
+
+    // Sets Background Map, Spawns Obstacles and EXP
     backgroundMap.setOrigin(-512, -512);
 
     for (int i = 0; i <= 237; i++) {
@@ -72,15 +91,19 @@ int main() {
     for (int i = 0; i < 25; i++) {
       E1.spawnNewExp();
     }
+
+    // WHile the Player is Alive and the window is still open
     while (P1.isAlive() && window.isOpen()) {
       sf::Event eventInner;
       while (window.pollEvent(eventInner)) {
         if (eventInner.type == sf::Event::Closed) window.close();
       }
-      window.draw(backgroundMap);
 
+      // Draws Background Map
+      window.draw(backgroundMap);
       og.updateObstacles();
 
+      // Adding Collision to Objects
       for (int i = 0; i < og.obstacleCounter; i++) {
         float playerX = P1.sprite.getPosition().x + 20;
         float playerY = P1.sprite.getPosition().y + 20;
@@ -92,22 +115,34 @@ int main() {
         }
       }
 
+      // Drawing Foliage on the Map
       window.draw(mapExtras);
+
+      // Spawning Player Arrows, firing them at enemies
       pA.drawArrows();
       pA.fireCounter = pA.fireCounter + 2;
       if (pA.fireCounter == 100) {
         pA.attack();
         pA.fireCounter = 0;
       }
+
+      // update command for enemies
       a1.updateEnemies();
+
+      // Drawing Player on the map
       P1.DrawPlayer(&window);
+
+      // update command for Abilities
       b1.updateAbility();
       b1.hitEnemy(&a1);
+
+      // Updating Exp and Map
       E1.updateExps();
       window.display();
       window.clear(sf::Color::White);
     }
 
+    // Death Screen if Player runs out of health
     window.clear(sf::Color::Black);
     sf::Text deathText;
     sf::Font deathFont;
@@ -118,6 +153,8 @@ int main() {
     deathText.setPosition(sf::Vector2f(-width / 10, -height / 10));
     window.draw(deathText);
     window.display();
+
+    // Waiting for Player Response on Death Screen
     bool waiting = 1;
     while (waiting == 1 && window.isOpen()) {
       sf::Event eventInner;
