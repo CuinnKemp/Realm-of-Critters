@@ -61,10 +61,8 @@ void PlayerArrowSpawner::drawArrows() {
       for (int j = i + 1; j < playerArrowCounter; j++) {
         playerArrows[j - 1] = playerArrows[j];
       }
-      .
-
-          // decrements
-          playerArrowCounter--;
+      // decrements
+      playerArrowCounter--;
     }
     // window.draw(playerArrows[i].sprite);
   }
