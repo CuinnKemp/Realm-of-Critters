@@ -82,27 +82,27 @@ PlayerArrow::PlayerArrow(Enemies* enemies) {
                              this->arrowCoordinates[1]);
     this->sprite.setSize(sf::Vector2f(10, 30));
 
-    
     // Calculates angle between player and enemy
-    double theta = atan2(targetCoordinates[0] - arrowCoordinates[0], targetCoordinates[1] - arrowCoordinates[1]);\
-    //std::cout << theta << " b" << std::endl;
+    double theta = atan2(
+        targetCoordinates[0] - arrowCoordinates[0],
+        targetCoordinates[1] -
+            arrowCoordinates[1]);  // std::cout << theta << " b" << std::endl;
     if (theta < 0.0) {
-      theta += TWOPI; 
+      theta += TWOPI;
     }
     theta = RAD2DEG * theta;
 
     // std::cout << theta << std::endl;
 
     // Rotates Sprite accordingly
-    this->sprite.rotate(180-theta);
-  
+    this->sprite.rotate(180 - theta);
   }
 }
 
 // detects if the sprite has collided with the closest enemy
 bool PlayerArrow::EnemycollisionDetection(Enemies* a1) {
-  //std::cout << "EnemycollisionDetection() 1" << std::endl;
-  //std::cout << closestenemy << std::endl;
+  // std::cout << "EnemycollisionDetection() 1" << std::endl;
+  // std::cout << closestenemy << std::endl;
   for (int i = 0; i < a1->enemyCounter; i++) {
     float weaponX = sprite.getPosition().x;
     float weaponY = sprite.getPosition().y;

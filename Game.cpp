@@ -121,12 +121,12 @@ void gameLoop() {
         window.draw(mapExtras);
 
         // Spawning Player Arrows, firing them at enemies
-        pA.drawArrows();
         pA.fireCounter = pA.fireCounter + 2;
-        if (pA.fireCounter == 100) {
+        if (pA.fireCounter >= 100) {
           pA.attack();
           pA.fireCounter = 0;
         }
+        pA.drawArrows();
 
         // update command for enemies
         a1.updateEnemies();
