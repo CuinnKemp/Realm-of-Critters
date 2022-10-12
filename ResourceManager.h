@@ -17,7 +17,11 @@ class ResourceManager {
       walkUp1, walkUp2, walkUp3, walkUp4, walkLeft1, walkLeft2, walkLeft3,
       walkLeft4, walkRight1, walkRight2, walkRight3, walkRight4, dialougeBoxTex,
       yesButtonTex, noButtonTex, yesButtonSelectedTex, noButtonSelectedTex,
-      settingsPageTex;
+      settingsPageTex, slimeWalkDown1, slimeWalkDown2, slimeWalkDown3,
+      slimeWalkDown4, slimeWalkUp1, slimeWalkUp2, slimeWalkUp3, slimeWalkUp4,
+      slimeWalkLeft1, slimeWalkLeft2, slimeWalkLeft3, slimeWalkLeft4,
+      slimeWalkRight1, slimeWalkRight2, slimeWalkRight3, slimeWalkRight4,
+      arrowTex;
   sf::Font defaultFont;
   ResourceManager();
   void loadMainMenu();

@@ -9,12 +9,14 @@
 #include "Enemy.h"
 #include "ExpSpawner.h"
 #include "Player.h"
+#include "ResourceManager.h"
 
 // External:
 extern double xpos, ypos;        // Player Position
 extern sf::RenderWindow window;  // Render Window
 extern ExpSpawner E1;            // Exp Spawner
 extern Player P1;                // Player Class
+extern ResourceManager resourceManager;
 
 Slime::Slime() {
   // Spawn Coordinates, anywhere between 400 pixels of the current position of
@@ -42,27 +44,11 @@ Slime::Slime() {
   this->sprite.setSize(sf::Vector2f(16, 16));
 
   // Loads Animation Files
-  walkDown1.loadFromFile("slimeAnimation/walkDown1.png");
-  walkDown2.loadFromFile("slimeAnimation/walkDown2.png");
-  walkDown3.loadFromFile("slimeAnimation/walkDown3.png");
-  walkDown4.loadFromFile("slimeAnimation/walkDown4.png");
-  walkUp1.loadFromFile("slimeAnimation/walkUp1.png");
-  walkUp2.loadFromFile("slimeAnimation/walkUp2.png");
-  walkUp3.loadFromFile("slimeAnimation/walkUp3.png");
-  walkUp4.loadFromFile("slimeAnimation/walkUp4.png");
-  walkLeft1.loadFromFile("slimeAnimation/walkLeft1.png");
-  walkLeft2.loadFromFile("slimeAnimation/walkLeft2.png");
-  walkLeft3.loadFromFile("slimeAnimation/walkLeft3.png");
-  walkLeft4.loadFromFile("slimeAnimation/walkLeft4.png");
-  walkRight1.loadFromFile("slimeAnimation/walkRight1.png");
-  walkRight2.loadFromFile("slimeAnimation/walkRight2.png");
-  walkRight3.loadFromFile("slimeAnimation/walkRight3.png");
-  walkRight4.loadFromFile("slimeAnimation/walkRight4.png");
 
   // Initialises sprite texture, size and shape
   this->sprite.setTextureRect(rectSourceSprite);
   this->sprite.setSize(sf::Vector2f(32, 32));
-  this->sprite.setTexture(&walkDown1);
+  this->sprite.setTexture(&resourceManager.slimeWalkDown1);
 
   // initialises movement direction, current status and animation count
   this->direction = 4;
@@ -72,7 +58,7 @@ Slime::Slime() {
 
   // initialises total and health
   this->count = 0;
-  this->health = 50;
+  this->health = 25;
 }
 
 // Destructor upon death to delete coordinates
@@ -156,87 +142,87 @@ bool Slime::updateEnemy() {
   if (isMoving == false) {
     switch (direction) {
       case 1:
-        sprite.setTexture(&walkLeft1);
+        sprite.setTexture(&resourceManager.slimeWalkLeft1);
         break;
       case 2:
-        sprite.setTexture(&walkRight1);
+        sprite.setTexture(&resourceManager.slimeWalkRight1);
         break;
       case 3:
-        sprite.setTexture(&walkUp1);
+        sprite.setTexture(&resourceManager.slimeWalkUp1);
         break;
       case 4:
-        sprite.setTexture(&walkDown1);
+        sprite.setTexture(&resourceManager.slimeWalkDown1);
         break;
       default:
-        sprite.setTexture(&walkDown1);
+        sprite.setTexture(&resourceManager.slimeWalkDown1);
     }
   } else if (remainder(animationCount / 8, 2) == 0) {
     switch (direction) {
       case 1:
-        sprite.setTexture(&walkLeft4);
+        sprite.setTexture(&resourceManager.slimeWalkLeft4);
         break;
       case 2:
-        sprite.setTexture(&walkRight4);
+        sprite.setTexture(&resourceManager.slimeWalkRight4);
         break;
       case 3:
-        sprite.setTexture(&walkUp4);
+        sprite.setTexture(&resourceManager.slimeWalkUp4);
         break;
       case 4:
-        sprite.setTexture(&walkDown4);
+        sprite.setTexture(&resourceManager.slimeWalkDown4);
         break;
       default:
-        sprite.setTexture(&walkDown4);
+        sprite.setTexture(&resourceManager.slimeWalkDown4);
     }
   } else if (remainder(animationCount / 6, 3) == 0) {
     switch (direction) {
       case 1:
-        sprite.setTexture(&walkLeft3);
+        sprite.setTexture(&resourceManager.slimeWalkLeft3);
         break;
       case 2:
-        sprite.setTexture(&walkRight3);
+        sprite.setTexture(&resourceManager.slimeWalkRight3);
         break;
       case 3:
-        sprite.setTexture(&walkUp3);
+        sprite.setTexture(&resourceManager.slimeWalkUp3);
         break;
       case 4:
-        sprite.setTexture(&walkDown3);
+        sprite.setTexture(&resourceManager.slimeWalkDown3);
         break;
       default:
-        sprite.setTexture(&walkDown3);
+        sprite.setTexture(&resourceManager.slimeWalkDown3);
     }
   } else if (remainder(animationCount / 4, 2) == 0) {
     switch (direction) {
       case 1:
-        sprite.setTexture(&walkLeft2);
+        sprite.setTexture(&resourceManager.slimeWalkLeft2);
         break;
       case 2:
-        sprite.setTexture(&walkRight2);
+        sprite.setTexture(&resourceManager.slimeWalkRight2);
         break;
       case 3:
-        sprite.setTexture(&walkUp2);
+        sprite.setTexture(&resourceManager.slimeWalkUp2);
         break;
       case 4:
-        sprite.setTexture(&walkDown2);
+        sprite.setTexture(&resourceManager.slimeWalkDown2);
         break;
       default:
-        sprite.setTexture(&walkDown2);
+        sprite.setTexture(&resourceManager.slimeWalkDown2);
     }
   } else {
     switch (direction) {
       case 1:
-        sprite.setTexture(&walkLeft1);
+        sprite.setTexture(&resourceManager.slimeWalkLeft1);
         break;
       case 2:
-        sprite.setTexture(&walkRight1);
+        sprite.setTexture(&resourceManager.slimeWalkRight1);
         break;
       case 3:
-        sprite.setTexture(&walkUp1);
+        sprite.setTexture(&resourceManager.slimeWalkUp1);
         break;
       case 4:
-        sprite.setTexture(&walkDown1);
+        sprite.setTexture(&resourceManager.slimeWalkDown1);
         break;
       default:
-        sprite.setTexture(&walkDown1);
+        sprite.setTexture(&resourceManager.slimeWalkDown1);
     }
   }
   animationCount++;

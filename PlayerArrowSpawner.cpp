@@ -7,6 +7,9 @@
 #include <random>
 
 #include "PlayerArrow.h"
+#include "ResourceManager.h"
+
+extern ResourceManager resourceManager;
 
 PlayerArrowSpawner::PlayerArrowSpawner(Enemies* a1) {
   // Copies Enemey Array into PlayerArrowSpawner
@@ -14,7 +17,6 @@ PlayerArrowSpawner::PlayerArrowSpawner(Enemies* a1) {
 
   // Initialisies Counter and Array; loads Sprite
   playerArrowCounter = 0;
-  texturearrow.loadFromFile("playerAnimation/Arrow.png");
   playerArrows = new PlayerArrow[0];
 }
 
@@ -49,7 +51,7 @@ void PlayerArrowSpawner::drawArrows() {
   // For all active arrows
   for (int i = 0; i < playerArrowCounter; i++) {
     // Draws Sprite
-    playerArrows[i].sprite.setTexture(&texturearrow);
+    playerArrows[i].sprite.setTexture(&resourceManager.arrowTex);
 
     // collision Detection
     if (!(this->playerArrows[i].UpdatePosition(this->a1))) {
@@ -59,9 +61,10 @@ void PlayerArrowSpawner::drawArrows() {
       for (int j = i + 1; j < playerArrowCounter; j++) {
         playerArrows[j - 1] = playerArrows[j];
       }
+      .
 
-      // decrements
-      playerArrowCounter--;
+          // decrements
+          playerArrowCounter--;
     }
     // window.draw(playerArrows[i].sprite);
   }

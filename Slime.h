@@ -12,12 +12,8 @@
 // Similair to Beast.h, A simple Enemy collides with player to do damage
 class Slime : public Enemy {
  public:
-
-  // Sprites and Animation cycle
+  // Sprite
   sf::RectangleShape sprite;
-  sf::Texture walkDown1, walkDown2, walkDown3, walkDown4, walkUp1, walkUp2,
-      walkUp3, walkUp4, walkLeft1, walkLeft2, walkLeft3, walkLeft4, walkRight1,
-      walkRight2, walkRight3, walkRight4;
 
   // variables for direction, movement and animation
   int count;

@@ -45,6 +45,7 @@ ObstacleGenerator og;
 ExpSpawner E1;
 ResourceManager resourceManager;
 Player P1(0, 0, width / 2, height / 2, &window);
+Enemies a1;
 const sf::Time TimePerFrame = sf::seconds(1.f / 90.f);
 bool showQuitGameDialouge;
 bool showSettingsPage;
@@ -69,7 +70,6 @@ void gameLoop() {
   // Main game Loop
   while (window.isOpen()) {
     // Initialising Enemies & Player Arrows
-    Enemies a1;
     PlayerArrowSpawner pA(&a1);
 
     // While the Window is open
@@ -120,6 +120,9 @@ void gameLoop() {
         // Drawing Foliage on the Map
         window.draw(mapExtras);
 
+        // update command for enemies
+        a1.updateEnemies();
+
         // Spawning Player Arrows, firing them at enemies
         pA.fireCounter = pA.fireCounter + 2;
         if (pA.fireCounter >= 100) {
@@ -127,9 +130,6 @@ void gameLoop() {
           pA.fireCounter = 0;
         }
         pA.drawArrows();
-
-        // update command for enemies
-        a1.updateEnemies();
 
         // Drawing Player on the map
         P1.DrawPlayer(&window);

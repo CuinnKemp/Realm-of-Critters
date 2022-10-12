@@ -10,12 +10,11 @@
 #include "ResourceManager.h"
 
 // External:
-extern double xpos, ypos;       //Player Position
-extern sf::RenderWindow window; //Render Window
-extern ResourceManager resourceManager; //ResourceManager
+extern double xpos, ypos;                // Player Position
+extern sf::RenderWindow window;          // Render Window
+extern ResourceManager resourceManager;  // ResourceManager
 
 SpinningBlade::SpinningBlade(int num) {
-
   // Sets Coordinates of the player
   this->coordinates[0] = xpos;
   this->coordinates[1] = ypos;
@@ -23,7 +22,7 @@ SpinningBlade::SpinningBlade(int num) {
   // Sets the Position of the shuriken sprite, 20 pixels out from the player
   this->sprite.setPosition(
       sf::Vector2f(this->coordinates[0] + 20, this->coordinates[1] + 20));
-      
+
   this->sprite.setOrigin(7, 7);
   this->sprite.setSize(sf::Vector2f(25, 25));
   // loads texture and sets it
@@ -41,10 +40,8 @@ SpinningBlade::~SpinningBlade() {
 }
 
 void SpinningBlade::hitEnemy(Enemies* enemies) {
-
   // for amount of enemies on screen
   for (int i = 0; i < enemies->enemyCounter; i++) {
-
     // gets position of the sprite
     float weaponX = sprite.getPosition().x;
     float weaponY = sprite.getPosition().y;
@@ -52,8 +49,8 @@ void SpinningBlade::hitEnemy(Enemies* enemies) {
     // gets position of the current enemy in the loop
     float enemyX = enemies->enemies[i]->coordinates[0];
     float enemyY = enemies->enemies[i]->coordinates[1];
-    
-// checks collision, if collided deals damage to the enemies
+
+    // checks collision, if collided deals damage to the enemies
     if (abs(weaponX - enemyX) <= 25 && abs(weaponY - enemyY) <= 25) {
       enemies->enemies[i]->health = enemies->enemies[i]->health - 50;
     }
@@ -73,7 +70,8 @@ void SpinningBlade::movement() {
   // rotates the sprite accordingly
   this->sprite.rotate((3.14 / 100) * 500);
 
-  // Iterates count which causes the spin, resets at 200 to make a perfect circle
+  // Iterates count which causes the spin, resets at 200 to make a perfect
+  // circle
   count++;
   if (count == 200) {
     count = 0;
@@ -82,7 +80,6 @@ void SpinningBlade::movement() {
 }
 
 bool SpinningBlade::updateAbility() {
-  
   // calls movement
   this->movement();
 

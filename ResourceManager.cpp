@@ -24,6 +24,7 @@ ResourceManager::ResourceManager() {
   pwalkRight2.loadFromFile("playerAnimation/Walk/walkRight2.png");
   pwalkRight3.loadFromFile("playerAnimation/Walk/walkRight3.png");
   pwalkRight4.loadFromFile("playerAnimation/Walk/walkRight4.png");
+  arrowTex.loadFromFile("playerAnimation/Arrow.png");
 }
 
 void ResourceManager::loadMainMenu() {
@@ -78,6 +79,23 @@ void ResourceManager::loadGame() {
   walkRight2.loadFromFile("beastAnimation/walkRight2.png");
   walkRight3.loadFromFile("beastAnimation/walkRight3.png");
   walkRight4.loadFromFile("beastAnimation/walkRight4.png");
+
+  slimeWalkDown1.loadFromFile("slimeAnimation/walkDown1.png");
+  slimeWalkDown2.loadFromFile("slimeAnimation/walkDown2.png");
+  slimeWalkDown3.loadFromFile("slimeAnimation/walkDown3.png");
+  slimeWalkDown4.loadFromFile("slimeAnimation/walkDown4.png");
+  slimeWalkUp1.loadFromFile("slimeAnimation/walkUp1.png");
+  slimeWalkUp2.loadFromFile("slimeAnimation/walkUp2.png");
+  slimeWalkUp3.loadFromFile("slimeAnimation/walkUp3.png");
+  slimeWalkUp4.loadFromFile("slimeAnimation/walkUp4.png");
+  slimeWalkLeft1.loadFromFile("slimeAnimation/walkLeft1.png");
+  slimeWalkLeft2.loadFromFile("slimeAnimation/walkLeft2.png");
+  slimeWalkLeft3.loadFromFile("slimeAnimation/walkLeft3.png");
+  slimeWalkLeft4.loadFromFile("slimeAnimation/walkLeft4.png");
+  slimeWalkRight1.loadFromFile("slimeAnimation/walkRight1.png");
+  slimeWalkRight2.loadFromFile("slimeAnimation/walkRight2.png");
+  slimeWalkRight3.loadFromFile("slimeAnimation/walkRight3.png");
+  slimeWalkRight4.loadFromFile("slimeAnimation/walkRight4.png");
 
   emptyInfoTex.loadFromFile("UI/EmptyInfo.png");
   healthBarBottomTex.loadFromFile("UI/HealthBarBottom.png");
