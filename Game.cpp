@@ -133,14 +133,25 @@ void gameLoop() {
 }
 
 void mainMenu() {
-  sf::Sprite playButton, loadButton, settingsButton, quitButton,
-      quitGameDialougeBox, background, menuTitle;
+  sf::Sprite playButton, loadButton, settingsButton, quitButton, background,
+      menuTitle, dialougeBox, yesButton, noButton;
   menuTitle.setTexture(resourceManager.menuTitleTex);
   background.setTexture(resourceManager.backgroundTex);
   playButton.setTexture(resourceManager.playButtonTex, true);
   loadButton.setTexture(resourceManager.loadButtonTex);
   settingsButton.setTexture(resourceManager.settingsButtonTex);
   quitButton.setTexture(resourceManager.quitButtonTex);
+
+  dialougeBox.setTexture(resourceManager.dialougeBoxTex);
+  dialougeBox.setScale(1, 1);
+  dialougeBox.setPosition(-285, -75);
+  yesButton.setTexture(resourceManager.yesButtonTex);
+  yesButton.setScale(2, 2);
+  yesButton.setPosition(-150, -10);
+  noButton.setTexture(resourceManager.noButtonTex);
+  noButton.setScale(2, 2);
+  noButton.setPosition(0, -10);
+
   background.setScale(6, 6);
   background.setPosition(-480, -270);
   menuTitle.setScale(6, 6);
@@ -179,11 +190,9 @@ void mainMenu() {
     quitButton.setTexture(resourceManager.quitButtonSelectedTex, true);
     if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
       showQuitGameDialouge = true;
-      window.close();
     }
-  }
-  if (showQuitGameDialouge == true) {
-    window.draw(background);
+  } else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
+    showQuitGameDialouge = true;
   }
 
   window.draw(background);
@@ -192,6 +201,41 @@ void mainMenu() {
   window.draw(loadButton);
   window.draw(settingsButton);
   window.draw(quitButton);
+
+  if (showQuitGameDialouge == true) {
+    if (abs(sf::Mouse::getPosition(window).x -
+            yesButton.getGlobalBounds().left) > 1175 &&
+        abs(sf::Mouse::getPosition(window).x -
+            yesButton.getGlobalBounds().left) < 1580 &&
+        abs(sf::Mouse::getPosition(window).y -
+            yesButton.getGlobalBounds().top) > 780 &&
+        abs(sf::Mouse::getPosition(window).y -
+            yesButton.getGlobalBounds().top) < 980) {
+      yesButton.setPosition(-150, -9);
+      yesButton.setTexture(resourceManager.yesButtonSelectedTex, true);
+      if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
+        window.close();
+      }
+    }
+    if (abs(sf::Mouse::getPosition(window).x -
+            noButton.getGlobalBounds().left) > 1500 &&
+        abs(sf::Mouse::getPosition(window).x -
+            noButton.getGlobalBounds().left) < 1895 &&
+        abs(sf::Mouse::getPosition(window).y - noButton.getGlobalBounds().top) >
+            780 &&
+        abs(sf::Mouse::getPosition(window).y - noButton.getGlobalBounds().top) <
+            980) {
+      noButton.setPosition(0, -9);
+      noButton.setTexture(resourceManager.noButtonSelectedTex, true);
+      if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
+        showQuitGameDialouge = false;
+      }
+    }
+    window.draw(dialougeBox);
+    window.draw(yesButton);
+    window.draw(noButton);
+  }
+
   window.setFramerateLimit(120);
   window.display();
 }

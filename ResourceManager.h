@@ -15,7 +15,8 @@ class ResourceManager {
       desert, snow, dirt, exp1, exp2, exp3, exp4, exp5, exp6, exp7, exp8,
       walkDown1, walkDown2, walkDown3, walkDown4, walkUp1, walkUp2, walkUp3,
       walkUp4, walkLeft1, walkLeft2, walkLeft3, walkLeft4, walkRight1,
-      walkRight2, walkRight3, walkRight4;
+      walkRight2, walkRight3, walkRight4, dialougeBoxTex, yesButtonTex,
+      noButtonTex, yesButtonSelectedTex, noButtonSelectedTex;
   sf::Font defaultFont;
   ResourceManager();
   void loadMainMenu();

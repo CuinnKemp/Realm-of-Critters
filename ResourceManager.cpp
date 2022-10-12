@@ -36,6 +36,11 @@ void ResourceManager::loadMainMenu() {
   playButtonSelectedTex.loadFromFile("UI/PlayButtonSelected.png");
   loadButtonSelectedTex.loadFromFile("UI/LoadButtonSelected.png");
   quitButtonSelectedTex.loadFromFile("UI/QuitButtonSelected.png");
+  dialougeBoxTex.loadFromFile("UI/DialougeBox.png");
+  yesButtonTex.loadFromFile("UI/YesButton.png");
+  noButtonTex.loadFromFile("UI/NoButton.png");
+  yesButtonSelectedTex.loadFromFile("UI/YesButtonSelected.png");
+  noButtonSelectedTex.loadFromFile("UI/NoButtonSelected.png");
 }
 
 void ResourceManager::loadGame() {
