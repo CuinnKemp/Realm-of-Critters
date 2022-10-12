@@ -53,10 +53,10 @@ bool waiting;
 
 void gameLoop() {
   SpinningBlade b1(0);
-  UIManager UI(0, 0, width / 2, height / 2, &window);
   sf::Clock clk;
   sf::Time timeSinceLastUpdate = sf::Time::Zero;
   sf::Sprite backgroundMap, mapExtras;
+  UIManager UI(0, 0, width / 2, height / 2, &window);
   // Setings for Map and Extras
   backgroundMap.scale(2, 2);
   backgroundMap.setTexture(resourceManager.mapImage);

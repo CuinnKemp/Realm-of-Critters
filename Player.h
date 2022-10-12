@@ -14,10 +14,11 @@ class Player {
   // Speed and Prior Position
   double movSpeed, oldXpos, oldYpos;
 
-  //Sprites, Animations and Walk cycle
+  // Sprites, Animations and Walk cycle
   sf::RectangleShape sprite;
   sf::RenderWindow* window;
   sf::View camera;
+  sf::Clock clock;
 
   // Properties of Player, health, exp, direction, boolean movement, level
   double health;
@@ -28,8 +29,8 @@ class Player {
   int level;
   int animationCount;
 
-
-  // Constructor with parameters, position and Screen Width and Height to set position
+  // Constructor with parameters, position and Screen Width and Height to set
+  // position
   Player(double Pxpos, double Pypos, double width, double height,
          sf::RenderWindow* window);
 
@@ -50,7 +51,7 @@ class Player {
 
   // Checks whether or not Player is alive
   bool isAlive();
-  
+
   // Draws Player
   void DrawPlayer(sf::RenderWindow* window);
 };

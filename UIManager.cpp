@@ -55,7 +55,7 @@ void UIManager::DrawUIManager(sf::RenderWindow* window) {
     levelBarBottom.setSize(sf::Vector2f(0, 0));
     levelBarTop.setSize(sf::Vector2f(0, 0));
   }
-  timer = round(clock.getElapsedTime().asSeconds() * 1000.0) / 1000.0;
+  timer = round(P1.clock.getElapsedTime().asSeconds() * 1000.0) / 1000.0;
   if (timer < 10) {
     timerText.setString("00:0" + std::to_string(timer));
   } else if (timer < 60) {
@@ -83,6 +83,6 @@ void UIManager::DrawUIManager(sf::RenderWindow* window) {
 }
 
 void UIManager::resetUI() {
-  clock.restart();
+  P1.clock.restart();
   timer = 0;
 }

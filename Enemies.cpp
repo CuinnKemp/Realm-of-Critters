@@ -8,8 +8,10 @@
 
 #include "Beast.h"
 #include "Enemy.h"
+#include "Player.h"
 #include "Slime.h"
 
+extern Player P1;
 Enemies::Enemies() {
   // Initialises all variables, sets the enemy counter to 0,
   // creates an array of enemies, and sets the spawn rate to 5
@@ -69,7 +71,8 @@ void Enemies::updateEnemies() {
   // increments the timer, if it reachers threshold it spawns a new enemy on
   // screen
   timer++;
-  if (timer == 200) {
+  if (timer >= (1 / P1.clock.getElapsedTime().asSeconds() +
+                (100 - P1.clock.getElapsedTime().asSeconds()))) {
     this->spawnNewEnemy();
     timer = 0;
   }

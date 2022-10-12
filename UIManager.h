@@ -14,7 +14,6 @@ class UIManager {
   sf::Sprite emptyInfo;
   sf::RectangleShape healthBarBottom, healthBarTop, levelBarBottom, levelBarTop;
   sf::Text timerText;
-  sf::Clock clock;
   double UIwidth, UIheight;
   int timer;
 
