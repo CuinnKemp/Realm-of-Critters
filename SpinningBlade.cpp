@@ -7,10 +7,12 @@
 #include <random>
 
 #include "Enemies.h"
+#include "ResourceManager.h"
 
 // External:
 extern double xpos, ypos;       //Player Position
 extern sf::RenderWindow window; //Render Window
+extern ResourceManager resourceManager; //ResourceManager
 
 SpinningBlade::SpinningBlade(int num) {
 
@@ -18,14 +20,14 @@ SpinningBlade::SpinningBlade(int num) {
   this->coordinates[0] = xpos;
   this->coordinates[1] = ypos;
 
-  // Sets the Position of the blade sprite, 20 pixels out from the player
+  // Sets the Position of the shuriken sprite, 20 pixels out from the player
   this->sprite.setPosition(
       sf::Vector2f(this->coordinates[0] + 20, this->coordinates[1] + 20));
-  this->sprite.setSize(sf::Vector2f(14, 32));
-
+      
+  this->sprite.setOrigin(7, 7);
+  this->sprite.setSize(sf::Vector2f(25, 25));
   // loads texture and sets it
-  this->texture1.loadFromFile("Fork.png");
-  this->sprite.setTexture(&texture1);
+  this->sprite.setTexture(&resourceManager.shuriken);
 
   // initialises count
   count = 0;
@@ -50,9 +52,9 @@ void SpinningBlade::hitEnemy(Enemies* enemies) {
     // gets position of the current enemy in the loop
     float enemyX = enemies->enemies[i]->coordinates[0];
     float enemyY = enemies->enemies[i]->coordinates[1];
-
-    //checks collision, if collided deals damage to the enemies
-    if (abs(weaponX - enemyX) <= 30 && abs(weaponY - enemyY) <= 30) {
+    
+// checks collision, if collided deals damage to the enemies
+    if (abs(weaponX - enemyX) <= 25 && abs(weaponY - enemyY) <= 25) {
       enemies->enemies[i]->health = enemies->enemies[i]->health - 50;
     }
   }
@@ -67,8 +69,9 @@ void SpinningBlade::movement() {
   // Sets the sprite position to the new coordinates
   this->sprite.setPosition(
       sf::Vector2f(this->coordinates[0], this->coordinates[1]));
+
   // rotates the sprite accordingly
-  this->sprite.rotate((3.14 / 100) * 250);
+  this->sprite.rotate((3.14 / 100) * 500);
 
   // Iterates count which causes the spin, resets at 200 to make a perfect circle
   count++;

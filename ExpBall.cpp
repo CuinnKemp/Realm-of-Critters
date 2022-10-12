@@ -8,6 +8,7 @@
 
 #include "ExpContainer.h"
 #include "Player.h"
+#include "ResourceManager.h"
 
 
 // Extern :
@@ -15,9 +16,8 @@ extern double xpos, ypos;       // player coordinates
 extern sf::RenderWindow window; // Render Window
 
 extern Player P1;
-
+extern ResourceManager resourceManager;
 ExpBall::ExpBall() {
-
   // Loads Animation Texture
   exp1.loadFromFile("expAnimation/exp1.png");
   exp2.loadFromFile("expAnimation/exp2.png");
@@ -28,7 +28,7 @@ ExpBall::ExpBall() {
   exp7.loadFromFile("expAnimation/exp7.png");
   exp8.loadFromFile("expAnimation/exp8.png");
   sprite.setTextureRect(rectSourceSprite);
-  sprite.setTexture(exp1);
+  sprite.setTexture(resourceManager.exp1);
   sprite.setScale(sf::Vector2f(2, 2));
 
   // Initialises Timer
@@ -57,28 +57,28 @@ bool ExpBall::updateExp() {
     timer = 0;
   }
   if (timer == 0) {
-    this->sprite.setTexture(exp1);
+    this->sprite.setTexture(resourceManager.exp1);
     sprite.setPosition(sprite.getPosition().x, sprite.getPosition().y + 2);
   } else if (timer == 10) {
-    this->sprite.setTexture(exp2);
+    this->sprite.setTexture(resourceManager.exp2);
     sprite.setPosition(sprite.getPosition().x, sprite.getPosition().y + 2);
   } else if (timer == 20) {
-    this->sprite.setTexture(exp3);
+    this->sprite.setTexture(resourceManager.exp3);
     sprite.setPosition(sprite.getPosition().x, sprite.getPosition().y + 2);
   } else if (timer == 30) {
-    this->sprite.setTexture(exp4);
+    this->sprite.setTexture(resourceManager.exp4);
     sprite.setPosition(sprite.getPosition().x, sprite.getPosition().y + 2);
   } else if (timer == 40) {
-    this->sprite.setTexture(exp5);
+    this->sprite.setTexture(resourceManager.exp5);
     sprite.setPosition(sprite.getPosition().x, sprite.getPosition().y - 2);
   } else if (timer == 50) {
-    this->sprite.setTexture(exp6);
+    this->sprite.setTexture(resourceManager.exp6);
     sprite.setPosition(sprite.getPosition().x, sprite.getPosition().y - 2);
   } else if (timer == 60) {
-    this->sprite.setTexture(exp7);
+    this->sprite.setTexture(resourceManager.exp7);
     sprite.setPosition(sprite.getPosition().x, sprite.getPosition().y - 2);
   } else if (timer == 80) {
-    this->sprite.setTexture(exp8);
+    this->sprite.setTexture(resourceManager.exp8);
     sprite.setPosition(sprite.getPosition().x, sprite.getPosition().y - 2);
   }
   timer++;

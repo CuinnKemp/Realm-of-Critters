@@ -13,10 +13,6 @@
 // Power up of a spinning blade around the player
 class SpinningBlade : public PowerUp {
  public:
- 
-  // Texture for sprite
-  sf::Texture texture1;
-
   // Rotation count
   int count;
 

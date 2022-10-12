@@ -11,7 +11,6 @@ class Obstacle {
 
   // Sprites
   sf::Sprite sprite;
-  sf::Texture grass, desert, snow, dirt;
 
   //Default Constructor and Destructor
   Obstacle();  // 1 - grass, 2 - desert, 3 - snow, 4 - dirt

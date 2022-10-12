@@ -7,13 +7,13 @@
 #include <random>
 
 #include "Obstacle.h"
-
+#include "ResourceManager.h"
 ObstacleGenerator::ObstacleGenerator() {
   // Initialising counter and size of Obstacle Array
   obstacleCounter = 0;
   obstacles = new Obstacle*[0];
 }
-
+extern ResourceManager resourceManager;
 void ObstacleGenerator::spawnNewObstacle() {
   //Creates temporary Array of Obstacles
   Obstacle** holdObstacleGenerator = this->obstacles;
@@ -51,20 +51,16 @@ void ObstacleGenerator::spawnNewObstacle() {
   }
   if (obstacles[obstacleCounter]->coordinates[0] <= 1888 &&
       obstacles[obstacleCounter]->coordinates[1] <= 1888) {
-    obstacles[obstacleCounter]->sprite.setTexture(
-        obstacles[obstacleCounter]->grass);
+    obstacles[obstacleCounter]->sprite.setTexture(resourceManager.grass);
   } else if (obstacles[obstacleCounter]->coordinates[0] >= 1888 &&
              obstacles[obstacleCounter]->coordinates[1] <= 1888) {
-    obstacles[obstacleCounter]->sprite.setTexture(
-        obstacles[obstacleCounter]->desert);
+    obstacles[obstacleCounter]->sprite.setTexture(resourceManager.desert);
   } else if (obstacles[obstacleCounter]->coordinates[0] <= 1888 &&
              obstacles[obstacleCounter]->coordinates[1] >= 1888) {
-    obstacles[obstacleCounter]->sprite.setTexture(
-        obstacles[obstacleCounter]->snow);
+    obstacles[obstacleCounter]->sprite.setTexture(resourceManager.snow);
   } else if (obstacles[obstacleCounter]->coordinates[0] >= 1888 &&
              obstacles[obstacleCounter]->coordinates[1] >= 1888) {
-    obstacles[obstacleCounter]->sprite.setTexture(
-        obstacles[obstacleCounter]->dirt);
+    obstacles[obstacleCounter]->sprite.setTexture(resourceManager.dirt);
   }
 
   // Sets the Sprite position to the individual cooridnates of each Obstacle in the array, 

@@ -9,12 +9,12 @@
 #include "Arrow.h"
 #include "Enemy.h"
 #include "ExpSpawner.h"
+#include "ResourceManager.h"
 
-
-// External:
 extern double xpos, ypos;       // Player Position
 extern sf::RenderWindow window; // Render Window
 extern ExpSpawner E1;           // Exp Spawner
+extern ResourceManager resourceManager;
 
 Beast::Beast() {
   // initialises the arrow counter
@@ -61,9 +61,10 @@ Beast::Beast() {
   walkRight4.loadFromFile("beastAnimation/walkRight4.png");
 
   // Initialises the movement, direction, sprite size & texture of the enemy
+
   this->sprite.setTextureRect(rectSourceSprite);
   this->sprite.setSize(sf::Vector2f(32, 32));
-  this->sprite.setTexture(&walkDown1);
+  this->sprite.setTexture(&resourceManager.walkDown1);
   this->direction = 4;
   this->isMoving = false;
   this->animationCount = 0;
@@ -207,87 +208,87 @@ bool Beast::updateEnemy() {
   if (isMoving == false) {
     switch (direction) {
       case 1:
-        sprite.setTexture(&walkLeft1);
+        sprite.setTexture(&resourceManager.walkLeft1);
         break;
       case 2:
-        sprite.setTexture(&walkRight1);
+        sprite.setTexture(&resourceManager.walkRight1);
         break;
       case 3:
-        sprite.setTexture(&walkUp1);
+        sprite.setTexture(&resourceManager.walkUp1);
         break;
       case 4:
-        sprite.setTexture(&walkDown1);
+        sprite.setTexture(&resourceManager.walkDown1);
         break;
       default:
-        sprite.setTexture(&walkDown1);
+        sprite.setTexture(&resourceManager.walkDown1);
     }
   } else if (remainder(animationCount / 8, 2) == 0) {
     switch (direction) {
       case 1:
-        sprite.setTexture(&walkLeft4);
+        sprite.setTexture(&resourceManager.walkLeft4);
         break;
       case 2:
-        sprite.setTexture(&walkRight4);
+        sprite.setTexture(&resourceManager.walkRight4);
         break;
       case 3:
-        sprite.setTexture(&walkUp4);
+        sprite.setTexture(&resourceManager.walkUp4);
         break;
       case 4:
-        sprite.setTexture(&walkDown4);
+        sprite.setTexture(&resourceManager.walkDown4);
         break;
       default:
-        sprite.setTexture(&walkDown4);
+        sprite.setTexture(&resourceManager.walkDown4);
     }
   } else if (remainder(animationCount / 6, 3) == 0) {
     switch (direction) {
       case 1:
-        sprite.setTexture(&walkLeft3);
+        sprite.setTexture(&resourceManager.walkLeft3);
         break;
       case 2:
-        sprite.setTexture(&walkRight3);
+        sprite.setTexture(&resourceManager.walkRight3);
         break;
       case 3:
-        sprite.setTexture(&walkUp3);
+        sprite.setTexture(&resourceManager.walkUp3);
         break;
       case 4:
-        sprite.setTexture(&walkDown3);
+        sprite.setTexture(&resourceManager.walkDown3);
         break;
       default:
-        sprite.setTexture(&walkDown3);
+        sprite.setTexture(&resourceManager.walkDown3);
     }
   } else if (remainder(animationCount / 4, 2) == 0) {
     switch (direction) {
       case 1:
-        sprite.setTexture(&walkLeft2);
+        sprite.setTexture(&resourceManager.walkLeft2);
         break;
       case 2:
-        sprite.setTexture(&walkRight2);
+        sprite.setTexture(&resourceManager.walkRight2);
         break;
       case 3:
-        sprite.setTexture(&walkUp2);
+        sprite.setTexture(&resourceManager.walkUp2);
         break;
       case 4:
-        sprite.setTexture(&walkDown2);
+        sprite.setTexture(&resourceManager.walkDown2);
         break;
       default:
-        sprite.setTexture(&walkDown2);
+        sprite.setTexture(&resourceManager.walkDown2);
     }
   } else {
     switch (direction) {
       case 1:
-        sprite.setTexture(&walkLeft1);
+        sprite.setTexture(&resourceManager.walkLeft1);
         break;
       case 2:
-        sprite.setTexture(&walkRight1);
+        sprite.setTexture(&resourceManager.walkRight1);
         break;
       case 3:
-        sprite.setTexture(&walkUp1);
+        sprite.setTexture(&resourceManager.walkUp1);
         break;
       case 4:
-        sprite.setTexture(&walkDown1);
+        sprite.setTexture(&resourceManager.walkDown1);
         break;
       default:
-        sprite.setTexture(&walkDown1);
+        sprite.setTexture(&resourceManager.walkDown1);
     }
   }
   animationCount++;

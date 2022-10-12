@@ -1,7 +1,9 @@
 #include "Player.h"
+#include "ResourceManager.h"
 
-// external variable of current player position
+// external variable of current player position and resource manager
 extern double xpos, ypos;
+extern ResourceManager resourceManager;
 
 // Constructor for Player
 Player::Player(double Pxpos, double Pypos, double width, double height,
@@ -19,30 +21,9 @@ Player::Player(double Pxpos, double Pypos, double width, double height,
   this->window = window;
   this->sprite.setPosition(sf::Vector2f(0, 0));
   this->sprite.setSize(sf::Vector2f(40, 40));
-  idleDown.loadFromFile("playerAnimation/Idle/idleDown.png");
-  idleUp.loadFromFile("playerAnimation/Idle/idleUp.png");
-  idleLeft.loadFromFile("playerAnimation/Idle/idleLeft.png");
-  idleRight.loadFromFile("playerAnimation/Idle/idleRight.png");
-  idleRight.loadFromFile("playerAnimation/Idle/idleRight.png");
-  walkDown1.loadFromFile("playerAnimation/Walk/walkDown1.png");
-  walkDown2.loadFromFile("playerAnimation/Walk/walkDown2.png");
-  walkDown3.loadFromFile("playerAnimation/Walk/walkDown3.png");
-  walkDown4.loadFromFile("playerAnimation/Walk/walkDown4.png");
-  walkUp1.loadFromFile("playerAnimation/Walk/walkUp1.png");
-  walkUp2.loadFromFile("playerAnimation/Walk/walkUp2.png");
-  walkUp3.loadFromFile("playerAnimation/Walk/walkUp3.png");
-  walkUp4.loadFromFile("playerAnimation/Walk/walkUp4.png");
-  walkLeft1.loadFromFile("playerAnimation/Walk/walkLeft1.png");
-  walkLeft2.loadFromFile("playerAnimation/Walk/walkLeft2.png");
-  walkLeft3.loadFromFile("playerAnimation/Walk/walkLeft3.png");
-  walkLeft4.loadFromFile("playerAnimation/Walk/walkLeft4.png");
-  walkRight1.loadFromFile("playerAnimation/Walk/walkRight1.png");
-  walkRight2.loadFromFile("playerAnimation/Walk/walkRight2.png");
-  walkRight3.loadFromFile("playerAnimation/Walk/walkRight3.png");
-  walkRight4.loadFromFile("playerAnimation/Walk/walkRight4.png");
-  sprite.setTexture(&idleDown);
+  sprite.setTexture(&resourceManager.idleDown);
   camera.setCenter(0, 0);
-  camera.setSize(width, height);
+  camera.setSize(1920 / 2, 1080 / 2);
   window->setView(camera);
 
   // Sets Default Direction and movement
@@ -54,17 +35,6 @@ Player::Player(double Pxpos, double Pypos, double width, double height,
   this->currentExp = 0;
   this->expCap = 100;
   this->level = 1;
-
-  //Initialising Health Bar UI, (WILL BE UPDATED FOR UI_OVERHAUL)
-  this->healthBarBack.setFillColor(sf::Color::Black);
-  this->healthBarBack.setPosition(camera.getCenter().x - width / 2,
-                                  camera.getCenter().y - height / 2);
-
-  this->healthBarFront.setFillColor(sf::Color::Red);
-  this->healthBarFront.setPosition(camera.getCenter().x - width / 2,
-                                   camera.getCenter().y - height / 2);
-  this->healthBarBack.setSize(sf::Vector2f(200 * camera.getSize().x / 1000,
-                                           20 * camera.getSize().x / 1000));
 }
 
 // This should be called whenever an enemy dies to check whether player has
@@ -90,22 +60,14 @@ void Player::resetPlayer() {
   ypos = 0;
   oldXpos = 0;
   oldYpos = 0;
+  currentExp = 0;
+  expCap = 100;
   camera.setCenter(0, 0);
   this->sprite.setSize(sf::Vector2f(40, 40));
 
   //resets variables
   this->animationCount = 0;
   this->health = 100;
-
-  //Resets Health Bar
-  this->healthBarBack.setPosition(
-      camera.getCenter().x - camera.getSize().x / 2,
-      camera.getCenter().y - camera.getSize().y / 2);
-  this->healthBarFront.setPosition(
-      camera.getCenter().x - camera.getSize().x / 2,
-      camera.getCenter().y - camera.getSize().y / 2);
-  this->healthBarBack.setSize(sf::Vector2f(200 * camera.getSize().x / 1000,
-                                           20 * camera.getSize().x / 1000));
 }
 
 //Directional movement by adding current Position and movement speed vector in chosen direction
@@ -168,87 +130,87 @@ void Player::getPosition() {
   if (isMoving == false) {
     switch (direction) {
       case 1:
-        sprite.setTexture(&idleLeft);
+        sprite.setTexture(&resourceManager.idleLeft);
         break;
       case 2:
-        sprite.setTexture(&idleRight);
+        sprite.setTexture(&resourceManager.idleRight);
         break;
       case 3:
-        sprite.setTexture(&idleUp);
+        sprite.setTexture(&resourceManager.idleUp);
         break;
       case 4:
-        sprite.setTexture(&idleDown);
+        sprite.setTexture(&resourceManager.idleDown);
         break;
       default:
-        sprite.setTexture(&idleDown);
+        sprite.setTexture(&resourceManager.idleDown);
     }
   } else if (remainder(animationCount / 8, 2) == 0) {
     switch (direction) {
       case 1:
-        sprite.setTexture(&walkLeft4);
+        sprite.setTexture(&resourceManager.pwalkLeft4);
         break;
       case 2:
-        sprite.setTexture(&walkRight4);
+        sprite.setTexture(&resourceManager.pwalkRight4);
         break;
       case 3:
-        sprite.setTexture(&walkUp4);
+        sprite.setTexture(&resourceManager.pwalkUp4);
         break;
       case 4:
-        sprite.setTexture(&walkDown4);
+        sprite.setTexture(&resourceManager.pwalkDown4);
         break;
       default:
-        sprite.setTexture(&walkDown4);
+        sprite.setTexture(&resourceManager.pwalkDown4);
     }
   } else if (remainder(animationCount / 6, 3) == 0) {
     switch (direction) {
       case 1:
-        sprite.setTexture(&walkLeft3);
+        sprite.setTexture(&resourceManager.pwalkLeft3);
         break;
       case 2:
-        sprite.setTexture(&walkRight3);
+        sprite.setTexture(&resourceManager.pwalkRight3);
         break;
       case 3:
-        sprite.setTexture(&walkUp3);
+        sprite.setTexture(&resourceManager.pwalkUp3);
         break;
       case 4:
-        sprite.setTexture(&walkDown3);
+        sprite.setTexture(&resourceManager.pwalkDown3);
         break;
       default:
-        sprite.setTexture(&walkDown3);
+        sprite.setTexture(&resourceManager.pwalkDown3);
     }
   } else if (remainder(animationCount / 4, 2) == 0) {
     switch (direction) {
       case 1:
-        sprite.setTexture(&walkLeft2);
+        sprite.setTexture(&resourceManager.pwalkLeft2);
         break;
       case 2:
-        sprite.setTexture(&walkRight2);
+        sprite.setTexture(&resourceManager.pwalkRight2);
         break;
       case 3:
-        sprite.setTexture(&walkUp2);
+        sprite.setTexture(&resourceManager.pwalkUp2);
         break;
       case 4:
-        sprite.setTexture(&walkDown2);
+        sprite.setTexture(&resourceManager.pwalkDown2);
         break;
       default:
-        sprite.setTexture(&walkDown2);
+        sprite.setTexture(&resourceManager.pwalkDown2);
     }
   } else {
     switch (direction) {
       case 1:
-        sprite.setTexture(&walkLeft1);
+        sprite.setTexture(&resourceManager.pwalkLeft1);
         break;
       case 2:
-        sprite.setTexture(&walkRight1);
+        sprite.setTexture(&resourceManager.pwalkRight1);
         break;
       case 3:
-        sprite.setTexture(&walkUp1);
+        sprite.setTexture(&resourceManager.pwalkUp1);
         break;
       case 4:
-        sprite.setTexture(&walkDown1);
+        sprite.setTexture(&resourceManager.pwalkDown1);
         break;
       default:
-        sprite.setTexture(&walkDown1);
+        sprite.setTexture(&resourceManager.pwalkDown1);
     }
   }
 }
@@ -278,17 +240,4 @@ void Player::DrawPlayer(sf::RenderWindow* window) {
   // Centres the Camera On the player's new position
   camera.setCenter(sprite.getPosition());
   window->setView(camera);
-
-  // Sets the Health bar to be consistent in the corner of the screen (WILL BE UPDATED IN UI OVERHAUL)
-  this->healthBarBack.setPosition(
-      camera.getCenter().x - camera.getSize().x / 2,
-      camera.getCenter().y - camera.getSize().y / 2);
-  this->healthBarFront.setPosition(
-      camera.getCenter().x - camera.getSize().x / 2,
-      camera.getCenter().y - camera.getSize().y / 2);
-  this->healthBarFront.setSize(sf::Vector2f(
-      health * 2 * camera.getSize().x / 1000, 20 * camera.getSize().x / 1000));
-
-  window->draw(healthBarBack);
-  window->draw(healthBarFront);
 }
