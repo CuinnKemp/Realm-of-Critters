@@ -10,23 +10,14 @@
 #include "Player.h"
 #include "ResourceManager.h"
 
-
 // Extern :
-extern double xpos, ypos;       // player coordinates
-extern sf::RenderWindow window; // Render Window
+extern double xpos, ypos;        // player coordinates
+extern sf::RenderWindow window;  // Render Window
 
 extern Player P1;
 extern ResourceManager resourceManager;
 ExpBall::ExpBall() {
-  // Loads Animation Texture
-  exp1.loadFromFile("expAnimation/exp1.png");
-  exp2.loadFromFile("expAnimation/exp2.png");
-  exp3.loadFromFile("expAnimation/exp3.png");
-  exp4.loadFromFile("expAnimation/exp4.png");
-  exp5.loadFromFile("expAnimation/exp5.png");
-  exp6.loadFromFile("expAnimation/exp6.png");
-  exp7.loadFromFile("expAnimation/exp7.png");
-  exp8.loadFromFile("expAnimation/exp8.png");
+  // Sets Animation Texture
   sprite.setTextureRect(rectSourceSprite);
   sprite.setTexture(resourceManager.exp1);
   sprite.setScale(sf::Vector2f(2, 2));
@@ -36,7 +27,6 @@ ExpBall::ExpBall() {
 }
 
 bool ExpBall::updateExp() {
-  
   // Draws Exp Ball
   window.draw(this->sprite);
   float expX = sprite.getPosition().x;

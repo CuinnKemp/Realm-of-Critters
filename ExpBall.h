@@ -6,7 +6,6 @@
 // Exp ball, manages the sprite and collision detection upon monster death
 class ExpBall {
  public:
-
   // Exp given
   int expPoints;
 
@@ -16,9 +15,8 @@ class ExpBall {
   // Sprite and Animation
   sf::Sprite sprite;
   sf::IntRect rectSourceSprite;
-  sf::Texture exp1, exp2, exp3, exp4, exp5, exp6, exp7, exp8;
 
-  //Default constructor & Destructor
+  // Default constructor & Destructor
   ExpBall();
   ~ExpBall();
 
