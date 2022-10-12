@@ -11,16 +11,17 @@
 #include "ExpSpawner.h"
 #include "ResourceManager.h"
 
-extern double xpos, ypos;       // Player Position
-extern sf::RenderWindow window; // Render Window
-extern ExpSpawner E1;           // Exp Spawner
+extern double xpos, ypos;        // Player Position
+extern sf::RenderWindow window;  // Render Window
+extern ExpSpawner E1;            // Exp Spawner
 extern ResourceManager resourceManager;
 
 Beast::Beast() {
   // initialises the arrow counter
   this->arrowCounter = 0;
 
-  // Sets the Spawn Point of the beast based upon the current position of the player
+  // Sets the Spawn Point of the beast based upon the current position of the
+  // player
   this->coordinates[0] = xpos + rand() % 800 - 400;
   this->coordinates[1] = ypos + rand() % 800 - 400;
   if (coordinates[0] < -1600) {
@@ -38,27 +39,10 @@ Beast::Beast() {
   this->lastCoordinates[0] = coordinates[0];
   this->lastCoordinates[1] = coordinates[1];
 
-
-  // Sets the Sprite position and Loads the Animation Textures
+  // Sets the Sprite position
   this->sprite.setPosition(
       sf::Vector2f(this->coordinates[0], this->coordinates[1]));
   this->sprite.setSize(sf::Vector2f(16, 16));
-  walkDown1.loadFromFile("beastAnimation/walkDown1.png");
-  walkDown2.loadFromFile("beastAnimation/walkDown2.png");
-  walkDown3.loadFromFile("beastAnimation/walkDown3.png");
-  walkDown4.loadFromFile("beastAnimation/walkDown4.png");
-  walkUp1.loadFromFile("beastAnimation/walkUp1.png");
-  walkUp2.loadFromFile("beastAnimation/walkUp2.png");
-  walkUp3.loadFromFile("beastAnimation/walkUp3.png");
-  walkUp4.loadFromFile("beastAnimation/walkUp4.png");
-  walkLeft1.loadFromFile("beastAnimation/walkLeft1.png");
-  walkLeft2.loadFromFile("beastAnimation/walkLeft2.png");
-  walkLeft3.loadFromFile("beastAnimation/walkLeft3.png");
-  walkLeft4.loadFromFile("beastAnimation/walkLeft4.png");
-  walkRight1.loadFromFile("beastAnimation/walkRight1.png");
-  walkRight2.loadFromFile("beastAnimation/walkRight2.png");
-  walkRight3.loadFromFile("beastAnimation/walkRight3.png");
-  walkRight4.loadFromFile("beastAnimation/walkRight4.png");
 
   // Initialises the movement, direction, sprite size & texture of the enemy
 
@@ -70,22 +54,18 @@ Beast::Beast() {
   this->animationCount = 0;
   this->sprite.setOrigin(0, 0);
 
-
   // Initialises an array of Projectiles, and health of the enemy
   this->Arrows = new Arrow[0];
   this->fireCounter = 0;
   this->health = 50;
 }
 
-
 // destructor deletes the coordinates of the current enemy
 Beast::~Beast() { delete[] this->coordinates; }
 
-
-// Called when Firecounter reaches a threshold value, 
+// Called when Firecounter reaches a threshold value,
 // used to shoot a projectile at the player
 void Beast::attack() {
-  
   // Sets a temporary arrray to hold the current spawned Projectiles
   Arrow* holdArrows = this->Arrows;
 
@@ -107,16 +87,12 @@ void Beast::attack() {
   return;
 }
 
-
 // Updates the position and sprite of the projectiles
 void Beast::drawArrows() {
-
   // for every arrow currently spawned
   for (int i = 0; i < arrowCounter; i++) {
-
     // checks the position of each arrow
     if (!(this->Arrows[i].UpdatePosition())) {
-
       // if collided with the player, removed
       for (int j = i + 1; j < arrowCounter; j++) {
         Arrows[j - 1] = Arrows[j];
@@ -134,8 +110,8 @@ void Beast::drawArrows() {
 
 // movement for beast
 void Beast::movement() {
-
-  // Moves the beast if further away than a 200 pixel radius from the current position of the player
+  // Moves the beast if further away than a 200 pixel radius from the current
+  // position of the player
   if (sqrt(pow(xpos - coordinates[0], 2) + pow(ypos - coordinates[1], 2)) >=
       200) {
     this->coordinates[0] =
@@ -146,7 +122,7 @@ void Beast::movement() {
         this->coordinates[1] + 2.5 * ((ypos - this->coordinates[1]) /
                                       sqrt(pow(xpos - coordinates[0], 2) +
                                            pow(ypos - coordinates[1], 2)));
-    
+
     // sets new position of sprite
     sprite.setPosition(
         sf::Vector2f(this->coordinates[0], this->coordinates[1]));
@@ -155,7 +131,8 @@ void Beast::movement() {
     isMoving = false;
   }
 
-  // Checks in which direction the beast moved last by using its previous position 
+  // Checks in which direction the beast moved last by using its previous
+  // position
   if (abs(lastCoordinates[0] - coordinates[0]) >
       abs(lastCoordinates[1] - coordinates[1])) {
     if (lastCoordinates[0] < coordinates[0]) {
@@ -176,13 +153,10 @@ void Beast::movement() {
   lastCoordinates[1] = coordinates[1];
 }
 
-
 // main updating function for beast, controls all processes
 bool Beast::updateEnemy() {
-
   // checks whether or not beast is alive
   if (this->health == 0) {
-
     // random exp spawn on death
     int shouldSpawnExp = rand() % 2;
     if (shouldSpawnExp == 0) {
@@ -191,11 +165,9 @@ bool Beast::updateEnemy() {
     return 0;
   }
 
-
   // calls to update projectiles and movement
   this->drawArrows();
   this->movement();
-
 
   // updates firecounter, checks whether threshold value has been reached
   this->fireCounter = this->fireCounter + 2;
@@ -204,7 +176,8 @@ bool Beast::updateEnemy() {
     this->fireCounter = 0;
   }
 
-  //  updates animation cycle based on 'isMoving' and current direction found in 'movement()'
+  //  updates animation cycle based on 'isMoving' and current direction found in
+  //  'movement()'
   if (isMoving == false) {
     switch (direction) {
       case 1:

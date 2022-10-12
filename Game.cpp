@@ -1,7 +1,8 @@
-// g++ Game.cpp ResourceManager.cpp Player.cpp UIManager.cpp Enemy.cpp Enemies.cpp Beast.cpp Slime.cpp
-// Obstacle.cpp ObstacleGenerator.cpp Arrow.cpp PowerUp.cpp SpinningBlade.cpp
-// ExpBall.cpp ExpContainer.cpp ExpSpawner.cpp PlayerArrow.cpp
-// PlayerArrowSpawner.cpp -lsfml-graphics -lsfml-window -lsfml-system
+// g++ Game.cpp ResourceManager.cpp Player.cpp UIManager.cpp Enemy.cpp
+// Enemies.cpp Beast.cpp Slime.cpp Obstacle.cpp ObstacleGenerator.cpp Arrow.cpp
+// PowerUp.cpp SpinningBlade.cpp ExpBall.cpp ExpContainer.cpp ExpSpawner.cpp
+// PlayerArrow.cpp PlayerArrowSpawner.cpp -lsfml-graphics -lsfml-window
+// -lsfml-system
 
 #include <stdlib.h>
 
@@ -23,9 +24,9 @@
 #include "Obstacle.h"
 #include "ObstacleGenerator.h"
 #include "Player.h"
-#include "ResourceManager.h"
 #include "PlayerArrow.h"
 #include "PlayerArrowSpawner.h"
+#include "ResourceManager.h"
 #include "Slime.h"
 #include "SpinningBlade.h"
 #include "UIManager.h"
@@ -48,7 +49,7 @@ const sf::Time TimePerFrame = sf::seconds(1.f / 90.f);
 bool showQuitGameDialouge;
 bool showSettingsPage;
 bool isGameChanging;
-
+bool waiting;
 
 void gameLoop() {
   SpinningBlade b1(0);
@@ -98,11 +99,11 @@ void gameLoop() {
       timeSinceLastUpdate += dt;
       while (timeSinceLastUpdate > TimePerFrame) {
         timeSinceLastUpdate -= TimePerFrame;
-        
+
         // Draws Background Map
         window.draw(backgroundMap);
         og.updateObstacles();
-        
+
         // Adding Collision to Objects
         for (int i = 0; i < og.obstacleCounter; i++) {
           float playerX = P1.sprite.getPosition().x + 20;
@@ -116,57 +117,58 @@ void gameLoop() {
           }
         }
 
-      // Drawing Foliage on the Map
-      window.draw(mapExtras);
+        // Drawing Foliage on the Map
+        window.draw(mapExtras);
 
-      // Spawning Player Arrows, firing them at enemies
-      pA.drawArrows();
-      pA.fireCounter = pA.fireCounter + 2;
-      if (pA.fireCounter == 100) {
-        pA.attack();
-        pA.fireCounter = 0;
+        // Spawning Player Arrows, firing them at enemies
+        pA.drawArrows();
+        pA.fireCounter = pA.fireCounter + 2;
+        if (pA.fireCounter == 100) {
+          pA.attack();
+          pA.fireCounter = 0;
+        }
+
+        // update command for enemies
+        a1.updateEnemies();
+
+        // Drawing Player on the map
+        P1.DrawPlayer(&window);
+
+        // update command for Abilities
+        b1.updateAbility();
+        b1.hitEnemy(&a1);
+
+        // Updating Exp, UI and Map
+        E1.updateExps();
+        UI.DrawUIManager(&window);
+        window.display();
+        window.clear(sf::Color::White);
       }
 
-      // update command for enemies
-      a1.updateEnemies();
-
-      // Drawing Player on the map
-      P1.DrawPlayer(&window);
-
-      // update command for Abilities
-      b1.updateAbility();
-      b1.hitEnemy(&a1);
-
-      // Updating Exp, UI and Map
-      E1.updateExps();
-      UI.DrawUIManager(&window);
+      // Death Screen if Player runs out of health
+      window.clear(sf::Color::Black);
+      sf::Text deathText;
+      deathText.setFont(resourceManager.defaultFont);
+      deathText.setCharacterSize(80);
+      deathText.setString("   YOU DIED!\n\nPRESS ENTER");
+      deathText.setPosition(sf::Vector2f(-width / 10, -height / 10));
+      window.draw(deathText);
       window.display();
-      window.clear(sf::Color::White);
-    }
 
-    // Death Screen if Player runs out of health
-    window.clear(sf::Color::Black);
-    sf::Text deathText;
-    deathText.setFont(resourceManager.defaultFont);
-    deathText.setCharacterSize(80);
-    deathText.setString("   YOU DIED!\n\nPRESS ENTER");
-    deathText.setPosition(sf::Vector2f(-width / 10, -height / 10));
-    window.draw(deathText);
-    window.display();
-
-    // Waiting for Player Response on Death Screen
-    bool waiting = 1;
-    while (waiting == 1 && window.isOpen()) {
-      sf::Event eventInner;
-      while (window.pollEvent(eventInner)) {
-        if (eventInner.type == sf::Event::Closed) window.close();
-      }
-      if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter)) {
-        waiting = 0;
-        P1.resetPlayer();
-        UI.resetUI();
-        E1.deleteExpBalls();
-        a1.~Enemies();
+      // Waiting for Player Response on Death Screen
+      waiting = true;
+      while (waiting == true && window.isOpen()) {
+        sf::Event eventInner;
+        while (window.pollEvent(eventInner)) {
+          if (eventInner.type == sf::Event::Closed) window.close();
+        }
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter)) {
+          waiting = 0;
+          P1.resetPlayer();
+          UI.resetUI();
+          E1.deleteExpBalls();
+          a1.~Enemies();
+        }
       }
     }
   }
@@ -325,6 +327,7 @@ int main() {
   showQuitGameDialouge = false;
   showSettingsPage = false;
   isGameChanging = true;
+  waiting = false;
 
   while (window.isOpen()) {
     sf::Event event;
