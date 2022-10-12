@@ -66,6 +66,11 @@ void gameLoop() {
   mapExtras.setTexture(resourceManager.extrasImage);
   mapExtras.setPosition(-2048, -2048);
 
+  if (isGameChanging) {
+    P1.resetPlayer();
+    isGameChanging = false;
+  }
+
   // Main game Loop
   while (window.isOpen()) {
     // Initialising Enemies & Player Arrows
@@ -348,7 +353,6 @@ int main() {
     if (gameState == "gameLoop") {
       if (isGameChanging) {
         resourceManager.loadGame();
-        isGameChanging = false;
       }
       gameLoop();
     }
