@@ -10,25 +10,20 @@
 #include "Enemies.h"
 #include "PowerUp.h"
 
-// Power up of a spinning blade around the player
 class SpinningBlade : public PowerUp {
  public:
-  // Rotation count
   int count;
 
-  //Default constructor and destructor, 
-  SpinningBlade(int num);  // Parameter for amount of spinning blades to spawn
+  SpinningBlade(int num);
+
   ~SpinningBlade();
 
-  // Collision Detection into enemy array
   void hitEnemy(Enemies* enemies);
 
-  // movement of spinning blade
   void movement();
 
-    //void updatePosition();
+  void updatePosition();
 
-  //updates ability by calling movement and other functions
   bool updateAbility();
 };
 #endif  // SPINNINGBLADE_H

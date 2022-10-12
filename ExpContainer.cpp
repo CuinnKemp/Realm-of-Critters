@@ -6,5 +6,4 @@
 #include <iostream>
 #include <random>
 
-// Virtual Function 
 bool ExpContainer::updateExp() { return 0; }

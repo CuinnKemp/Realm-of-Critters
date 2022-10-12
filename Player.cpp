@@ -1,23 +1,16 @@
 #include "Player.h"
+
 #include "ResourceManager.h"
 
-// external variable of current player position and resource manager
 extern double xpos, ypos;
-extern ResourceManager resourceManager;
 
-// Constructor for Player
+extern ResourceManager resourceManager;
 Player::Player(double Pxpos, double Pypos, double width, double height,
                sf::RenderWindow* window) {
-
-  // Sets Position Variables for the player
   xpos = Pxpos;
   ypos = Pypos;
-
-  // Initialises Player Stats
   this->health = 100;
   this->movSpeed = 5;
-
-  // Sequence to Intialise Sprites and Animations
   this->window = window;
   this->sprite.setPosition(sf::Vector2f(0, 0));
   this->sprite.setSize(sf::Vector2f(40, 40));
@@ -25,13 +18,9 @@ Player::Player(double Pxpos, double Pypos, double width, double height,
   camera.setCenter(0, 0);
   camera.setSize(1920 / 2, 1080 / 2);
   window->setView(camera);
-
-  // Sets Default Direction and movement
   this->direction = 4;
   this->isMoving = false;
   this->animationCount = 0;
-
-  //Initialising Exp and levelling system
   this->currentExp = 0;
   this->expCap = 100;
   this->level = 1;
@@ -52,10 +41,7 @@ void Player::levelPlayer() {
   }
 }
 
-// Resets the Player after Death Screen
 void Player::resetPlayer() {
-
-  // Sets deafault Position and camera to 0,0
   xpos = 0;
   ypos = 0;
   oldXpos = 0;
@@ -64,13 +50,10 @@ void Player::resetPlayer() {
   expCap = 100;
   camera.setCenter(0, 0);
   this->sprite.setSize(sf::Vector2f(40, 40));
-
-  //resets variables
   this->animationCount = 0;
   this->health = 100;
 }
 
-//Directional movement by adding current Position and movement speed vector in chosen direction
 void Player::moveRight() {
   oldXpos = xpos;
   xpos = xpos + movSpeed;
@@ -90,7 +73,6 @@ void Player::moveDown() {
   ypos = ypos + movSpeed;
 }
 
-//Returns Player Position depending on Key Pressed, for arrow-keys
 void Player::getPosition() {
   if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
     direction = 1;
@@ -126,7 +108,6 @@ void Player::getPosition() {
     isMoving = false;
   }
 
-  // Sets Animation cycle
   if (isMoving == false) {
     switch (direction) {
       case 1:
@@ -215,29 +196,19 @@ void Player::getPosition() {
   }
 }
 
-// Checks if Player is Alive
 bool Player::isAlive() {
   if (health >= 0) {
     return 1;
   }
-  
-  // Resets camera if player isnt alive
   camera.setCenter(0, 0);
   window->setView(camera);
   return 0;
 }
 
-//Draws the Player, Repeeated in while loop to update consistently with keyboard presses
 void Player::DrawPlayer(sf::RenderWindow* window) {
-  
-  // Gets current POsition
   this->getPosition();
-
-  // Sets the Position of the PLayer Sprite
   sprite.setPosition(sf::Vector2f(xpos - 20, ypos - 20));
   window->draw(sprite);
-
-  // Centres the Camera On the player's new position
   camera.setCenter(sprite.getPosition());
   window->setView(camera);
 }
