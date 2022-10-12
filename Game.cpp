@@ -168,7 +168,6 @@ void gameLoop() {
         P1.resetPlayer();
         UI.resetUI();
         E1.deleteExpBalls();
-        a1.~Enemies();
       }
     }
   }
