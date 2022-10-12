@@ -5,11 +5,10 @@
 #include "Enemy.h"
 #include "Slime.h"
 
-//Enemies is an aggregator of all Enemy subclasses such as Beast and Slime
+// Enemies is an aggregator of all Enemy subclasses such as Beast and Slime
 class Enemies {
  public:
-
- // Current Position
+  // Current Position
   double* coordinates;
 
   // Counter of all Enemies alive
@@ -22,7 +21,7 @@ class Enemies {
   int spawnRate;
   int timer;
 
-  //default Constructor & destructor
+  // default Constructor & destructor
   Enemies();
   ~Enemies();
 
@@ -34,5 +33,7 @@ class Enemies {
 
   // Updates the Array of Enemies
   void updateEnemies();
+
+  void deleteEnemies();
 };
 #endif  // ENEMIES_H

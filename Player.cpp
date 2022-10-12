@@ -1,4 +1,5 @@
 #include "Player.h"
+
 #include "ResourceManager.h"
 
 // external variable of current player position and resource manager
@@ -8,7 +9,6 @@ extern ResourceManager resourceManager;
 // Constructor for Player
 Player::Player(double Pxpos, double Pypos, double width, double height,
                sf::RenderWindow* window) {
-
   // Sets Position Variables for the player
   xpos = Pxpos;
   ypos = Pypos;
@@ -31,7 +31,7 @@ Player::Player(double Pxpos, double Pypos, double width, double height,
   this->isMoving = false;
   this->animationCount = 0;
 
-  //Initialising Exp and levelling system
+  // Initialising Exp and levelling system
   this->currentExp = 0;
   this->expCap = 100;
   this->level = 1;
@@ -54,7 +54,6 @@ void Player::levelPlayer() {
 
 // Resets the Player after Death Screen
 void Player::resetPlayer() {
-
   // Sets deafault Position and camera to 0,0
   xpos = 0;
   ypos = 0;
@@ -65,12 +64,13 @@ void Player::resetPlayer() {
   camera.setCenter(0, 0);
   this->sprite.setSize(sf::Vector2f(40, 40));
 
-  //resets variables
+  // resets variables
   this->animationCount = 0;
   this->health = 100;
 }
 
-//Directional movement by adding current Position and movement speed vector in chosen direction
+// Directional movement by adding current Position and movement speed vector in
+// chosen direction
 void Player::moveRight() {
   oldXpos = xpos;
   xpos = xpos + movSpeed;
@@ -90,7 +90,7 @@ void Player::moveDown() {
   ypos = ypos + movSpeed;
 }
 
-//Returns Player Position depending on Key Pressed, for arrow-keys
+// Returns Player Position depending on Key Pressed, for arrow-keys
 void Player::getPosition() {
   if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
     direction = 1;
@@ -220,16 +220,16 @@ bool Player::isAlive() {
   if (health >= 0) {
     return 1;
   }
-  
+
   // Resets camera if player isnt alive
   camera.setCenter(0, 0);
   window->setView(camera);
   return 0;
 }
 
-//Draws the Player, Repeeated in while loop to update consistently with keyboard presses
+// Draws the Player, Repeeated in while loop to update consistently with
+// keyboard presses
 void Player::DrawPlayer(sf::RenderWindow* window) {
-  
   // Gets current POsition
   this->getPosition();
 

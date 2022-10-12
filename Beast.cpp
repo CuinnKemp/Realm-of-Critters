@@ -156,7 +156,7 @@ void Beast::movement() {
 // main updating function for beast, controls all processes
 bool Beast::updateEnemy() {
   // checks whether or not beast is alive
-  if (this->health == 0) {
+  if (this->health <= 0) {
     // random exp spawn on death
     int shouldSpawnExp = rand() % 2;
     if (shouldSpawnExp == 0) {

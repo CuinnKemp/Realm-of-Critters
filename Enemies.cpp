@@ -69,10 +69,17 @@ void Enemies::updateEnemies() {
   // increments the timer, if it reachers threshold it spawns a new enemy on
   // screen
   timer++;
-  if (timer == 100) {
+  if (timer == 200) {
     this->spawnNewEnemy();
     timer = 0;
   }
+}
+
+void Enemies::deleteEnemies() {
+  for (int i = 0; i < enemyCounter; i++) {
+    delete enemies[i];
+  }
+  enemyCounter = 0;
 }
 
 Enemies::~Enemies() {

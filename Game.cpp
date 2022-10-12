@@ -45,7 +45,6 @@ ObstacleGenerator og;
 ExpSpawner E1;
 ResourceManager resourceManager;
 Player P1(0, 0, width / 2, height / 2, &window);
-Enemies a1;
 const sf::Time TimePerFrame = sf::seconds(1.f / 90.f);
 bool showQuitGameDialouge;
 bool showSettingsPage;
@@ -70,6 +69,7 @@ void gameLoop() {
   // Main game Loop
   while (window.isOpen()) {
     // Initialising Enemies & Player Arrows
+    Enemies a1;
     PlayerArrowSpawner pA(&a1);
 
     // While the Window is open
@@ -168,6 +168,7 @@ void gameLoop() {
         P1.resetPlayer();
         UI.resetUI();
         E1.deleteExpBalls();
+        a1.deleteEnemies();
       }
     }
   }
