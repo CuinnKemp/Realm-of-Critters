@@ -21,7 +21,6 @@ PlayerArrowSpawner::PlayerArrowSpawner(Enemies* a1) {
 void PlayerArrowSpawner::attack() {
   // If there is at least one enemy alive
   if (this->a1->enemyCounter >= 1) {
-    std::cout << "newArrow" << std::endl;
     // Temporary Array
     PlayerArrow* holdPlayerArrowSpawner = this->playerArrows;
 

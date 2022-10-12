@@ -20,7 +20,7 @@ PlayerArrow::PlayerArrow(Enemies* enemies) {
   if (enemies->enemyCounter >= 1) {
     // std::cout << "Running" << std::endl;
     // set damage
-    this->damage = 50;
+    this->damage = 25;
 
     // Sets the initial position of the arrow to the player
     this->arrowCoordinates[0] = xpos;

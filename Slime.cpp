@@ -7,16 +7,18 @@
 #include <random>
 
 #include "Enemy.h"
+#include "ExpSpawner.h"
 #include "Player.h"
 
-
-//External:
-extern double xpos, ypos;       //Player Position
-extern sf::RenderWindow window; // Render Window
-extern Player P1;               // Player Class
+// External:
+extern double xpos, ypos;        // Player Position
+extern sf::RenderWindow window;  // Render Window
+extern ExpSpawner E1;            // Exp Spawner
+extern Player P1;                // Player Class
 
 Slime::Slime() {
-  // Spawn Coordinates, anywhere between 400 pixels of the current position of the player
+  // Spawn Coordinates, anywhere between 400 pixels of the current position of
+  // the player
   this->coordinates[0] = xpos + rand() % 800 - 400;
   this->coordinates[1] = ypos + rand() % 800 - 400;
   if (coordinates[0] < -1600) {
@@ -68,7 +70,7 @@ Slime::Slime() {
   this->animationCount = 0;
   this->sprite.setOrigin(0, 0);
 
-  //initialises total and health
+  // initialises total and health
   this->count = 0;
   this->health = 50;
 }
@@ -80,13 +82,14 @@ void Slime::attack() {
   // detects sprite collision with the player, damages the player upon collision
   if (sqrt(pow(xpos - coordinates[0], 2) + pow(ypos - coordinates[1], 2)) <=
       50) {
-        P1.health = P1.health - 10;
-      }
+    P1.health = P1.health - 10;
+  }
 }
 
 void Slime::movement() {
   // Movement for the slime, moves toward the player using parameterisation
-  // stops within 2 pixels of the players current position, still enough for collision
+  // stops within 2 pixels of the players current position, still enough for
+  // collision
   if (sqrt(pow(xpos - coordinates[0], 2) + pow(ypos - coordinates[1], 2)) >=
       50) {
     this->coordinates[0] =
@@ -106,7 +109,8 @@ void Slime::movement() {
     isMoving = false;
   }
 
-  // Sets direction to set which animation to play, using current known coordinates and last known coordinates
+  // Sets direction to set which animation to play, using current known
+  // coordinates and last known coordinates
   if (abs(lastCoordinates[0] - coordinates[0]) >
       abs(lastCoordinates[1] - coordinates[1])) {
     if (lastCoordinates[0] < coordinates[0]) {
@@ -130,9 +134,14 @@ void Slime::movement() {
 bool Slime::updateEnemy() {
   // checks whether or not slime is alive
   if (this->health == 0) {
+    // random exp spawn on death
+    int shouldSpawnExp = rand() % 2;
+    if (shouldSpawnExp == 0) {
+      E1.spawnNewExp(10, coordinates[0], coordinates[1]);
+    }
     return 0;
   }
-  
+
   // calls movement function
   this->movement();
   this->count++;
@@ -232,7 +241,7 @@ bool Slime::updateEnemy() {
   }
   animationCount++;
 
-  //Draws Sprite on Screen
+  // Draws Sprite on Screen
   window.draw(this->sprite);
 
   return 1;
