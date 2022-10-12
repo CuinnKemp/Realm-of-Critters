@@ -6,4 +6,5 @@
 #include <iostream>
 #include <random>
 
+// Default Virtual Function
 bool Enemy::updateEnemy() { return 0; }
