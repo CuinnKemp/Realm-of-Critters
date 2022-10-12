@@ -40,6 +40,7 @@ ResourceManager resourceManager;
 Player P1(0, 0, width / 2, height / 2, &window);
 const sf::Time TimePerFrame = sf::seconds(1.f / 90.f);
 bool showQuitGameDialouge;
+bool showSettingsPage;
 bool isGameChanging;
 
 void gameLoop() {
@@ -134,7 +135,7 @@ void gameLoop() {
 
 void mainMenu() {
   sf::Sprite playButton, loadButton, settingsButton, quitButton, background,
-      menuTitle, dialougeBox, yesButton, noButton;
+      menuTitle, dialougeBox, yesButton, noButton, settingsPage, exitButton;
   menuTitle.setTexture(resourceManager.menuTitleTex);
   background.setTexture(resourceManager.backgroundTex);
   playButton.setTexture(resourceManager.playButtonTex, true);
@@ -152,6 +153,13 @@ void mainMenu() {
   noButton.setScale(2, 2);
   noButton.setPosition(0, -10);
 
+  settingsPage.setTexture(resourceManager.settingsPageTex);
+  settingsPage.setScale(3, 3);
+  settingsPage.setPosition(-325, -215);
+  exitButton.setScale(2, 2);
+  exitButton.setPosition(-330, -220);
+  exitButton.setTexture(resourceManager.quitButtonTex);
+
   background.setScale(6, 6);
   background.setPosition(-480, -270);
   menuTitle.setScale(6, 6);
@@ -160,10 +168,11 @@ void mainMenu() {
   playButton.setPosition(-190, 20);
   loadButton.setScale(6, 6);
   loadButton.setPosition(-90, 20);
-  settingsButton.setScale(6 * 13 / 15, 6 * 13 / 15);
+  settingsButton.setScale(6, 6);
   settingsButton.setPosition(10, 20);
   quitButton.setScale(6, 6);
   quitButton.setPosition(110, 20);
+
   if (abs(sf::Mouse::getPosition(window).x -
           playButton.getGlobalBounds().left) > 1100 &&
       abs(sf::Mouse::getPosition(window).x -
@@ -191,6 +200,20 @@ void mainMenu() {
     if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
       showQuitGameDialouge = true;
     }
+  } else if (abs(sf::Mouse::getPosition(window).x -
+                 playButton.getGlobalBounds().left) > 1725 &&
+             abs(sf::Mouse::getPosition(window).x -
+                 playButton.getGlobalBounds().left) < 1995 &&
+             abs(sf::Mouse::getPosition(window).y -
+                 playButton.getGlobalBounds().top) > 870 &&
+             abs(sf::Mouse::getPosition(window).y -
+                 playButton.getGlobalBounds().top) < 1100) {
+    settingsButton.setPosition(4, 14);
+    settingsButton.setTexture(resourceManager.settingsButtonSelectedTex, true);
+    if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
+      showSettingsPage = true;
+    }
+
   } else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
     showQuitGameDialouge = true;
   }
@@ -201,6 +224,25 @@ void mainMenu() {
   window.draw(loadButton);
   window.draw(settingsButton);
   window.draw(quitButton);
+
+  if (showSettingsPage == true) {
+    if (abs(sf::Mouse::getPosition(window).x -
+            exitButton.getGlobalBounds().left) > 800 &&
+        abs(sf::Mouse::getPosition(window).x -
+            exitButton.getGlobalBounds().left) < 900 &&
+        abs(sf::Mouse::getPosition(window).y -
+            exitButton.getGlobalBounds().top) > 350 &&
+        abs(sf::Mouse::getPosition(window).y -
+            exitButton.getGlobalBounds().top) < 450) {
+      exitButton.setPosition(-332, -222);
+      exitButton.setTexture(resourceManager.quitButtonSelectedTex, true);
+      if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
+        showSettingsPage = false;
+      }
+    }
+    window.draw(settingsPage);
+    window.draw(exitButton);
+  }
 
   if (showQuitGameDialouge == true) {
     if (abs(sf::Mouse::getPosition(window).x -
@@ -242,6 +284,7 @@ void mainMenu() {
 
 int main() {
   showQuitGameDialouge = false;
+  showSettingsPage = false;
   isGameChanging = true;
 
   while (window.isOpen()) {
