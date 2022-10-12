@@ -144,31 +144,31 @@ void gameLoop() {
         window.display();
         window.clear(sf::Color::White);
       }
+    }
 
-      // Death Screen if Player runs out of health
-      window.clear(sf::Color::Black);
-      sf::Text deathText;
-      deathText.setFont(resourceManager.defaultFont);
-      deathText.setCharacterSize(80);
-      deathText.setString("   YOU DIED!\n\nPRESS ENTER");
-      deathText.setPosition(sf::Vector2f(-width / 10, -height / 10));
-      window.draw(deathText);
-      window.display();
+    // Death Screen if Player runs out of health
+    window.clear(sf::Color::Black);
+    sf::Text deathText;
+    deathText.setFont(resourceManager.defaultFont);
+    deathText.setCharacterSize(80);
+    deathText.setString("   YOU DIED!\n\nPRESS ENTER");
+    deathText.setPosition(sf::Vector2f(-width / 10, -height / 10));
+    window.draw(deathText);
+    window.display();
 
-      // Waiting for Player Response on Death Screen
-      waiting = true;
-      while (waiting == true && window.isOpen()) {
-        sf::Event eventInner;
-        while (window.pollEvent(eventInner)) {
-          if (eventInner.type == sf::Event::Closed) window.close();
-        }
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter)) {
-          waiting = 0;
-          P1.resetPlayer();
-          UI.resetUI();
-          E1.deleteExpBalls();
-          a1.~Enemies();
-        }
+    // Waiting for Player Response on Death Screen
+    waiting = true;
+    while (waiting == true && window.isOpen()) {
+      sf::Event eventInner;
+      while (window.pollEvent(eventInner)) {
+        if (eventInner.type == sf::Event::Closed) window.close();
+      }
+      if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter)) {
+        waiting = 0;
+        P1.resetPlayer();
+        UI.resetUI();
+        E1.deleteExpBalls();
+        a1.~Enemies();
       }
     }
   }
