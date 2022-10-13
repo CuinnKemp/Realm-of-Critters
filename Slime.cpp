@@ -119,7 +119,7 @@ void Slime::movement() {
 
 bool Slime::updateEnemy() {
   // checks whether or not slime is alive
-  if (this->health == 0) {
+  if (this->health < 0) {
     // random exp spawn on death
     int shouldSpawnExp = rand() % 2;
     if (shouldSpawnExp == 0) {

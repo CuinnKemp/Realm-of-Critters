@@ -157,11 +157,12 @@ void gameLoop() {
     UI.resetUI();
     E1.deleteExpBalls();
     a1.deleteEnemies();
-    window.clear(sf::Color::Black);
+    window.clear(sf::Color::Green);
     sf::RectangleShape deathScreen;
     sf::Texture deathText;
     deathText.loadFromFile("deathScreen.png");
     deathScreen.setSize(sf::Vector2f(1920 / 2, 1080 / 2));
+    deathScreen.setPosition(sf::Vector2f(-1920 / 4, -1080 / 4));
     deathScreen.setTexture(&deathText);
     window.draw(deathScreen);
     window.display();
@@ -174,7 +175,9 @@ void gameLoop() {
         if (eventInner.type == sf::Event::Closed) window.close();
       }
       if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter)) {
+        
         waiting = 0;
+        gameLoop();
       }
     }
   }
