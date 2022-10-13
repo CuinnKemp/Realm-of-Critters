@@ -14,7 +14,7 @@ Player::Player(double Pxpos, double Pypos, double width, double height,
   ypos = Pypos;
 
   // Initialises Player Stats
-  this->health = 100;
+  this->health = 1;
   this->movSpeed = 5;
 
   // Sequence to Intialise Sprites and Animations
