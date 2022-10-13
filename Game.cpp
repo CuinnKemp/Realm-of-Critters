@@ -9,6 +9,7 @@
 #include <SFML/System.hpp>
 #include <SFML/Window.hpp>
 #include <cmath>
+#include <string.h>
 #include <filesystem>
 #include <iostream>
 #include <random>
@@ -48,6 +49,9 @@ const sf::Time TimePerFrame = sf::seconds(1.f / 90.f);
 bool showQuitGameDialouge;
 bool showSettingsPage;
 bool isGameChanging;
+
+sf::Sprite playButton, loadButton, settingsButton, quitButton, background,
+   menuTitle, dialougeBox, yesButton, noButton, settingsPage, exitButton;
 
 
 void gameLoop() {
@@ -171,10 +175,10 @@ void gameLoop() {
     }
   }
 }
+}
 
 void mainMenu() {
-  sf::Sprite playButton, loadButton, settingsButton, quitButton, background,
-      menuTitle, dialougeBox, yesButton, noButton, settingsPage, exitButton;
+  
   menuTitle.setTexture(resourceManager.menuTitleTex);
   background.setTexture(resourceManager.backgroundTex);
   playButton.setTexture(resourceManager.playButtonTex, true);
@@ -198,7 +202,7 @@ void mainMenu() {
   exitButton.setScale(2, 2);
   exitButton.setPosition(-330, -220);
   exitButton.setTexture(resourceManager.quitButtonTex);
-
+  
   background.setScale(6, 6);
   background.setPosition(-480, -270);
   menuTitle.setScale(6, 6);
@@ -319,9 +323,9 @@ void mainMenu() {
 
   window.setFramerateLimit(120);
   window.display();
-}
+};
 
-int main() {
+int main(void) {
   showQuitGameDialouge = false;
   showSettingsPage = false;
   isGameChanging = true;

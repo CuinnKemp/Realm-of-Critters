@@ -7,11 +7,12 @@
 #include <iostream>
 #include <random>
 
+#include "ResourceManager.h"
 #include "Arrow.h"
 #include "Enemy.h"
 
 // Standard Enemy, Shoots at the Player
-class Beast : public Enemy {
+class Beast : public Enemy, public ResourceManager {
  public:
 
   // A counter for total Arrows
