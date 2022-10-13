@@ -218,9 +218,11 @@ void Player::getPosition() {
 
 // Checks if Player is Alive
 bool Player::isAlive() {
-  if (health >= 0) {
+  if (health > 0) {
+    std::cout << health << std::endl;
     return 1;
   }
+  std::cout << health << std::endl;
 
   // Resets camera if player isnt alive
   camera.setCenter(0, 0);

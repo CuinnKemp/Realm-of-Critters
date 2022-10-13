@@ -97,14 +97,18 @@ void gameLoop() {
 
     // WHile the Player is Alive and the window is still open
     while (P1.isAlive() && window.isOpen()) {
-      sf::Event eventInner;
-      while (window.pollEvent(eventInner)) {
-        if (eventInner.type == sf::Event::Closed) window.close();
+      while (window.pollEvent(event)) {
+        if (event.type == sf::Event::Closed) window.close();
       }
 
       sf::Time dt = clk.restart();
       timeSinceLastUpdate += dt;
-      while (timeSinceLastUpdate > TimePerFrame) {
+      while (P1.isAlive() && window.isOpen() &&
+             timeSinceLastUpdate > TimePerFrame) {
+        while (window.pollEvent(event)) {
+          if (event.type == sf::Event::Closed) window.close();
+        }
+
         timeSinceLastUpdate -= TimePerFrame;
 
         // Draws Background Map
@@ -156,13 +160,17 @@ void gameLoop() {
     }
 
     // Death Screen if Player runs out of health
+    P1.resetPlayer();
+    UI.resetUI();
+    E1.deleteExpBalls();
+    a1.deleteEnemies();
     window.clear(sf::Color::Black);
-    sf::Text deathText;
-    deathText.setFont(resourceManager.defaultFont);
-    deathText.setCharacterSize(80);
-    deathText.setString("   YOU DIED!\n\nPRESS ENTER");
-    deathText.setPosition(sf::Vector2f(-width / 10, -height / 10));
-    window.draw(deathText);
+    sf::RectangleShape deathScreen;
+    sf::Texture deathText;
+    deathText.loadFromFile("deathScreen.png");
+    deathScreen.setSize(sf::Vector2f(1920 / 2, 1080 / 2));
+    deathScreen.setTexture(&deathText);
+    window.draw(deathScreen);
     window.display();
 
     // Waiting for Player Response on Death Screen
@@ -174,10 +182,6 @@ void gameLoop() {
       }
       if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter)) {
         waiting = 0;
-        P1.resetPlayer();
-        UI.resetUI();
-        E1.deleteExpBalls();
-        a1.deleteEnemies();
       }
     }
   }
@@ -227,14 +231,9 @@ void mainMenu() {
   // std::cout << window.getSize().x / 3024 << std::endl;
 
   // Checks if mouse is hovering over the play button
-  if (abs(sf::Mouse::getPosition(window).x -
-          playButton.getGlobalBounds().left) > 1100 &&
-      abs(sf::Mouse::getPosition(window).x -
-          playButton.getGlobalBounds().left) < 1330 &&
-      abs(sf::Mouse::getPosition(window).y - playButton.getGlobalBounds().top) >
-          870 &&
-      abs(sf::Mouse::getPosition(window).y - playButton.getGlobalBounds().top) <
-          1100) {
+
+  if (playButton.getGlobalBounds().contains(sf::Vector2f(
+          window.mapPixelToCoords(sf::Mouse::getPosition(window))))) {
     // Sets selected texture for the play button
     playButton.setPosition(-196, 14);
     playButton.setTexture(resourceManager.playButtonSelectedTex, true);
