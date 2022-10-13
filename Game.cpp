@@ -248,14 +248,8 @@ void mainMenu() {
     }
   }
   // Checks if mouse is hovering over the quit button
-  else if (abs(sf::Mouse::getPosition(window).x -
-               quitButton.getGlobalBounds().left) > 1750 &&
-           abs(sf::Mouse::getPosition(window).x -
-               quitButton.getGlobalBounds().left) < 2000 &&
-           abs(sf::Mouse::getPosition(window).y -
-               quitButton.getGlobalBounds().top) > 870 &&
-           abs(sf::Mouse::getPosition(window).y -
-               quitButton.getGlobalBounds().top) < 1100) {
+  else if (quitButton.getGlobalBounds().contains(sf::Vector2f(
+          window.mapPixelToCoords(sf::Mouse::getPosition(window))))) {
     // Sets selected texture for the quit button
     quitButton.setPosition(104, 14);
     quitButton.setTexture(resourceManager.quitButtonSelectedTex, true);
@@ -265,14 +259,8 @@ void mainMenu() {
     }
   }
   // Checks if mouse is hovering over the settings button
-  else if (abs(sf::Mouse::getPosition(window).x -
-               playButton.getGlobalBounds().left) > 1725 &&
-           abs(sf::Mouse::getPosition(window).x -
-               playButton.getGlobalBounds().left) < 1995 &&
-           abs(sf::Mouse::getPosition(window).y -
-               playButton.getGlobalBounds().top) > 870 &&
-           abs(sf::Mouse::getPosition(window).y -
-               playButton.getGlobalBounds().top) < 1100) {
+  else if (settingsButton.getGlobalBounds().contains(sf::Vector2f(
+          window.mapPixelToCoords(sf::Mouse::getPosition(window))))) {
     // Sets selected texture for the settings button
     settingsButton.setPosition(4, 14);
     settingsButton.setTexture(resourceManager.settingsButtonSelectedTex, true);
@@ -296,14 +284,8 @@ void mainMenu() {
   // Checks if the settings button has been clicked
   if (showSettingsPage == true) {
     // Checks if mouse is hovering over the exit button
-    if (abs(sf::Mouse::getPosition(window).x -
-            exitButton.getGlobalBounds().left) > 800 &&
-        abs(sf::Mouse::getPosition(window).x -
-            exitButton.getGlobalBounds().left) < 900 &&
-        abs(sf::Mouse::getPosition(window).y -
-            exitButton.getGlobalBounds().top) > 350 &&
-        abs(sf::Mouse::getPosition(window).y -
-            exitButton.getGlobalBounds().top) < 450) {
+    if (exitButton.getGlobalBounds().contains(sf::Vector2f(
+          window.mapPixelToCoords(sf::Mouse::getPosition(window))))) {
       // Sets selected texture for the exit button
       exitButton.setPosition(-332, -222);
       exitButton.setTexture(resourceManager.quitButtonSelectedTex, true);
@@ -320,14 +302,8 @@ void mainMenu() {
   // Checks if the quit button has been clicked
   if (showQuitGameDialouge == true) {
     // Checks if mouse is hovering over the yes button
-    if (abs(sf::Mouse::getPosition(window).x -
-            yesButton.getGlobalBounds().left) > 1175 &&
-        abs(sf::Mouse::getPosition(window).x -
-            yesButton.getGlobalBounds().left) < 1580 &&
-        abs(sf::Mouse::getPosition(window).y -
-            yesButton.getGlobalBounds().top) > 780 &&
-        abs(sf::Mouse::getPosition(window).y -
-            yesButton.getGlobalBounds().top) < 980) {
+    if (yesButton.getGlobalBounds().contains(sf::Vector2f(
+          window.mapPixelToCoords(sf::Mouse::getPosition(window))))) {
       // Sets selected texture for the yes button
       yesButton.setPosition(-150, -9);
       yesButton.setTexture(resourceManager.yesButtonSelectedTex, true);
@@ -337,14 +313,8 @@ void mainMenu() {
       }
     }
     // Checks if mouse is hovering over the yes button
-    if (abs(sf::Mouse::getPosition(window).x -
-            noButton.getGlobalBounds().left) > 1500 &&
-        abs(sf::Mouse::getPosition(window).x -
-            noButton.getGlobalBounds().left) < 1895 &&
-        abs(sf::Mouse::getPosition(window).y - noButton.getGlobalBounds().top) >
-            780 &&
-        abs(sf::Mouse::getPosition(window).y - noButton.getGlobalBounds().top) <
-            980) {
+    if (noButton.getGlobalBounds().contains(sf::Vector2f(
+          window.mapPixelToCoords(sf::Mouse::getPosition(window))))) {
       // Sets selected texture for the yes button
       noButton.setPosition(0, -9);
       noButton.setTexture(resourceManager.noButtonSelectedTex, true);
