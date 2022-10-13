@@ -1,8 +1,4 @@
-// g++ Game.cpp ResourceManager.cpp Player.cpp UIManager.cpp Enemy.cpp
-// Enemies.cpp Beast.cpp Slime.cpp Obstacle.cpp ObstacleGenerator.cpp Arrow.cpp
-// PowerUp.cpp SpinningBlade.cpp ExpBall.cpp ExpContainer.cpp ExpSpawner.cpp
-// PlayerArrow.cpp PlayerArrowSpawner.cpp -lsfml-graphics -lsfml-window
-// -lsfml-system
+// g++ Game.cpp ResourceManager.cpp Player.cpp UIManager.cpp Enemy.cpp Enemies.cpp Beast.cpp Slime.cpp Obstacle.cpp ObstacleGenerator.cpp Arrow.cpp PowerUp.cpp SpinningBlade.cpp ExpBall.cpp ExpContainer.cpp ExpSpawner.cpp PlayerArrow.cpp PlayerArrowSpawner.cpp -lsfml-graphics -lsfml-window -lsfml-system
 
 #include <stdlib.h>
 
@@ -95,14 +91,17 @@ void gameLoop() {
 
     // WHile the Player is Alive and the window is still open
     while (P1.isAlive() && window.isOpen()) {
-      sf::Event eventInner;
-      while (window.pollEvent(eventInner)) {
-        if (eventInner.type == sf::Event::Closed) window.close();
+      while (window.pollEvent(event)) {
+        if (event.type == sf::Event::Closed) window.close();
       }
 
       sf::Time dt = clk.restart();
       timeSinceLastUpdate += dt;
-      while (timeSinceLastUpdate > TimePerFrame) {
+      while (P1.isAlive() && window.isOpen() && timeSinceLastUpdate > TimePerFrame) {
+        while (window.pollEvent(event)) {
+          if (event.type == sf::Event::Closed) window.close();
+        }
+        
         timeSinceLastUpdate -= TimePerFrame;
 
         // Draws Background Map
@@ -154,13 +153,17 @@ void gameLoop() {
     }
 
     // Death Screen if Player runs out of health
+    P1.resetPlayer();
+    UI.resetUI();
+    E1.deleteExpBalls();
+    a1.deleteEnemies();
     window.clear(sf::Color::Black);
-    sf::Text deathText;
-    deathText.setFont(resourceManager.defaultFont);
-    deathText.setCharacterSize(80);
-    deathText.setString("   YOU DIED!\n\nPRESS ENTER");
-    deathText.setPosition(sf::Vector2f(-width / 10, -height / 10));
-    window.draw(deathText);
+    sf::RectangleShape deathScreen;
+    sf::Texture deathText;
+    deathText.loadFromFile("deathScreen.png");
+    deathScreen.setSize(sf::Vector2f(1920 / 2, 1080 / 2));
+    deathScreen.setTexture(&deathText);
+    window.draw(deathScreen);
     window.display();
 
     // Waiting for Player Response on Death Screen
@@ -172,10 +175,6 @@ void gameLoop() {
       }
       if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter)) {
         waiting = 0;
-        P1.resetPlayer();
-        UI.resetUI();
-        E1.deleteExpBalls();
-        a1.deleteEnemies();
       }
     }
   }
@@ -221,41 +220,21 @@ void mainMenu() {
   quitButton.setScale(6, 6);
   quitButton.setPosition(110, 20);
 
-  if (abs(sf::Mouse::getPosition(window).x -
-          playButton.getGlobalBounds().left) > 1100 &&
-      abs(sf::Mouse::getPosition(window).x -
-          playButton.getGlobalBounds().left) < 1330 &&
-      abs(sf::Mouse::getPosition(window).y - playButton.getGlobalBounds().top) >
-          870 &&
-      abs(sf::Mouse::getPosition(window).y - playButton.getGlobalBounds().top) <
-          1100) {
+
+  if (playButton.getGlobalBounds().contains(sf::Vector2f(window.mapPixelToCoords(sf::Mouse::getPosition(window))))){
     playButton.setPosition(-196, 14);
     playButton.setTexture(resourceManager.playButtonSelectedTex, true);
     if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
       gameState = "gameLoop";
       isGameChanging = true;
     }
-  } else if (abs(sf::Mouse::getPosition(window).x -
-                 quitButton.getGlobalBounds().left) > 1750 &&
-             abs(sf::Mouse::getPosition(window).x -
-                 quitButton.getGlobalBounds().left) < 2000 &&
-             abs(sf::Mouse::getPosition(window).y -
-                 quitButton.getGlobalBounds().top) > 870 &&
-             abs(sf::Mouse::getPosition(window).y -
-                 quitButton.getGlobalBounds().top) < 1100) {
+  } else if (quitButton.getGlobalBounds().contains(sf::Vector2f(window.mapPixelToCoords(sf::Mouse::getPosition(window))))){
     quitButton.setPosition(104, 14);
     quitButton.setTexture(resourceManager.quitButtonSelectedTex, true);
     if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
       showQuitGameDialouge = true;
     }
-  } else if (abs(sf::Mouse::getPosition(window).x -
-                 playButton.getGlobalBounds().left) > 1725 &&
-             abs(sf::Mouse::getPosition(window).x -
-                 playButton.getGlobalBounds().left) < 1995 &&
-             abs(sf::Mouse::getPosition(window).y -
-                 playButton.getGlobalBounds().top) > 870 &&
-             abs(sf::Mouse::getPosition(window).y -
-                 playButton.getGlobalBounds().top) < 1100) {
+  } else if (settingsButton.getGlobalBounds().contains(sf::Vector2f(window.mapPixelToCoords(sf::Mouse::getPosition(window))))){
     settingsButton.setPosition(4, 14);
     settingsButton.setTexture(resourceManager.settingsButtonSelectedTex, true);
     if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
@@ -274,14 +253,7 @@ void mainMenu() {
   window.draw(quitButton);
 
   if (showSettingsPage == true) {
-    if (abs(sf::Mouse::getPosition(window).x -
-            exitButton.getGlobalBounds().left) > 800 &&
-        abs(sf::Mouse::getPosition(window).x -
-            exitButton.getGlobalBounds().left) < 900 &&
-        abs(sf::Mouse::getPosition(window).y -
-            exitButton.getGlobalBounds().top) > 350 &&
-        abs(sf::Mouse::getPosition(window).y -
-            exitButton.getGlobalBounds().top) < 450) {
+    if (exitButton.getGlobalBounds().contains(sf::Vector2f(window.mapPixelToCoords(sf::Mouse::getPosition(window))))) {
       exitButton.setPosition(-332, -222);
       exitButton.setTexture(resourceManager.quitButtonSelectedTex, true);
       if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
@@ -293,28 +265,14 @@ void mainMenu() {
   }
 
   if (showQuitGameDialouge == true) {
-    if (abs(sf::Mouse::getPosition(window).x -
-            yesButton.getGlobalBounds().left) > 1175 &&
-        abs(sf::Mouse::getPosition(window).x -
-            yesButton.getGlobalBounds().left) < 1580 &&
-        abs(sf::Mouse::getPosition(window).y -
-            yesButton.getGlobalBounds().top) > 780 &&
-        abs(sf::Mouse::getPosition(window).y -
-            yesButton.getGlobalBounds().top) < 980) {
+    if (yesButton.getGlobalBounds().contains(sf::Vector2f(window.mapPixelToCoords(sf::Mouse::getPosition(window))))) {
       yesButton.setPosition(-150, -9);
       yesButton.setTexture(resourceManager.yesButtonSelectedTex, true);
       if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
         window.close();
       }
     }
-    if (abs(sf::Mouse::getPosition(window).x -
-            noButton.getGlobalBounds().left) > 1500 &&
-        abs(sf::Mouse::getPosition(window).x -
-            noButton.getGlobalBounds().left) < 1895 &&
-        abs(sf::Mouse::getPosition(window).y - noButton.getGlobalBounds().top) >
-            780 &&
-        abs(sf::Mouse::getPosition(window).y - noButton.getGlobalBounds().top) <
-            980) {
+    if (noButton.getGlobalBounds().contains(sf::Vector2f(window.mapPixelToCoords(sf::Mouse::getPosition(window))))) {
       noButton.setPosition(0, -9);
       noButton.setTexture(resourceManager.noButtonSelectedTex, true);
       if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
