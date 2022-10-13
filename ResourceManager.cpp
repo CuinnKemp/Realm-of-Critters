@@ -3,6 +3,7 @@
 #include <SFML/Graphics.hpp>
 
 ResourceManager::ResourceManager() {
+  // Loads textures for player and player arrow
   idleDown.loadFromFile("playerAnimation/Idle/idleDown.png");
   idleUp.loadFromFile("playerAnimation/Idle/idleUp.png");
   idleLeft.loadFromFile("playerAnimation/Idle/idleLeft.png");
@@ -28,6 +29,7 @@ ResourceManager::ResourceManager() {
 }
 
 void ResourceManager::loadMainMenu() {
+  // Loads textures for main menu
   backgroundTex.loadFromFile("UI/MainMenuBackground.png");
   menuTitleTex.loadFromFile("UI/MenuTitle.png");
   playButtonTex.loadFromFile("UI/PlayButton.png");
@@ -47,6 +49,7 @@ void ResourceManager::loadMainMenu() {
 }
 
 void ResourceManager::loadGame() {
+  // Loads map textures
   mapImage.loadFromFile("backgroundMap.png");
   extrasImage.loadFromFile("mapExtras.png");
   grass.loadFromFile("barrier/grass.png");
@@ -54,6 +57,7 @@ void ResourceManager::loadGame() {
   snow.loadFromFile("barrier/snow.png");
   dirt.loadFromFile("barrier/dirt.png");
 
+  // Loads exp ball textures
   exp1.loadFromFile("expAnimation/exp1.png");
   exp2.loadFromFile("expAnimation/exp2.png");
   exp3.loadFromFile("expAnimation/exp3.png");
@@ -63,6 +67,7 @@ void ResourceManager::loadGame() {
   exp7.loadFromFile("expAnimation/exp7.png");
   exp8.loadFromFile("expAnimation/exp8.png");
 
+  // Loads Beasts textures
   walkDown1.loadFromFile("beastAnimation/walkDown1.png");
   walkDown2.loadFromFile("beastAnimation/walkDown2.png");
   walkDown3.loadFromFile("beastAnimation/walkDown3.png");
@@ -80,6 +85,7 @@ void ResourceManager::loadGame() {
   walkRight3.loadFromFile("beastAnimation/walkRight3.png");
   walkRight4.loadFromFile("beastAnimation/walkRight4.png");
 
+  // Loads Slime textures
   slimeWalkDown1.loadFromFile("slimeAnimation/walkDown1.png");
   slimeWalkDown2.loadFromFile("slimeAnimation/walkDown2.png");
   slimeWalkDown3.loadFromFile("slimeAnimation/walkDown3.png");
@@ -97,6 +103,7 @@ void ResourceManager::loadGame() {
   slimeWalkRight3.loadFromFile("slimeAnimation/walkRight3.png");
   slimeWalkRight4.loadFromFile("slimeAnimation/walkRight4.png");
 
+  // Loads UI Textures
   emptyInfoTex.loadFromFile("UI/EmptyInfo.png");
   healthBarBottomTex.loadFromFile("UI/HealthBarBottom.png");
   healthBarTopTex.loadFromFile("UI/HealthBarTop.png");
@@ -104,6 +111,7 @@ void ResourceManager::loadGame() {
   levelBarTopTex.loadFromFile("UI/LevelBarTop.png");
   shuriken.loadFromFile("Shuriken.png");
 
+  // Loads text font
   defaultFont.loadFromFile("OfMiceAndCats.ttf");
 }
 

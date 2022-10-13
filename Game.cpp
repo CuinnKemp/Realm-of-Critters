@@ -52,11 +52,13 @@ bool isGameChanging;
 bool waiting;
 
 void gameLoop() {
+  // Initialising Objects for Main Game
   SpinningBlade b1(0);
   sf::Clock clk;
   sf::Time timeSinceLastUpdate = sf::Time::Zero;
   sf::Sprite backgroundMap, mapExtras;
   UIManager UI(0, 0, width / 2, height / 2, &window);
+
   // Setings for Map and Extras
   backgroundMap.scale(2, 2);
   backgroundMap.setTexture(resourceManager.mapImage);
@@ -182,6 +184,7 @@ void gameLoop() {
 }
 
 void mainMenu() {
+  // Setings for Main Menu UI
   sf::Sprite playButton, loadButton, settingsButton, quitButton, background,
       menuTitle, dialougeBox, yesButton, noButton, settingsPage, exitButton;
   menuTitle.setTexture(resourceManager.menuTitleTex);
@@ -221,6 +224,9 @@ void mainMenu() {
   quitButton.setScale(6, 6);
   quitButton.setPosition(110, 20);
 
+  // std::cout << window.getSize().x / 3024 << std::endl;
+
+  // Checks if mouse is hovering over the play button
   if (abs(sf::Mouse::getPosition(window).x -
           playButton.getGlobalBounds().left) > 1100 &&
       abs(sf::Mouse::getPosition(window).x -
@@ -229,35 +235,46 @@ void mainMenu() {
           870 &&
       abs(sf::Mouse::getPosition(window).y - playButton.getGlobalBounds().top) <
           1100) {
+    // Sets selected texture for the play button
     playButton.setPosition(-196, 14);
     playButton.setTexture(resourceManager.playButtonSelectedTex, true);
+
+    // Checks if the play button is clicked
     if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
       gameState = "gameLoop";
       isGameChanging = true;
     }
-  } else if (abs(sf::Mouse::getPosition(window).x -
-                 quitButton.getGlobalBounds().left) > 1750 &&
-             abs(sf::Mouse::getPosition(window).x -
-                 quitButton.getGlobalBounds().left) < 2000 &&
-             abs(sf::Mouse::getPosition(window).y -
-                 quitButton.getGlobalBounds().top) > 870 &&
-             abs(sf::Mouse::getPosition(window).y -
-                 quitButton.getGlobalBounds().top) < 1100) {
+  }
+  // Checks if mouse is hovering over the quit button
+  else if (abs(sf::Mouse::getPosition(window).x -
+               quitButton.getGlobalBounds().left) > 1750 &&
+           abs(sf::Mouse::getPosition(window).x -
+               quitButton.getGlobalBounds().left) < 2000 &&
+           abs(sf::Mouse::getPosition(window).y -
+               quitButton.getGlobalBounds().top) > 870 &&
+           abs(sf::Mouse::getPosition(window).y -
+               quitButton.getGlobalBounds().top) < 1100) {
+    // Sets selected texture for the quit button
     quitButton.setPosition(104, 14);
     quitButton.setTexture(resourceManager.quitButtonSelectedTex, true);
+    // Checks if the quit button is clicked
     if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
       showQuitGameDialouge = true;
     }
-  } else if (abs(sf::Mouse::getPosition(window).x -
-                 playButton.getGlobalBounds().left) > 1725 &&
-             abs(sf::Mouse::getPosition(window).x -
-                 playButton.getGlobalBounds().left) < 1995 &&
-             abs(sf::Mouse::getPosition(window).y -
-                 playButton.getGlobalBounds().top) > 870 &&
-             abs(sf::Mouse::getPosition(window).y -
-                 playButton.getGlobalBounds().top) < 1100) {
+  }
+  // Checks if mouse is hovering over the settings button
+  else if (abs(sf::Mouse::getPosition(window).x -
+               playButton.getGlobalBounds().left) > 1725 &&
+           abs(sf::Mouse::getPosition(window).x -
+               playButton.getGlobalBounds().left) < 1995 &&
+           abs(sf::Mouse::getPosition(window).y -
+               playButton.getGlobalBounds().top) > 870 &&
+           abs(sf::Mouse::getPosition(window).y -
+               playButton.getGlobalBounds().top) < 1100) {
+    // Sets selected texture for the settings button
     settingsButton.setPosition(4, 14);
     settingsButton.setTexture(resourceManager.settingsButtonSelectedTex, true);
+    // Checks if the settings button is clicked
     if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
       showSettingsPage = true;
     }
@@ -266,6 +283,7 @@ void mainMenu() {
     showQuitGameDialouge = true;
   }
 
+  // Draws UI elements
   window.draw(background);
   window.draw(menuTitle);
   window.draw(playButton);
@@ -273,7 +291,9 @@ void mainMenu() {
   window.draw(settingsButton);
   window.draw(quitButton);
 
+  // Checks if the settings button has been clicked
   if (showSettingsPage == true) {
+    // Checks if mouse is hovering over the exit button
     if (abs(sf::Mouse::getPosition(window).x -
             exitButton.getGlobalBounds().left) > 800 &&
         abs(sf::Mouse::getPosition(window).x -
@@ -282,17 +302,22 @@ void mainMenu() {
             exitButton.getGlobalBounds().top) > 350 &&
         abs(sf::Mouse::getPosition(window).y -
             exitButton.getGlobalBounds().top) < 450) {
+      // Sets selected texture for the exit button
       exitButton.setPosition(-332, -222);
       exitButton.setTexture(resourceManager.quitButtonSelectedTex, true);
+      // Checks if the exit button is clicked
       if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
         showSettingsPage = false;
       }
     }
+    // Draws settings page UI elements
     window.draw(settingsPage);
     window.draw(exitButton);
   }
 
+  // Checks if the quit button has been clicked
   if (showQuitGameDialouge == true) {
+    // Checks if mouse is hovering over the yes button
     if (abs(sf::Mouse::getPosition(window).x -
             yesButton.getGlobalBounds().left) > 1175 &&
         abs(sf::Mouse::getPosition(window).x -
@@ -301,12 +326,15 @@ void mainMenu() {
             yesButton.getGlobalBounds().top) > 780 &&
         abs(sf::Mouse::getPosition(window).y -
             yesButton.getGlobalBounds().top) < 980) {
+      // Sets selected texture for the yes button
       yesButton.setPosition(-150, -9);
       yesButton.setTexture(resourceManager.yesButtonSelectedTex, true);
+      // Checks if the yes button is clicked
       if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
         window.close();
       }
     }
+    // Checks if mouse is hovering over the yes button
     if (abs(sf::Mouse::getPosition(window).x -
             noButton.getGlobalBounds().left) > 1500 &&
         abs(sf::Mouse::getPosition(window).x -
@@ -315,12 +343,15 @@ void mainMenu() {
             780 &&
         abs(sf::Mouse::getPosition(window).y - noButton.getGlobalBounds().top) <
             980) {
+      // Sets selected texture for the yes button
       noButton.setPosition(0, -9);
       noButton.setTexture(resourceManager.noButtonSelectedTex, true);
+      // Checks if the no button is clicked
       if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
         showQuitGameDialouge = false;
       }
     }
+    // Draws quit game dialouge UI elements
     window.draw(dialougeBox);
     window.draw(yesButton);
     window.draw(noButton);
@@ -331,28 +362,39 @@ void mainMenu() {
 }
 
 int main() {
+  // Sets inital game states
   showQuitGameDialouge = false;
   showSettingsPage = false;
   isGameChanging = true;
   waiting = false;
+  gameState = "mainMenu";
 
   while (window.isOpen()) {
     sf::Event event;
-    gameState = "mainMenu";
     while (window.pollEvent(event)) {
       if (event.type == sf::Event::Closed) window.close();
+      /*       if (event.type == sf::Event::Resized) {
+              sf::FloatRect view(1920, -1080, event.size.width,
+         event.size.height); window.setView(sf::View(view));
+            } */
     }
-
+    // Checks if on Main Menu Screen
     if (gameState == "mainMenu") {
+      // Checks if the game state changed
       if (isGameChanging) {
+        // Load assets for main menu
         resourceManager.loadMainMenu();
         isGameChanging = false;
       }
       mainMenu();
     }
+    // Checks if on Main Game Screen
     if (gameState == "gameLoop") {
+      // Checks if the game state changed
       if (isGameChanging) {
+        // Load assets for main game
         resourceManager.loadGame();
+        isGameChanging = false;
       }
       gameLoop();
     }
