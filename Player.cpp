@@ -62,6 +62,7 @@ void Player::resetPlayer() {
   currentExp = 0;
   expCap = 100;
   camera.setCenter(0, 0);
+  clock.restart();
   this->sprite.setSize(sf::Vector2f(40, 40));
 
   // resets variables

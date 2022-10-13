@@ -13,9 +13,11 @@ extern Player P1;                        // Player
 
 UIManager::UIManager(double Pxpos, double Pypos, double width, double height,
                      sf::RenderWindow* window) {
+  // Sets UI window size and resets timer
   UIwidth = 1920;
   UIheight = 1080;
   timer = 0;
+  P1.resetPlayer();
 
   // Sets player UI textures
   emptyInfo.setTexture(resourceManager.emptyInfoTex);
