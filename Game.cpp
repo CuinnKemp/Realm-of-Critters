@@ -235,10 +235,7 @@ void gameLoop() {
     while (P1.isAlive() && window.isOpen()) {
       while (window.pollEvent(event)) {
         if (event.type == sf::Event::Closed) {
-          saveGame(P1.health, P1.level, P1.currentExp,
-                   P1.clock.getElapsedTime().asSeconds());
-          encryptSaveGame();
-          window.close();
+          showQuitGameDialouge = true;
         }
       }
 
@@ -248,10 +245,7 @@ void gameLoop() {
              timeSinceLastUpdate > TimePerFrame) {
         while (window.pollEvent(event)) {
           if (event.type == sf::Event::Closed) {
-            saveGame(P1.health, P1.level, P1.currentExp,
-                     P1.clock.getElapsedTime().asSeconds());
-            encryptSaveGame();
-            window.close();
+            showQuitGameDialouge = true;
           }
         }
 
