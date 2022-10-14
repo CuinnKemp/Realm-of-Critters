@@ -45,6 +45,10 @@ ObstacleGenerator og;
 ExpSpawner E1;
 ResourceManager resourceManager;
 Player P1(0, 0, width / 2, height / 2, &window);
+Enemies a1;
+PlayerArrowSpawner pA(&a1);
+SpinningBlade b1(0);
+
 const sf::Time TimePerFrame = sf::seconds(1.f / 90.f);
 bool showQuitGameDialouge;
 bool showSettingsPage;
@@ -53,7 +57,6 @@ bool waiting;
 
 void gameLoop() {
   // Initialising Objects for Main Game
-  SpinningBlade b1(0);
   sf::Clock clk;
   sf::Time timeSinceLastUpdate = sf::Time::Zero;
   sf::Sprite backgroundMap, mapExtras;
@@ -72,11 +75,6 @@ void gameLoop() {
     P1.resetPlayer();
     isGameChanging = false;
   }
-
-  // Main game Loop
-  // Initialising Enemies & Player Arrows
-  Enemies a1;
-  PlayerArrowSpawner pA(&a1);
 
   // While the Window is open
   sf::Event event;
@@ -146,7 +144,6 @@ void gameLoop() {
     UI.DrawUIManager(&window);
     window.display();
     window.clear(sf::Color::White);
-    P1.health = 0;
   }
   
 
@@ -175,8 +172,8 @@ void gameLoop() {
   deathText1.setPosition(-702/2,-1080/6);
   deathText2.setPosition(-533/2,0);
   
-  deathText1.setColor(sf::Color::Green);
-  deathText2.setColor(sf::Color::Green);
+  deathText1.setFillColor(sf::Color::Green);
+  deathText2.setFillColor(sf::Color::Green);
 
   window.draw(background);
   window.draw(deathText1);
