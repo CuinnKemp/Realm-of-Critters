@@ -61,6 +61,7 @@ void Player::resetPlayer() {
   oldYpos = 0;
   currentExp = 0;
   expCap = 100;
+  savedTime = 0;
   camera.setCenter(0, 0);
   clock.restart();
   this->sprite.setSize(sf::Vector2f(40, 40));
@@ -219,10 +220,10 @@ void Player::getPosition() {
 // Checks if Player is Alive
 bool Player::isAlive() {
   if (health > 0) {
-    std::cout << health << std::endl;
+    // std::cout << health << std::endl;
     return 1;
   }
-  std::cout << health << std::endl;
+  // std::cout << health << std::endl;
 
   // Resets camera if player isnt alive
   camera.setCenter(0, 0);

@@ -53,11 +53,12 @@ bool showQuitGameDialouge;
 bool showSettingsPage;
 bool isGameChanging;
 bool waiting;
+bool shouldLoadGame;
 
-int saveGame(int health, int level, float time) {
+int saveGame(int health, int level, int currentExp, float time) {
   ofstream saveFile("saveGame.save");
   if (saveFile.is_open()) {
-    saveFile << health << " " << level << " " << time;
+    saveFile << health << " " << level << " " << currentExp << " " << time;
     saveFile.close();
   } else {
     return 0;
@@ -65,7 +66,29 @@ int saveGame(int health, int level, float time) {
   return 1;
 }
 
-int* loadGame() { return 0; }
+int loadGame() {
+  P1.resetPlayer();
+  int number;
+  ifstream saveFile("saveGame.save");
+  if (saveFile.is_open()) {
+    for (int i = 0; i < 4; i++) {
+      saveFile >> number;
+      if (i == 0) {
+        P1.health = number;
+      } else if (i == 1) {
+        P1.level = number;
+      } else if (i == 2) {
+        P1.currentExp = number;
+      } else {
+        P1.savedTime = number;
+      }
+    }
+    saveFile.close();
+  } else {
+    return 0;
+  }
+  return 1;
+}
 
 void encryptSaveGame() {
   char fileName[30], ch;
@@ -143,7 +166,8 @@ void quitGameDialouge() {
     // Checks if the yes button is clicked
     if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
       if (gameState == "gameLoop") {
-        saveGame(P1.health, P1.level, P1.clock.getElapsedTime().asSeconds());
+        saveGame(P1.health, P1.level, P1.currentExp,
+                 P1.clock.getElapsedTime().asSeconds());
       }
       window.close();
     }
@@ -183,10 +207,7 @@ void gameLoop() {
   mapExtras.setTexture(resourceManager.extrasImage);
   mapExtras.setPosition(-2048, -2048);
 
-  if (isGameChanging) {
-    P1.resetPlayer();
-    isGameChanging = false;
-  }
+  isGameChanging = false;
 
   // Main game Loop
   while (window.isOpen()) {
@@ -209,8 +230,8 @@ void gameLoop() {
     for (int i = 0; i < 25; i++) {
       E1.spawnNewExp();
     }
-
-    // WHile the Player is Alive and the window is still open
+    cout << P1.health << endl;
+    // While the Player is Alive and the window is still open
     while (P1.isAlive() && window.isOpen()) {
       while (window.pollEvent(event)) {
         if (event.type == sf::Event::Closed) window.close();
@@ -222,6 +243,11 @@ void gameLoop() {
              timeSinceLastUpdate > TimePerFrame) {
         while (window.pollEvent(event)) {
           if (event.type == sf::Event::Closed) window.close();
+        }
+
+        if (shouldLoadGame) {
+          loadGame();
+          shouldLoadGame = false;
         }
 
         timeSinceLastUpdate -= TimePerFrame;
@@ -394,6 +420,7 @@ void mainMenu() {
     loadButton.setTexture(resourceManager.loadButtonSelectedTex, true);
     // Checks if the load button is clicked
     if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
+      shouldLoadGame = true;
       gameState = "gameLoop";
       isGameChanging = true;
     }
@@ -443,6 +470,7 @@ int main() {
   showSettingsPage = false;
   isGameChanging = true;
   waiting = false;
+  shouldLoadGame = false;
   gameState = "mainMenu";
 
   while (window.isOpen()) {
