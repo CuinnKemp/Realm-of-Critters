@@ -11,8 +11,10 @@
 #include <SFML/Window.hpp>
 #include <cmath>
 #include <filesystem>
+#include <fstream>
 #include <iostream>
 #include <random>
+#include <sstream>
 
 #include "Arrow.h"
 #include "Beast.h"
@@ -30,6 +32,7 @@
 #include "Slime.h"
 #include "SpinningBlade.h"
 #include "UIManager.h"
+using namespace std;
 
 // coordinates for the player
 double xpos, ypos;
@@ -50,6 +53,118 @@ bool showQuitGameDialouge;
 bool showSettingsPage;
 bool isGameChanging;
 bool waiting;
+
+int saveGame(int health, int level, float time) {
+  ofstream saveFile("saveGame.save");
+  if (saveFile.is_open()) {
+    saveFile << health << " " << level << " " << time;
+    saveFile.close();
+  } else {
+    return 0;
+  }
+  return 1;
+}
+
+int* loadGame() { return 0; }
+
+void encryptSaveGame() {
+  char fileName[30], ch;
+  std::fstream fps, fpt;
+
+  std::ofstream myfile;
+  fps.open("saveGame.save", std::fstream::in);
+  fpt.open("tmpSave.save", std::fstream::out);
+  while (fps >> std::noskipws >> ch) {
+    ch = ch + 100;
+    fpt << ch;
+  }
+  fps.close();
+  fpt.close();
+}
+void decryptSaveGame() {
+  char fileName[30], ch;
+  std::fstream fps, fpt;
+
+  std::ofstream myfile;
+  fps.open("saveGame.save", std::fstream::out);
+  fpt.open("tmpSave.save", std::fstream::in);
+  while (fpt >> std::noskipws >> ch) fps << ch;
+  fps.close();
+  fpt.close();
+  std::cout << "\nFile '"
+            << "saveGame.save"
+            << "' Encrypted Successfully!";
+  std::cout << std::endl;
+  fps.open("saveGame.save", std::fstream::out);
+  fpt.open("tmpSave.save", std::fstream::in);
+  while (fpt >> std::noskipws >> ch) {
+    ch = ch - 100;
+    fps << ch;
+  }
+  fps.close();
+  fpt.close();
+  std::cout << "\nFile '"
+            << "saveGame.save"
+            << "' Decrypted Successfully!";
+  std::cout << std::endl;
+}
+
+void quitGameDialouge() {
+  sf::Sprite dialougeBox, yesButton, noButton;
+  dialougeBox.setTexture(resourceManager.dialougeBoxTex);
+  dialougeBox.setScale(1, 1);
+
+  yesButton.setTexture(resourceManager.yesButtonTex);
+  yesButton.setScale(2, 2);
+
+  noButton.setTexture(resourceManager.noButtonTex);
+  noButton.setScale(2, 2);
+
+  if (gameState == "gameLoop") {
+    dialougeBox.setPosition(-285 + P1.sprite.getPosition().x,
+                            -75 + P1.sprite.getPosition().y);
+    yesButton.setPosition(-150 + P1.sprite.getPosition().x,
+                          -10 + P1.sprite.getPosition().y);
+    noButton.setPosition(0 + P1.sprite.getPosition().x,
+                         -10 + P1.sprite.getPosition().y);
+  } else {
+    dialougeBox.setPosition(-285, -75);
+    yesButton.setPosition(-150, -10);
+    noButton.setPosition(0, -10);
+  }
+
+  // Checks if mouse is hovering over the yes button
+  if (yesButton.getGlobalBounds().contains(sf::Vector2f(
+          window.mapPixelToCoords(sf::Mouse::getPosition(window))))) {
+    // Sets selected texture for the yes button
+    yesButton.setPosition(-150 + P1.sprite.getPosition().x,
+                          -9 + P1.sprite.getPosition().y);
+    yesButton.setTexture(resourceManager.yesButtonSelectedTex, true);
+    // Checks if the yes button is clicked
+    if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
+      if (gameState == "gameLoop") {
+        saveGame(P1.health, P1.level, P1.clock.getElapsedTime().asSeconds());
+      }
+      window.close();
+    }
+  }
+  // Checks if mouse is hovering over the yes button
+  if (noButton.getGlobalBounds().contains(sf::Vector2f(
+          window.mapPixelToCoords(sf::Mouse::getPosition(window))))) {
+    // Sets selected texture for the yes button
+    noButton.setPosition(0 + P1.sprite.getPosition().x,
+                         -9 + P1.sprite.getPosition().y);
+    noButton.setTexture(resourceManager.noButtonSelectedTex, true);
+    // Checks if the no button is clicked
+    if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
+      showQuitGameDialouge = false;
+    }
+  }
+  // Draws quit game dialouge UI elements
+  window.draw(dialougeBox);
+  window.draw(yesButton);
+  window.draw(noButton);
+}
 
 void gameLoop() {
   // Initialising Objects for Main Game
@@ -154,6 +269,16 @@ void gameLoop() {
         // Updating Exp, UI and Map
         E1.updateExps();
         UI.DrawUIManager(&window);
+
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
+          showQuitGameDialouge = true;
+        }
+
+        // Checks if the quit button has been clicked
+        if (showQuitGameDialouge == true) {
+          quitGameDialouge();
+        }
+
         window.display();
         window.clear(sf::Color::White);
       }
@@ -192,23 +317,13 @@ void gameLoop() {
 void mainMenu() {
   // Setings for Main Menu UI
   sf::Sprite playButton, loadButton, settingsButton, quitButton, background,
-      menuTitle, dialougeBox, yesButton, noButton, settingsPage, exitButton;
+      menuTitle, settingsPage, exitButton;
   menuTitle.setTexture(resourceManager.menuTitleTex);
   background.setTexture(resourceManager.backgroundTex);
   playButton.setTexture(resourceManager.playButtonTex, true);
   loadButton.setTexture(resourceManager.loadButtonTex);
   settingsButton.setTexture(resourceManager.settingsButtonTex);
   quitButton.setTexture(resourceManager.quitButtonTex);
-
-  dialougeBox.setTexture(resourceManager.dialougeBoxTex);
-  dialougeBox.setScale(1, 1);
-  dialougeBox.setPosition(-285, -75);
-  yesButton.setTexture(resourceManager.yesButtonTex);
-  yesButton.setScale(2, 2);
-  yesButton.setPosition(-150, -10);
-  noButton.setTexture(resourceManager.noButtonTex);
-  noButton.setScale(2, 2);
-  noButton.setPosition(0, -10);
 
   settingsPage.setTexture(resourceManager.settingsPageTex);
   settingsPage.setScale(3, 3);
@@ -271,6 +386,21 @@ void mainMenu() {
   } else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
     showQuitGameDialouge = true;
   }
+  // Checks if mouse is hovering over the load button
+  else if (loadButton.getGlobalBounds().contains(sf::Vector2f(
+               window.mapPixelToCoords(sf::Mouse::getPosition(window))))) {
+    // Sets selected texture for the load button
+    loadButton.setPosition(-96, 14);
+    loadButton.setTexture(resourceManager.loadButtonSelectedTex, true);
+    // Checks if the load button is clicked
+    if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
+      gameState = "gameLoop";
+      isGameChanging = true;
+    }
+
+  } else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
+    showQuitGameDialouge = true;
+  }
 
   // Draws UI elements
   window.draw(background);
@@ -300,32 +430,7 @@ void mainMenu() {
 
   // Checks if the quit button has been clicked
   if (showQuitGameDialouge == true) {
-    // Checks if mouse is hovering over the yes button
-    if (yesButton.getGlobalBounds().contains(sf::Vector2f(
-            window.mapPixelToCoords(sf::Mouse::getPosition(window))))) {
-      // Sets selected texture for the yes button
-      yesButton.setPosition(-150, -9);
-      yesButton.setTexture(resourceManager.yesButtonSelectedTex, true);
-      // Checks if the yes button is clicked
-      if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
-        window.close();
-      }
-    }
-    // Checks if mouse is hovering over the yes button
-    if (noButton.getGlobalBounds().contains(sf::Vector2f(
-            window.mapPixelToCoords(sf::Mouse::getPosition(window))))) {
-      // Sets selected texture for the yes button
-      noButton.setPosition(0, -9);
-      noButton.setTexture(resourceManager.noButtonSelectedTex, true);
-      // Checks if the no button is clicked
-      if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
-        showQuitGameDialouge = false;
-      }
-    }
-    // Draws quit game dialouge UI elements
-    window.draw(dialougeBox);
-    window.draw(yesButton);
-    window.draw(noButton);
+    quitGameDialouge();
   }
 
   window.setFramerateLimit(120);
