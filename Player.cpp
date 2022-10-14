@@ -67,7 +67,6 @@ void Player::resetPlayer() {
 
   // resets variables
   this->animationCount = 0;
-  this->health = 100;
 }
 
 // Directional movement by adding current Position and movement speed vector in
@@ -219,10 +218,8 @@ void Player::getPosition() {
 // Checks if Player is Alive
 bool Player::isAlive() {
   if (health > 0) {
-    std::cout << health << std::endl;
-    return 1;
+    return true;
   }
-  std::cout << health << std::endl;
 
   // Resets camera if player isnt alive
   camera.setCenter(0, 0);
