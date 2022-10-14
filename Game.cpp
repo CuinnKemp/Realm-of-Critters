@@ -101,6 +101,8 @@ void encryptSaveGame() {
     ch = ch + 100;
     fpt << ch;
   }
+  remove("saveGame.save");
+  rename("tmpSave.save", "saveGame.save");
   fps.close();
   fpt.close();
 }
@@ -109,27 +111,23 @@ void decryptSaveGame() {
   std::fstream fps, fpt;
 
   std::ofstream myfile;
-  fps.open("saveGame.save", std::fstream::out);
-  fpt.open("tmpSave.save", std::fstream::in);
-  while (fpt >> std::noskipws >> ch) fps << ch;
+  fps.open("saveGame.save", std::fstream::in);
+  fpt.open("tmpSave.save", std::fstream::out);
+  while (fps >> std::noskipws >> ch) {
+    fpt << ch;
+  }
   fps.close();
   fpt.close();
-  std::cout << "\nFile '"
-            << "saveGame.save"
-            << "' Encrypted Successfully!";
-  std::cout << std::endl;
+
   fps.open("saveGame.save", std::fstream::out);
   fpt.open("tmpSave.save", std::fstream::in);
   while (fpt >> std::noskipws >> ch) {
     ch = ch - 100;
     fps << ch;
   }
+  remove("tmpSave.save");
   fps.close();
   fpt.close();
-  std::cout << "\nFile '"
-            << "saveGame.save"
-            << "' Decrypted Successfully!";
-  std::cout << std::endl;
 }
 
 void quitGameDialouge() {
@@ -168,6 +166,7 @@ void quitGameDialouge() {
       if (gameState == "gameLoop") {
         saveGame(P1.health, P1.level, P1.currentExp,
                  P1.clock.getElapsedTime().asSeconds());
+        encryptSaveGame();
       }
       window.close();
     }
@@ -218,7 +217,9 @@ void gameLoop() {
     // While the Window is open
     sf::Event event;
     while (window.pollEvent(event)) {
-      if (event.type == sf::Event::Closed) window.close();
+      if (event.type == sf::Event::Closed) {
+        window.close();
+      }
     }
 
     // Sets Background Map, Spawns Obstacles and EXP
@@ -230,11 +231,15 @@ void gameLoop() {
     for (int i = 0; i < 25; i++) {
       E1.spawnNewExp();
     }
-    cout << P1.health << endl;
     // While the Player is Alive and the window is still open
     while (P1.isAlive() && window.isOpen()) {
       while (window.pollEvent(event)) {
-        if (event.type == sf::Event::Closed) window.close();
+        if (event.type == sf::Event::Closed) {
+          saveGame(P1.health, P1.level, P1.currentExp,
+                   P1.clock.getElapsedTime().asSeconds());
+          encryptSaveGame();
+          window.close();
+        }
       }
 
       sf::Time dt = clk.restart();
@@ -242,10 +247,16 @@ void gameLoop() {
       while (P1.isAlive() && window.isOpen() &&
              timeSinceLastUpdate > TimePerFrame) {
         while (window.pollEvent(event)) {
-          if (event.type == sf::Event::Closed) window.close();
+          if (event.type == sf::Event::Closed) {
+            saveGame(P1.health, P1.level, P1.currentExp,
+                     P1.clock.getElapsedTime().asSeconds());
+            encryptSaveGame();
+            window.close();
+          }
         }
 
         if (shouldLoadGame) {
+          decryptSaveGame();
           loadGame();
           shouldLoadGame = false;
         }
