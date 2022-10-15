@@ -70,7 +70,7 @@ int saveGame(int health, int level, int currentExp, float time) {
 // Loads game stats from a file
 int loadGame() {
   P1.resetPlayer();
-  int number;
+  float number;
   ifstream saveFile("saveGame.save");
   if (saveFile.is_open()) {
     for (int i = 0; i < 4; i++) {
@@ -176,7 +176,7 @@ void quitGameDialouge() {
     if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
       if (gameState == "gameLoop") {
         saveGame(P1.health, P1.level, P1.currentExp,
-                 P1.clock.getElapsedTime().asSeconds());
+                 P1.clock.getElapsedTime().asSeconds() + P1.savedTime);
         encryptSaveGame();
       }
       window.close();
