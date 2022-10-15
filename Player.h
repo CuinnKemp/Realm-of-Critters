@@ -22,6 +22,7 @@ class Player {
 
   // Properties of Player, health, exp, direction, boolean movement, level
   double health;
+  float savedTime;
   int direction;  // 1 = left, 2 = right, 3 = up, 4 = down
   bool isMoving;
   int currentExp;

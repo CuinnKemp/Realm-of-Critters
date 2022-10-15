@@ -11,8 +11,10 @@
 #include <SFML/Window.hpp>
 #include <cmath>
 #include <filesystem>
+#include <fstream>
 #include <iostream>
 #include <random>
+#include <sstream>
 
 #include "Arrow.h"
 #include "Beast.h"
@@ -30,6 +32,7 @@
 #include "Slime.h"
 #include "SpinningBlade.h"
 #include "UIManager.h"
+using namespace std;
 
 // coordinates for the player
 double xpos, ypos;
@@ -54,6 +57,152 @@ bool showQuitGameDialouge;
 bool showSettingsPage;
 bool isGameChanging;
 bool waiting;
+bool shouldLoadGame;
+
+// Saves game stats to a file
+int saveGame(int health, int level, int currentExp, float time) {
+  ofstream saveFile("saveGame.save");
+  if (saveFile.is_open()) {
+    saveFile << health << " " << level << " " << currentExp << " " << time;
+    saveFile.close();
+  } else {
+    return 0;
+  }
+  return 1;
+}
+
+// Loads game stats from a file
+int loadGame() {
+  P1.resetPlayer();
+  int number;
+  ifstream saveFile("saveGame.save");
+  if (saveFile.is_open()) {
+    for (int i = 0; i < 4; i++) {
+      saveFile >> number;
+      if (i == 0) {
+        if (number > 0 && number <= 100) {
+          P1.health = number;
+        } else {
+          return 0;
+        }
+      } else if (i == 1) {
+        P1.level = number;
+      } else if (i == 2) {
+        P1.currentExp = number;
+      } else {
+        P1.savedTime = number;
+      }
+    }
+    saveFile.close();
+  } else {
+    return 0;
+  }
+  return 1;
+}
+
+// Encrypts save game file to avoid cheating
+void encryptSaveGame() {
+  char fileName[30], ch;
+  std::fstream fps, fpt;
+
+  std::ofstream myfile;
+  fps.open("saveGame.save", std::fstream::in);
+  fpt.open("tmpSave.save", std::fstream::out);
+  while (fps >> std::noskipws >> ch) {
+    ch = ch + 100;
+    fpt << ch;
+  }
+  remove("saveGame.save");
+  rename("tmpSave.save", "saveGame.save");
+  fps.close();
+  fpt.close();
+}
+
+// Decrypts save game file to allow contents to be read
+void decryptSaveGame() {
+  char fileName[30], ch;
+  std::fstream fps, fpt;
+
+  std::ofstream myfile;
+  fps.open("saveGame.save", std::fstream::in);
+  fpt.open("tmpSave.save", std::fstream::out);
+  while (fps >> std::noskipws >> ch) {
+    fpt << ch;
+  }
+  fps.close();
+  fpt.close();
+  fps.open("saveGame.save", std::fstream::out);
+  fpt.open("tmpSave.save", std::fstream::in);
+  while (fpt >> std::noskipws >> ch) {
+    ch = ch - 100;
+    fps << ch;
+  }
+  remove("tmpSave.save");
+  fps.close();
+  fpt.close();
+}
+
+// Shows the quit game dialouge
+void quitGameDialouge() {
+  sf::Sprite dialougeBox, yesButton, noButton;
+  dialougeBox.setTexture(resourceManager.dialougeBoxTex);
+  dialougeBox.setScale(1, 1);
+
+  yesButton.setTexture(resourceManager.yesButtonTex);
+  yesButton.setScale(2, 2);
+
+  noButton.setTexture(resourceManager.noButtonTex);
+  noButton.setScale(2, 2);
+
+  // If gameLoop is running, adjuts positions to remain in the centre of the
+  // screen
+  if (gameState == "gameLoop") {
+    dialougeBox.setPosition(-285 + P1.sprite.getPosition().x,
+                            -75 + P1.sprite.getPosition().y);
+    yesButton.setPosition(-150 + P1.sprite.getPosition().x,
+                          -10 + P1.sprite.getPosition().y);
+    noButton.setPosition(0 + P1.sprite.getPosition().x,
+                         -10 + P1.sprite.getPosition().y);
+  } else {
+    dialougeBox.setPosition(-285, -75);
+    yesButton.setPosition(-150, -10);
+    noButton.setPosition(0, -10);
+  }
+
+  // Checks if mouse is hovering over the yes button
+  if (yesButton.getGlobalBounds().contains(sf::Vector2f(
+          window.mapPixelToCoords(sf::Mouse::getPosition(window))))) {
+    // Sets selected texture for the yes button
+    yesButton.setPosition(-150 + P1.sprite.getPosition().x,
+                          -9 + P1.sprite.getPosition().y);
+    yesButton.setTexture(resourceManager.yesButtonSelectedTex, true);
+    // Checks if the yes button is clicked
+    if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
+      if (gameState == "gameLoop") {
+        saveGame(P1.health, P1.level, P1.currentExp,
+                 P1.clock.getElapsedTime().asSeconds());
+        encryptSaveGame();
+      }
+      window.close();
+    }
+  }
+  // Checks if mouse is hovering over the yes button
+  if (noButton.getGlobalBounds().contains(sf::Vector2f(
+          window.mapPixelToCoords(sf::Mouse::getPosition(window))))) {
+    // Sets selected texture for the yes button
+    noButton.setPosition(0 + P1.sprite.getPosition().x,
+                         -9 + P1.sprite.getPosition().y);
+    noButton.setTexture(resourceManager.noButtonSelectedTex, true);
+    // Checks if the no button is clicked
+    if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
+      showQuitGameDialouge = false;
+    }
+  }
+  // Draws quit game dialouge UI elements
+  window.draw(dialougeBox);
+  window.draw(yesButton);
+  window.draw(noButton);
+}
 
 void gameLoop() {
   // Initialising Objects for Main Game
@@ -71,10 +220,7 @@ void gameLoop() {
   mapExtras.setTexture(resourceManager.extrasImage);
   mapExtras.setPosition(-2048, -2048);
 
-  if (isGameChanging) {
-    P1.resetPlayer();
-    isGameChanging = false;
-  }
+  isGameChanging = false;
 
   // While the Window is open
   sf::Event event;
@@ -96,7 +242,9 @@ void gameLoop() {
   timeSinceLastUpdate += dt;
   while (P1.isAlive() && window.isOpen()) {
     while (window.pollEvent(event)) {
-      if (event.type == sf::Event::Closed) window.close();
+      if (event.type == sf::Event::Closed) {
+        window.close();
+      }
     }
 
     // Draws Background Map
@@ -116,21 +264,88 @@ void gameLoop() {
       }
     }
 
-    // Drawing Foliage on the Map
-    window.draw(mapExtras);
+     // Drawing Foliage on the Map
+        window.draw(mapExtras);
 
-    // update command for enemies
-    a1.updateEnemies();
+        // update command for enemies
+        a1.updateEnemies();
 
-    // Spawning Player Arrows, firing them at enemies
-    pA.fireCounter = pA.fireCounter + 2;
-    // Temp test to see how fire rate affects gameplay
-    if (pA.fireCounter >= (1 / P1.clock.getElapsedTime().asSeconds() +
-                            (100 - P1.clock.getElapsedTime().asSeconds()))) {
-      pA.attack();
-      pA.fireCounter = 0;
-    }
-    pA.drawArrows();
+        // Spawning Player Arrows, firing them at enemies
+        pA.fireCounter = pA.fireCounter + 2;
+        // Temp test to see how fire rate affects gameplay
+        if (pA.fireCounter >= (1 / P1.clock.getElapsedTime().asSeconds() +
+                               (100 - P1.clock.getElapsedTime().asSeconds()))) {
+          pA.attack();
+          pA.fireCounter = 0;
+        }
+        pA.drawArrows();
+        
+    // While the Player is Alive and the window is still open
+    while (P1.isAlive() && window.isOpen()) {
+      while (window.pollEvent(event)) {
+        if (event.type == sf::Event::Closed) {
+          showQuitGameDialouge = true;
+        }
+      }
+
+      sf::Time dt = clk.restart();
+      timeSinceLastUpdate += dt;
+      while (P1.isAlive() && window.isOpen() &&
+             timeSinceLastUpdate > TimePerFrame) {
+        while (window.pollEvent(event)) {
+          if (event.type == sf::Event::Closed) {
+            showQuitGameDialouge = true;
+          }
+        }
+        // Checks if decryptSaveGame() and loadGame() should be called
+        if (shouldLoadGame) {
+          decryptSaveGame();
+          loadGame();
+          shouldLoadGame = false;
+        }
+
+        timeSinceLastUpdate -= TimePerFrame;
+
+        // Draws Background Map
+        window.draw(backgroundMap);
+        og.updateObstacles();
+
+        // Adding Collision to Objects
+        for (int i = 0; i < og.obstacleCounter; i++) {
+          float playerX = P1.sprite.getPosition().x + 20;
+          float playerY = P1.sprite.getPosition().y + 20;
+          float obstacleX = og.obstacles[i]->sprite.getPosition().x - 1888;
+          float obstacleY = og.obstacles[i]->sprite.getPosition().y - 1888;
+          if (abs(playerX - obstacleX) <= 50 &&
+              abs(playerY - obstacleY) <= 50) {
+            xpos = P1.oldXpos;
+            ypos = P1.oldYpos;
+          }
+        }
+
+        // Drawing Player on the map
+        P1.DrawPlayer(&window);
+
+        // update command for Abilities
+        b1.updateAbility();
+        b1.hitEnemy(&a1);
+
+        // Updating Exp, UI and Map
+        E1.updateExps();
+        UI.DrawUIManager(&window);
+
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
+          showQuitGameDialouge = true;
+        }
+
+        // Checks if the quit button has been clicked
+        if (showQuitGameDialouge == true) {
+          quitGameDialouge();
+        }
+
+        window.display();
+        window.clear(sf::Color::White);
+      }
 
     // Drawing Player on the map
     P1.DrawPlayer(&window);
@@ -197,23 +412,13 @@ void gameLoop() {
 void mainMenu() {
   // Setings for Main Menu UI
   sf::Sprite playButton, loadButton, settingsButton, quitButton, background,
-      menuTitle, dialougeBox, yesButton, noButton, settingsPage, exitButton;
+      menuTitle, settingsPage, exitButton;
   menuTitle.setTexture(resourceManager.menuTitleTex);
   background.setTexture(resourceManager.backgroundTex);
   playButton.setTexture(resourceManager.playButtonTex, true);
   loadButton.setTexture(resourceManager.loadButtonTex);
   settingsButton.setTexture(resourceManager.settingsButtonTex);
   quitButton.setTexture(resourceManager.quitButtonTex);
-
-  dialougeBox.setTexture(resourceManager.dialougeBoxTex);
-  dialougeBox.setScale(1, 1);
-  dialougeBox.setPosition(-285, -75);
-  yesButton.setTexture(resourceManager.yesButtonTex);
-  yesButton.setScale(2, 2);
-  yesButton.setPosition(-150, -10);
-  noButton.setTexture(resourceManager.noButtonTex);
-  noButton.setScale(2, 2);
-  noButton.setPosition(0, -10);
 
   settingsPage.setTexture(resourceManager.settingsPageTex);
   settingsPage.setScale(3, 3);
@@ -263,12 +468,29 @@ void mainMenu() {
   // Checks if mouse is hovering over the settings button
   else if (settingsButton.getGlobalBounds().contains(sf::Vector2f(
           window.mapPixelToCoords(sf::Mouse::getPosition(window))))) {
+               window.mapPixelToCoords(sf::Mouse::getPosition(window))))) {
     // Sets selected texture for the settings button
     settingsButton.setPosition(4, 14);
     settingsButton.setTexture(resourceManager.settingsButtonSelectedTex, true);
     // Checks if the settings button is clicked
     if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
       showSettingsPage = true;
+    }
+
+  } else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
+    showQuitGameDialouge = true;
+  }
+  // Checks if mouse is hovering over the load button
+  else if (loadButton.getGlobalBounds().contains(sf::Vector2f(
+               window.mapPixelToCoords(sf::Mouse::getPosition(window))))) {
+    // Sets selected texture for the load button
+    loadButton.setPosition(-96, 14);
+    loadButton.setTexture(resourceManager.loadButtonSelectedTex, true);
+    // Checks if the load button is clicked
+    if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
+      shouldLoadGame = true;
+      gameState = "gameLoop";
+      isGameChanging = true;
     }
 
   } else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
@@ -303,32 +525,7 @@ void mainMenu() {
 
   // Checks if the quit button has been clicked
   if (showQuitGameDialouge == true) {
-    // Checks if mouse is hovering over the yes button
-    if (yesButton.getGlobalBounds().contains(sf::Vector2f(
-          window.mapPixelToCoords(sf::Mouse::getPosition(window))))) {
-      // Sets selected texture for the yes button
-      yesButton.setPosition(-150, -9);
-      yesButton.setTexture(resourceManager.yesButtonSelectedTex, true);
-      // Checks if the yes button is clicked
-      if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
-        window.close();
-      }
-    }
-    // Checks if mouse is hovering over the yes button
-    if (noButton.getGlobalBounds().contains(sf::Vector2f(
-          window.mapPixelToCoords(sf::Mouse::getPosition(window))))) {
-      // Sets selected texture for the yes button
-      noButton.setPosition(0, -9);
-      noButton.setTexture(resourceManager.noButtonSelectedTex, true);
-      // Checks if the no button is clicked
-      if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
-        showQuitGameDialouge = false;
-      }
-    }
-    // Draws quit game dialouge UI elements
-    window.draw(dialougeBox);
-    window.draw(yesButton);
-    window.draw(noButton);
+    quitGameDialouge();
   }
 
   window.setFramerateLimit(120);
@@ -341,6 +538,7 @@ int main() {
   showSettingsPage = false;
   isGameChanging = true;
   waiting = false;
+  shouldLoadGame = false;
   gameState = "mainMenu";
 
   while (window.isOpen()) {

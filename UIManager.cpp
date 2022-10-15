@@ -68,7 +68,9 @@ void UIManager::DrawUIManager(sf::RenderWindow* window) {
     levelBarTop.setSize(sf::Vector2f(0, 0));
   }
   // Changes timer text based on game timer
-  timer = round(P1.clock.getElapsedTime().asSeconds() * 1000.0) / 1000.0;
+  timer =
+      round((P1.clock.getElapsedTime().asSeconds() + P1.savedTime) * 1000.0) /
+      1000.0;
   if (timer < 10) {
     timerText.setString("00:0" + std::to_string(timer));
   } else if (timer < 60) {
