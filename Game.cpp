@@ -48,10 +48,6 @@ ObstacleGenerator og;
 ExpSpawner E1;
 ResourceManager resourceManager;
 Player P1(0, 0, width / 2, height / 2, &window);
-Enemies a1;
-PlayerArrowSpawner pA(&a1);
-SpinningBlade b1(0);
-
 const sf::Time TimePerFrame = sf::seconds(1.f / 90.f);
 bool showQuitGameDialouge;
 bool showSettingsPage;
@@ -206,6 +202,7 @@ void quitGameDialouge() {
 
 void gameLoop() {
   // Initialising Objects for Main Game
+  SpinningBlade b1(0);
   sf::Clock clk;
   sf::Time timeSinceLastUpdate = sf::Time::Zero;
   sf::Sprite backgroundMap, mapExtras;
@@ -222,64 +219,29 @@ void gameLoop() {
 
   isGameChanging = false;
 
-  // While the Window is open
-  sf::Event event;
-  while (window.pollEvent(event)) {
-    if (event.type == sf::Event::Closed) window.close();
-  }
+  // Main game Loop
+  while (window.isOpen()) {
+    // Initialising Enemies & Player Arrows
+    Enemies a1;
+    PlayerArrowSpawner pA(&a1);
 
-  // Sets Background Map, Spawns Obstacles and EXP
-  backgroundMap.setOrigin(-512, -512);
-
-  for (int i = 0; i <= 237; i++) {
-    og.spawnNewObstacle();
-  }
-  for (int i = 0; i < 25; i++) {
-    E1.spawnNewExp();
-  }
-
-  sf::Time dt = clk.restart();
-  timeSinceLastUpdate += dt;
-  while (P1.isAlive() && window.isOpen()) {
+    // While the Window is open
+    sf::Event event;
     while (window.pollEvent(event)) {
       if (event.type == sf::Event::Closed) {
         window.close();
       }
     }
 
-    // Draws Background Map
-    window.draw(backgroundMap);
-    og.updateObstacles();
+    // Sets Background Map, Spawns Obstacles and EXP
+    backgroundMap.setOrigin(-512, -512);
 
-    // Adding Collision to Objects
-    for (int i = 0; i < og.obstacleCounter; i++) {
-      float playerX = P1.sprite.getPosition().x + 20;
-      float playerY = P1.sprite.getPosition().y + 20;
-      float obstacleX = og.obstacles[i]->sprite.getPosition().x - 1888;
-      float obstacleY = og.obstacles[i]->sprite.getPosition().y - 1888;
-      if (abs(playerX - obstacleX) <= 50 &&
-          abs(playerY - obstacleY) <= 50) {
-        xpos = P1.oldXpos;
-        ypos = P1.oldYpos;
-      }
+    for (int i = 0; i <= 237; i++) {
+      og.spawnNewObstacle();
     }
-
-     // Drawing Foliage on the Map
-        window.draw(mapExtras);
-
-        // update command for enemies
-        a1.updateEnemies();
-
-        // Spawning Player Arrows, firing them at enemies
-        pA.fireCounter = pA.fireCounter + 2;
-        // Temp test to see how fire rate affects gameplay
-        if (pA.fireCounter >= (1 / P1.clock.getElapsedTime().asSeconds() +
-                               (100 - P1.clock.getElapsedTime().asSeconds()))) {
-          pA.attack();
-          pA.fireCounter = 0;
-        }
-        pA.drawArrows();
-        
+    for (int i = 0; i < 25; i++) {
+      E1.spawnNewExp();
+    }
     // While the Player is Alive and the window is still open
     while (P1.isAlive() && window.isOpen()) {
       while (window.pollEvent(event)) {
@@ -323,6 +285,22 @@ void gameLoop() {
           }
         }
 
+        // Drawing Foliage on the Map
+        window.draw(mapExtras);
+
+        // update command for enemies
+        a1.updateEnemies();
+
+        // Spawning Player Arrows, firing them at enemies
+        pA.fireCounter = pA.fireCounter + 2;
+        // Temp test to see how fire rate affects gameplay
+        if (pA.fireCounter >= (1 / P1.clock.getElapsedTime().asSeconds() +
+                               (100 - P1.clock.getElapsedTime().asSeconds()))) {
+          pA.attack();
+          pA.fireCounter = 0;
+        }
+        pA.drawArrows();
+
         // Drawing Player on the map
         P1.DrawPlayer(&window);
 
@@ -346,65 +324,34 @@ void gameLoop() {
         window.display();
         window.clear(sf::Color::White);
       }
-
-    // Drawing Player on the map
-    P1.DrawPlayer(&window);
-
-    // update command for Abilities
-    b1.updateAbility();
-    b1.hitEnemy(&a1);
-
-    // Updating Exp, UI and Map
-    E1.updateExps();
-    UI.DrawUIManager(&window);
-    window.display();
-    window.clear(sf::Color::White);
-  }
-  
-
-  // Death Screen if Player runs out of health
-  P1.resetPlayer();
-  UI.resetUI();
-  E1.deleteExpBalls();
-  a1.deleteEnemies();
-  window.clear(sf::Color::Green);
-  sf::Sprite background;
-  background.setTexture(resourceManager.backgroundTex);
-  background.setScale(6, 6);
-  background.setPosition(-480, -270); 
-
-  sf::Text deathText1;
-  sf::Text deathText2;
-  deathText1.setString(sf::String("YOU DIED"));
-  deathText2.setString(sf::String("PRESS ENTER"));
-  
-  deathText1.setFont(resourceManager.defaultFont);
-  deathText2.setFont(resourceManager.defaultFont);
-
-  deathText1.setCharacterSize(150);
-  deathText2.setCharacterSize(75);
-
-  deathText1.setPosition(-702/2,-1080/6);
-  deathText2.setPosition(-533/2,0);
-  
-  deathText1.setFillColor(sf::Color::Green);
-  deathText2.setFillColor(sf::Color::Green);
-
-  window.draw(background);
-  window.draw(deathText1);
-  window.draw(deathText2);
-  window.display();
-
-  // Waiting for Player Response on Death Screen
-  waiting = true;
-  while (waiting == true && window.isOpen()) {
-    sf::Event eventInner;
-    while (window.pollEvent(eventInner)) {
-      if (eventInner.type == sf::Event::Closed) window.close();
     }
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter)) {
-      waiting = false;
-      return;
+
+    // Death Screen if Player runs out of health
+    P1.resetPlayer();
+    UI.resetUI();
+    E1.deleteExpBalls();
+    a1.deleteEnemies();
+    window.clear(sf::Color::Green);
+    sf::RectangleShape deathScreen;
+    sf::Texture deathText;
+    deathText.loadFromFile("deathScreen.png");
+    deathScreen.setSize(sf::Vector2f(1920 / 2, 1080 / 2));
+    deathScreen.setPosition(sf::Vector2f(-1920 / 4, -1080 / 4));
+    deathScreen.setTexture(&deathText);
+    window.draw(deathScreen);
+    window.display();
+
+    // Waiting for Player Response on Death Screen
+    waiting = true;
+    while (waiting == true && window.isOpen()) {
+      sf::Event eventInner;
+      while (window.pollEvent(eventInner)) {
+        if (eventInner.type == sf::Event::Closed) window.close();
+      }
+      if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter)) {
+        waiting = 0;
+        gameLoop();
+      }
     }
   }
 }
@@ -456,7 +403,7 @@ void mainMenu() {
   }
   // Checks if mouse is hovering over the quit button
   else if (quitButton.getGlobalBounds().contains(sf::Vector2f(
-          window.mapPixelToCoords(sf::Mouse::getPosition(window))))) {
+               window.mapPixelToCoords(sf::Mouse::getPosition(window))))) {
     // Sets selected texture for the quit button
     quitButton.setPosition(104, 14);
     quitButton.setTexture(resourceManager.quitButtonSelectedTex, true);
@@ -467,7 +414,6 @@ void mainMenu() {
   }
   // Checks if mouse is hovering over the settings button
   else if (settingsButton.getGlobalBounds().contains(sf::Vector2f(
-          window.mapPixelToCoords(sf::Mouse::getPosition(window))))) {
                window.mapPixelToCoords(sf::Mouse::getPosition(window))))) {
     // Sets selected texture for the settings button
     settingsButton.setPosition(4, 14);
@@ -509,7 +455,7 @@ void mainMenu() {
   if (showSettingsPage == true) {
     // Checks if mouse is hovering over the exit button
     if (exitButton.getGlobalBounds().contains(sf::Vector2f(
-          window.mapPixelToCoords(sf::Mouse::getPosition(window))))) {
+            window.mapPixelToCoords(sf::Mouse::getPosition(window))))) {
       // Sets selected texture for the exit button
       exitButton.setPosition(-332, -222);
       exitButton.setTexture(resourceManager.quitButtonSelectedTex, true);
@@ -569,7 +515,6 @@ int main() {
         isGameChanging = false;
       }
       gameLoop();
-      gameState = "mainMenu";
     }
   }
 
