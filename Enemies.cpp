@@ -83,7 +83,6 @@ void Enemies::deleteEnemies() {
     delete enemies[i];
   }
   enemyCounter = 0;
-  enemies = new Enemy*[0];
 }
 
 Enemies::~Enemies() {
