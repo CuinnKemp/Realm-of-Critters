@@ -76,7 +76,11 @@ int loadGame() {
     for (int i = 0; i < 4; i++) {
       saveFile >> number;
       if (i == 0) {
-        P1.health = number;
+        if (number > 0 && number <= 100) {
+          P1.health = number;
+        } else {
+          return 0;
+        }
       } else if (i == 1) {
         P1.level = number;
       } else if (i == 2) {
@@ -123,7 +127,6 @@ void decryptSaveGame() {
   }
   fps.close();
   fpt.close();
-
   fps.open("saveGame.save", std::fstream::out);
   fpt.open("tmpSave.save", std::fstream::in);
   while (fpt >> std::noskipws >> ch) {
