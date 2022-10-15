@@ -55,6 +55,7 @@ bool isGameChanging;
 bool waiting;
 bool shouldLoadGame;
 
+// Saves game stats to a file
 int saveGame(int health, int level, int currentExp, float time) {
   ofstream saveFile("saveGame.save");
   if (saveFile.is_open()) {
@@ -66,6 +67,7 @@ int saveGame(int health, int level, int currentExp, float time) {
   return 1;
 }
 
+// Loads game stats from a file
 int loadGame() {
   P1.resetPlayer();
   int number;
@@ -90,6 +92,7 @@ int loadGame() {
   return 1;
 }
 
+// Encrypts save game file to avoid cheating
 void encryptSaveGame() {
   char fileName[30], ch;
   std::fstream fps, fpt;
@@ -106,6 +109,8 @@ void encryptSaveGame() {
   fps.close();
   fpt.close();
 }
+
+// Decrypts save game file to allow contents to be read
 void decryptSaveGame() {
   char fileName[30], ch;
   std::fstream fps, fpt;
@@ -130,6 +135,7 @@ void decryptSaveGame() {
   fpt.close();
 }
 
+// Shows the quit game dialouge
 void quitGameDialouge() {
   sf::Sprite dialougeBox, yesButton, noButton;
   dialougeBox.setTexture(resourceManager.dialougeBoxTex);
@@ -141,6 +147,8 @@ void quitGameDialouge() {
   noButton.setTexture(resourceManager.noButtonTex);
   noButton.setScale(2, 2);
 
+  // If gameLoop is running, adjuts positions to remain in the centre of the
+  // screen
   if (gameState == "gameLoop") {
     dialougeBox.setPosition(-285 + P1.sprite.getPosition().x,
                             -75 + P1.sprite.getPosition().y);
@@ -248,7 +256,7 @@ void gameLoop() {
             showQuitGameDialouge = true;
           }
         }
-
+        // Checks if decryptSaveGame() and loadGame() should be called
         if (shouldLoadGame) {
           decryptSaveGame();
           loadGame();
@@ -375,8 +383,6 @@ void mainMenu() {
   settingsButton.setPosition(10, 20);
   quitButton.setScale(6, 6);
   quitButton.setPosition(110, 20);
-
-  // std::cout << window.getSize().x / 3024 << std::endl;
 
   // Checks if mouse is hovering over the play button
 
