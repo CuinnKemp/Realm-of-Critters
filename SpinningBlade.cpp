@@ -60,15 +60,15 @@ void SpinningBlade::hitEnemy(Enemies* enemies) {
 
 void SpinningBlade::movement() {
   // Updates the spinning blade to move in a circular fashion around the player
-  this->coordinates[0] = xpos - (200 * sin((3.14 / 100) * count));
-  this->coordinates[1] = ypos - (200 * cos((3.14 / 100) * count));
+  this->coordinates[0] = xpos - (200 * sin((3.14 / 100 * P1.level) * count));
+  this->coordinates[1] = ypos - (200 * cos((3.14 / 100 * P1.level) * count));
 
   // Sets the sprite position to the new coordinates
   this->sprite.setPosition(
       sf::Vector2f(this->coordinates[0], this->coordinates[1]));
 
   // rotates the sprite accordingly
-  this->sprite.rotate((3.14 / 100) * 500);
+  this->sprite.rotate((3.14 / 100 * P1.level) * 500);
 
   // Iterates count which causes the spin, resets at 200 to make a perfect
   // circle
