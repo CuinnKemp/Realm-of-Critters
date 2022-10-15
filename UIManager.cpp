@@ -16,7 +16,7 @@ UIManager::UIManager(double Pxpos, double Pypos, double width, double height,
   // Sets UI window size and resets timer
   UIwidth = 1920;
   UIheight = 1080;
-  timer = 0;
+  timerCount = 0;
   P1.resetPlayer();
 
   // Sets player UI textures
@@ -67,23 +67,9 @@ void UIManager::DrawUIManager(sf::RenderWindow* window) {
     levelBarBottom.setSize(sf::Vector2f(0, 0));
     levelBarTop.setSize(sf::Vector2f(0, 0));
   }
-  // Changes timer text based on game timer
-  timer =
-      round((P1.clock.getElapsedTime().asSeconds() + P1.savedTime) * 1000.0) /
-      1000.0;
-  if (timer < 10) {
-    timerText.setString("00:0" + std::to_string(timer));
-  } else if (timer < 60) {
-    timerText.setString("00:" + std::to_string(timer));
-  } else if (timer < 600) {
-    std::string tmp = std::string(1, std::to_string(timer).at(0));
-    std::string tmp2 = std::string(2, std::to_string(timer).at(1));
-    timerText.setString("0" + tmp + ":" + tmp);
-  } else {
-    std::string tmp = std::string(2, std::to_string(timer).at(0));
-    std::string tmp2 = std::string(2, std::to_string(timer).at(2));
-    timerText.setString(tmp + ":" + tmp);
-  }
+
+  timerText.setString(std::to_string(
+      int(P1.clock.getElapsedTime().asSeconds() + P1.savedTime)));
 
   // Draws player UI elements
   window->draw(emptyInfo);
@@ -97,5 +83,5 @@ void UIManager::DrawUIManager(sf::RenderWindow* window) {
 // Reset timer
 void UIManager::resetUI() {
   P1.clock.restart();
-  timer = 0;
+  timerCount = 0;
 }
