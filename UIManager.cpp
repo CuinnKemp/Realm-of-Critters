@@ -59,8 +59,9 @@ void UIManager::DrawUIManager(sf::RenderWindow* window) {
 
   // Changes exp bar width depending on exp health
   if (P1.currentExp > 0) {
-    levelBarBottom.setSize(sf::Vector2f(
-        P1.currentExp * 0.865 * UIwidth / 1000 + 2, 6 * UIwidth / 1000));
+    levelBarBottom.setSize(
+        sf::Vector2f((P1.currentExp * 0.865 * UIwidth / 1000 + 2) / P1.level,
+                     6 * UIwidth / 1000));
     levelBarTop.setSize(
         sf::Vector2f(levelBarBottom.getSize().x - 10, 6 * UIwidth / 1000));
   } else {
