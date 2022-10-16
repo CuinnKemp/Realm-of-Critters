@@ -47,8 +47,8 @@ void Player::levelPlayer() {
     */
 
     this->expCap =
-        this->expCap * 2;  // increase experience required after every level
-    this->currentExp = 0;  // resets exp
+        this->expCap + 100;  // increase experience required after every level
+    this->currentExp = 0;    // resets exp
   }
 }
 
@@ -60,6 +60,7 @@ void Player::resetPlayer() {
   oldXpos = 0;
   oldYpos = 0;
   currentExp = 0;
+  level = 1;
   expCap = 100;
   camera.setCenter(0, 0);
   clock.restart();
