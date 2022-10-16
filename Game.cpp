@@ -59,10 +59,8 @@ bool waiting;
 bool shouldLoadGame;
 sf::Music menuMusic, mainMusic, deathMusic;
 sf::SoundBuffer buttonHovering, bigButtonHovering, buttonClicked, yesButtonSB,
-    noButtonSB;
-sf::Sound buttonSound;
-sf::SoundBuffer arrowSB;
-sf::Sound arrowSound;
+    noButtonSB, arrowSB, gameOverSB;
+sf::Sound buttonSound, arrowSound, gameOverSound;
 
 // Saves game stats to a file
 int saveGame(int health, int level, int currentExp, float time) {
@@ -312,7 +310,6 @@ void gameLoop() {
     window.display();
     window.clear(sf::Color::White);
   }
-
   // Death Screen if Player runs out of health
   P1.resetPlayer();
   UI.resetUI();
@@ -342,6 +339,8 @@ void gameLoop() {
   window.draw(deathText1);
   window.draw(deathText2);
   window.display();
+  gameOverSound.play();
+  sleep(3);
   mainMusic.stop();
   deathMusic.play();
   // Waiting for Player Response on Death Screen
@@ -525,6 +524,9 @@ int main() {
   arrowSB.loadFromFile("Sounds/Hit5.wav");
   arrowSound.setBuffer(arrowSB);
   arrowSound.setVolume(50.f);
+
+  gameOverSB.loadFromFile("Sounds/GameOver.wav");
+  gameOverSound.setBuffer(gameOverSB);
 
   while (window.isOpen()) {
     sf::Event event;
