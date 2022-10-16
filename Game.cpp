@@ -50,7 +50,6 @@ ResourceManager resourceManager;
 Player P1(0, 0, width / 2, height / 2, &window);
 Enemies a1;
 PlayerArrowSpawner pA(&a1);
-SpinningBlade b1(0);
 const sf::Time TimePerFrame = sf::seconds(1.f / 90.f);
 bool showQuitGameDialouge;
 bool showSettingsPage;
@@ -205,6 +204,7 @@ void quitGameDialouge() {
 
 void gameLoop() {
   // Initialising Objects for Main Game
+  SpinningBlade b1(0);
   sf::Clock clk;
   sf::Time timeSinceLastUpdate = sf::Time::Zero;
   sf::Sprite backgroundMap, mapExtras;
@@ -240,6 +240,14 @@ void gameLoop() {
     while (window.pollEvent(event)) {
       if (event.type == sf::Event::Closed) showQuitGameDialouge = true;
     }
+
+    // Checks if decryptSaveGame() and loadGame() should be called
+    if (shouldLoadGame) {
+      decryptSaveGame();
+      loadGame();
+      shouldLoadGame = false;
+    }
+
     // Draws Background Map
     window.draw(backgroundMap);
     og.updateObstacles();

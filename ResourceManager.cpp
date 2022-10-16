@@ -26,6 +26,7 @@ ResourceManager::ResourceManager() {
   pwalkRight3.loadFromFile("playerAnimation/Walk/walkRight3.png");
   pwalkRight4.loadFromFile("playerAnimation/Walk/walkRight4.png");
   arrowTex.loadFromFile("playerAnimation/Arrow.png");
+  shuriken.loadFromFile("Shuriken.png");
 }
 
 void ResourceManager::loadMainMenu() {
@@ -109,7 +110,6 @@ void ResourceManager::loadGame() {
   healthBarTopTex.loadFromFile("UI/HealthBarTop.png");
   levelBarBottomTex.loadFromFile("UI/LevelBarBottom.png");
   levelBarTopTex.loadFromFile("UI/LevelBarTop.png");
-  shuriken.loadFromFile("Shuriken.png");
 
   // Loads text font
   defaultFont.loadFromFile("OfMiceAndCats.ttf");
