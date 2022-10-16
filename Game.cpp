@@ -6,6 +6,7 @@
 
 #include <stdlib.h>
 
+#include <SFML/Audio.hpp>
 #include <SFML/Graphics.hpp>
 #include <SFML/System.hpp>
 #include <SFML/Window.hpp>
@@ -55,6 +56,7 @@ bool showSettingsPage;
 bool isGameChanging;
 bool waiting;
 bool shouldLoadGame;
+sf::Music menuMusic, mainMusic, deathMusic;
 
 // Saves game stats to a file
 int saveGame(int health, int level, int currentExp, float time) {
@@ -326,6 +328,8 @@ void gameLoop() {
   window.draw(deathText1);
   window.draw(deathText2);
   window.display();
+  mainMusic.stop();
+  deathMusic.play();
   // Waiting for Player Response on Death Screen
   waiting = true;
   while (waiting == true && window.isOpen()) {
@@ -335,6 +339,8 @@ void gameLoop() {
     }
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter)) {
       waiting = false;
+      deathMusic.stop();
+      menuMusic.play();
       return;
     }
   }
@@ -470,6 +476,13 @@ int main() {
   shouldLoadGame = false;
   gameState = "mainMenu";
 
+  menuMusic.openFromFile("Music/1.ogg");
+  mainMusic.openFromFile("Music/17.ogg");
+  deathMusic.openFromFile("Music/15.ogg");
+  menuMusic.setLoop(true);
+  mainMusic.setLoop(true);
+  deathMusic.setLoop(true);
+
   while (window.isOpen()) {
     sf::Event event;
     while (window.pollEvent(event)) {
@@ -482,6 +495,9 @@ int main() {
         // Load assets for main menu
         resourceManager.loadMainMenu();
         isGameChanging = false;
+        mainMusic.stop();
+        deathMusic.stop();
+        menuMusic.play();
       }
       mainMenu();
     }
@@ -492,6 +508,9 @@ int main() {
         // Load assets for main game
         resourceManager.loadGame();
         isGameChanging = false;
+        menuMusic.stop();
+        deathMusic.stop();
+        mainMusic.play();
       }
       gameLoop();
       gameState = "mainMenu";
