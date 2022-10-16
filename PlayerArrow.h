@@ -8,9 +8,8 @@
 #include <random>
 
 #include "Enemies.h"
-#include "PowerUp.h"
 
-class PlayerArrow : public PowerUp {
+class PlayerArrow {
  public:
 
   // constants used to find rotation needed to face closest enemy
@@ -19,6 +18,12 @@ class PlayerArrow : public PowerUp {
 
   // position in monster array of closest enemy
   int closestenemy;
+
+  // Coordinates for either player or powerup- pickup
+  double* coordinates = new double[2];
+
+  // Sprite shape
+  sf::RectangleShape sprite;
 
   // Arrow coordinates
   double* arrowCoordinates = new double[2];
