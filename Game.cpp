@@ -203,7 +203,7 @@ void quitGameDialouge() {
   window.draw(noButton);
 }
 
-  void gameLoop() {
+void gameLoop() {
   // Initialising Objects for Main Game
   sf::Clock clk;
   sf::Time timeSinceLastUpdate = sf::Time::Zero;
@@ -224,7 +224,7 @@ void quitGameDialouge() {
   // While the Window is open
   sf::Event event;
   while (window.pollEvent(event)) {
-    if (event.type == sf::Event::Closed) window.close();
+    if (event.type == sf::Event::Closed) showQuitGameDialouge = true;
   }
   // Sets Background Map, Spawns Obstacles and EXP
   backgroundMap.setOrigin(-512, -512);
@@ -238,7 +238,7 @@ void quitGameDialouge() {
   timeSinceLastUpdate += dt;
   while (P1.isAlive() && window.isOpen()) {
     while (window.pollEvent(event)) {
-      if (event.type == sf::Event::Closed) window.close();
+      if (event.type == sf::Event::Closed) showQuitGameDialouge = true;
     }
     // Draws Background Map
     window.draw(backgroundMap);
@@ -249,8 +249,7 @@ void quitGameDialouge() {
       float playerY = P1.sprite.getPosition().y + 20;
       float obstacleX = og.obstacles[i]->sprite.getPosition().x - 1888;
       float obstacleY = og.obstacles[i]->sprite.getPosition().y - 1888;
-      if (abs(playerX - obstacleX) <= 50 &&
-          abs(playerY - obstacleY) <= 50) {
+      if (abs(playerX - obstacleX) <= 50 && abs(playerY - obstacleY) <= 50) {
         xpos = P1.oldXpos;
         ypos = P1.oldYpos;
       }
@@ -263,7 +262,7 @@ void quitGameDialouge() {
     pA.fireCounter = pA.fireCounter + 2;
     // Temp test to see how fire rate affects gameplay
     if (pA.fireCounter >= (1 / P1.clock.getElapsedTime().asSeconds() +
-                            (100 - P1.clock.getElapsedTime().asSeconds()))) {
+                           (100 - P1.clock.getElapsedTime().asSeconds()))) {
       pA.attack();
       pA.fireCounter = 0;
     }
@@ -276,10 +275,17 @@ void quitGameDialouge() {
     // Updating Exp, UI and Map
     E1.updateExps();
     UI.DrawUIManager(&window);
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
+      showQuitGameDialouge = true;
+    }
+
+    // Checks if the quit button has been clicked
+    if (showQuitGameDialouge == true) {
+      quitGameDialouge();
+    }
     window.display();
     window.clear(sf::Color::White);
   }
-
 
   // Death Screen if Player runs out of health
   P1.resetPlayer();
@@ -290,18 +296,18 @@ void quitGameDialouge() {
   sf::Sprite background;
   background.setTexture(resourceManager.backgroundTex);
   background.setScale(6, 6);
-  background.setPosition(-480, -270); 
+  background.setPosition(-480, -270);
   sf::Text deathText1;
   sf::Text deathText2;
   deathText1.setString(sf::String("YOU DIED"));
   deathText2.setString(sf::String("PRESS ENTER"));
-  
+
   deathText1.setFont(resourceManager.defaultFont);
   deathText2.setFont(resourceManager.defaultFont);
   deathText1.setCharacterSize(150);
   deathText2.setCharacterSize(75);
-  deathText1.setPosition(-702/2,-1080/6);
-  deathText2.setPosition(-533/2,0);
+  deathText1.setPosition(-702 / 2, -1080 / 6);
+  deathText2.setPosition(-533 / 2, 0);
 
   deathText1.setFillColor(sf::Color::Green);
   deathText2.setFillColor(sf::Color::Green);
@@ -315,7 +321,7 @@ void quitGameDialouge() {
   while (waiting == true && window.isOpen()) {
     sf::Event eventInner;
     while (window.pollEvent(eventInner)) {
-      if (eventInner.type == sf::Event::Closed) window.close();
+      if (eventInner.type == sf::Event::Closed) showQuitGameDialouge = true;
     }
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter)) {
       waiting = false;
@@ -436,7 +442,6 @@ void mainMenu() {
     window.draw(settingsPage);
     window.draw(exitButton);
   }
-
   // Checks if the quit button has been clicked
   if (showQuitGameDialouge == true) {
     quitGameDialouge();
@@ -458,7 +463,7 @@ int main() {
   while (window.isOpen()) {
     sf::Event event;
     while (window.pollEvent(event)) {
-      if (event.type == sf::Event::Closed) window.close();
+      if (event.type == sf::Event::Closed) showQuitGameDialouge = true;
     }
     // Checks if on Main Menu Screen
     if (gameState == "mainMenu") {
