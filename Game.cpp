@@ -61,6 +61,8 @@ sf::Music menuMusic, mainMusic, deathMusic;
 sf::SoundBuffer buttonHovering, bigButtonHovering, buttonClicked, yesButtonSB,
     noButtonSB;
 sf::Sound buttonSound;
+sf::SoundBuffer arrowSB;
+sf::Sound arrowSound;
 
 // Saves game stats to a file
 int saveGame(int health, int level, int currentExp, float time) {
@@ -80,28 +82,26 @@ int loadGame() {
   float number;
   string line;
   ifstream saveFile("saveGame.save");
-  while (getline(saveFile, line)) {
-    if (saveFile.is_open()) {
-      for (int i = 0; i < 4; i++) {
-        saveFile >> number;
-        if (i == 0) {
-          if (number > 0 && number <= 100) {
-            P1.health = number;
-          } else {
-            return 0;
-          }
-        } else if (i == 1) {
-          P1.level = number;
-        } else if (i == 2) {
-          P1.currentExp = number;
+  if (saveFile.is_open()) {
+    for (int i = 0; i < 4; i++) {
+      saveFile >> number;
+      if (i == 0) {
+        if (number > 0 && number <= 100) {
+          P1.health = number;
         } else {
-          P1.savedTime = number;
+          return 0;
         }
+      } else if (i == 1) {
+        P1.level = number;
+      } else if (i == 2) {
+        P1.currentExp = number;
+      } else {
+        P1.savedTime = number;
       }
-      saveFile.close();
-    } else {
-      return 0;
     }
+    saveFile.close();
+  } else {
+    return 0;
   }
   return 1;
 }
@@ -286,8 +286,9 @@ void gameLoop() {
     // Spawning Player Arrows, firing them at enemies
     pA.fireCounter = pA.fireCounter + 2;
     // Temp test to see how fire rate affects gameplay
-    if (pA.fireCounter >= (1 / P1.clock.getElapsedTime().asSeconds() +
-                           (100 - P1.clock.getElapsedTime().asSeconds()))) {
+    if (pA.fireCounter >= (1 / (P1.level * 10) + (200 - (P1.level * 10))) &&
+        a1.enemyCounter > 0) {
+      arrowSound.play();
       pA.attack();
       pA.fireCounter = 0;
     }
@@ -520,6 +521,10 @@ int main() {
   buttonClicked.loadFromFile("Sounds/Menu9.wav");
   yesButtonSB.loadFromFile("Sounds/Accept2.wav");
   noButtonSB.loadFromFile("Sounds/Accept.wav");
+
+  arrowSB.loadFromFile("Sounds/Hit5.wav");
+  arrowSound.setBuffer(arrowSB);
+  arrowSound.setVolume(50.f);
 
   while (window.isOpen()) {
     sf::Event event;

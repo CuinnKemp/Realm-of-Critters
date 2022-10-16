@@ -1,5 +1,7 @@
 #include "Player.h"
 
+#include <SFML/Audio.hpp>
+
 #include "ResourceManager.h"
 
 // external variable of current player position and resource manager
