@@ -5,6 +5,7 @@
 // -lsfml-system
 
 #include <stdlib.h>
+#include <unistd.h>
 
 #include <SFML/Audio.hpp>
 #include <SFML/Graphics.hpp>
@@ -57,6 +58,9 @@ bool isGameChanging;
 bool waiting;
 bool shouldLoadGame;
 sf::Music menuMusic, mainMusic, deathMusic;
+sf::SoundBuffer buttonHovering, bigButtonHovering, buttonClicked, yesButtonSB,
+    noButtonSB;
+sf::Sound buttonSound;
 
 // Saves game stats to a file
 int saveGame(int health, int level, int currentExp, float time) {
@@ -178,6 +182,8 @@ void quitGameDialouge() {
     yesButton.setPosition(-150 + P1.sprite.getPosition().x,
                           -9 + P1.sprite.getPosition().y);
     yesButton.setTexture(resourceManager.yesButtonSelectedTex, true);
+    buttonSound.setBuffer(bigButtonHovering);
+    buttonSound.play();
     // Checks if the yes button is clicked
     if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
       if (gameState == "gameLoop") {
@@ -185,6 +191,9 @@ void quitGameDialouge() {
                  P1.clock.getElapsedTime().asSeconds() + P1.savedTime);
         encryptSaveGame();
       }
+      buttonSound.setBuffer(yesButtonSB);
+      buttonSound.play();
+      sleep(1);
       window.close();
     }
   }
@@ -195,8 +204,12 @@ void quitGameDialouge() {
     noButton.setPosition(0 + P1.sprite.getPosition().x,
                          -9 + P1.sprite.getPosition().y);
     noButton.setTexture(resourceManager.noButtonSelectedTex, true);
+    buttonSound.setBuffer(bigButtonHovering);
+    buttonSound.play();
     // Checks if the no button is clicked
     if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
+      buttonSound.setBuffer(noButtonSB);
+      buttonSound.play();
       showQuitGameDialouge = false;
     }
   }
@@ -384,9 +397,12 @@ void mainMenu() {
     // Sets selected texture for the play button
     playButton.setPosition(-196, 14);
     playButton.setTexture(resourceManager.playButtonSelectedTex, true);
-
+    buttonSound.setBuffer(buttonHovering);
+    buttonSound.play();
     // Checks if the play button is clicked
     if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
+      buttonSound.setBuffer(buttonClicked);
+      buttonSound.play();
       gameState = "gameLoop";
       isGameChanging = true;
     }
@@ -397,8 +413,12 @@ void mainMenu() {
     // Sets selected texture for the quit button
     quitButton.setPosition(104, 14);
     quitButton.setTexture(resourceManager.quitButtonSelectedTex, true);
+    buttonSound.setBuffer(buttonHovering);
+    buttonSound.play();
     // Checks if the quit button is clicked
     if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
+      buttonSound.setBuffer(buttonClicked);
+      buttonSound.play();
       showQuitGameDialouge = true;
     }
   }
@@ -408,8 +428,12 @@ void mainMenu() {
     // Sets selected texture for the settings button
     settingsButton.setPosition(4, 14);
     settingsButton.setTexture(resourceManager.settingsButtonSelectedTex, true);
+    buttonSound.setBuffer(buttonHovering);
+    buttonSound.play();
     // Checks if the settings button is clicked
     if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
+      buttonSound.setBuffer(buttonClicked);
+      buttonSound.play();
       showSettingsPage = true;
     }
 
@@ -422,8 +446,12 @@ void mainMenu() {
     // Sets selected texture for the load button
     loadButton.setPosition(-96, 14);
     loadButton.setTexture(resourceManager.loadButtonSelectedTex, true);
+    buttonSound.setBuffer(buttonHovering);
+    buttonSound.play();
     // Checks if the load button is clicked
     if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
+      buttonSound.setBuffer(buttonClicked);
+      buttonSound.play();
       shouldLoadGame = true;
       gameState = "gameLoop";
       isGameChanging = true;
@@ -449,8 +477,12 @@ void mainMenu() {
       // Sets selected texture for the exit button
       exitButton.setPosition(-332, -222);
       exitButton.setTexture(resourceManager.quitButtonSelectedTex, true);
+      buttonSound.setBuffer(buttonHovering);
+      buttonSound.play();
       // Checks if the exit button is clicked
       if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
+        buttonSound.setBuffer(buttonClicked);
+        buttonSound.play();
         showSettingsPage = false;
       }
     }
@@ -482,6 +514,12 @@ int main() {
   menuMusic.setLoop(true);
   mainMusic.setLoop(true);
   deathMusic.setLoop(true);
+
+  buttonHovering.loadFromFile("Sounds/Menu1.wav");
+  bigButtonHovering.loadFromFile("Sounds/Menu1.wav");
+  buttonClicked.loadFromFile("Sounds/Menu9.wav");
+  yesButtonSB.loadFromFile("Sounds/Accept2.wav");
+  noButtonSB.loadFromFile("Sounds/Accept.wav");
 
   while (window.isOpen()) {
     sf::Event event;
