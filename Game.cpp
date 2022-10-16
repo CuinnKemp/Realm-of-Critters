@@ -50,7 +50,6 @@ ResourceManager resourceManager;
 Player P1(0, 0, width / 2, height / 2, &window);
 Enemies a1;
 PlayerArrowSpawner pA(&a1);
-const sf::Time TimePerFrame = sf::seconds(1.f / 90.f);
 bool showQuitGameDialouge;
 bool showSettingsPage;
 bool isGameChanging;
