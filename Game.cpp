@@ -72,27 +72,30 @@ int saveGame(int health, int level, int currentExp, float time) {
 int loadGame() {
   P1.resetPlayer();
   float number;
+  string line;
   ifstream saveFile("saveGame.save");
-  if (saveFile.is_open()) {
-    for (int i = 0; i < 4; i++) {
-      saveFile >> number;
-      if (i == 0) {
-        if (number > 0 && number <= 100) {
-          P1.health = number;
+  while (getline(saveFile, line)) {
+    if (saveFile.is_open()) {
+      for (int i = 0; i < 4; i++) {
+        saveFile >> number;
+        if (i == 0) {
+          if (number > 0 && number <= 100) {
+            P1.health = number;
+          } else {
+            return 0;
+          }
+        } else if (i == 1) {
+          P1.level = number;
+        } else if (i == 2) {
+          P1.currentExp = number;
         } else {
-          return 0;
+          P1.savedTime = number;
         }
-      } else if (i == 1) {
-        P1.level = number;
-      } else if (i == 2) {
-        P1.currentExp = number;
-      } else {
-        P1.savedTime = number;
       }
+      saveFile.close();
+    } else {
+      return 0;
     }
-    saveFile.close();
-  } else {
-    return 0;
   }
   return 1;
 }
