@@ -14,7 +14,7 @@ extern double xpos, ypos;                // Player Position
 extern sf::RenderWindow window;          // Render Window
 extern ResourceManager resourceManager;  // ResourceManager
 
-SpinningBlade::SpinningBlade(int num) {
+SpinningBlade::SpinningBlade() {
   // Sets Coordinates of the player
   this->coordinates[0] = xpos;
   this->coordinates[1] = ypos;
@@ -58,10 +58,19 @@ void SpinningBlade::hitEnemy(Enemies* enemies) {
   return;
 }
 
-void SpinningBlade::movement() {
+void SpinningBlade::movement(int num, SpinningBlade* sBlades) {
   // Updates the spinning blade to move in a circular fashion around the player
-  this->coordinates[0] = xpos - (200 * sin((3.14 / 100 * P1.level) * count));
-  this->coordinates[1] = ypos - (200 * cos((3.14 / 100 * P1.level) * count));
+  if (num != 0 && num%2 == 0){
+    std::cout << "1" << std::endl;
+      count = (sBlades[num-1].count) + (100.0/num);
+  }
+  else if (num != 0 && num%2 != 0){
+    std::cout << "2" << std::endl;
+    count = (sBlades[num-1].count) + 100;
+  }
+
+  this->coordinates[0] = xpos - (200 * sin((3.14 * count)/100));
+  this->coordinates[1] = ypos - (200 * cos((3.14 * count)/100));
 
   // Sets the sprite position to the new coordinates
   this->sprite.setPosition(
@@ -72,17 +81,14 @@ void SpinningBlade::movement() {
 
   // Iterates count which causes the spin, resets at 200 to make a perfect
   // circle
-  count++;
-  if (count == 200) {
-    count = 0;
+  this->count++;
+  if (this->count == 200) {
+    this->count = 0;
   }
   return;
 }
 
 bool SpinningBlade::updateAbility() {
-  // calls movement
-  this->movement();
-
   // draws Sprite on render window
   window.draw(this->sprite);
 

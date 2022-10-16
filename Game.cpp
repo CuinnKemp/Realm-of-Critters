@@ -50,7 +50,8 @@ ResourceManager resourceManager;
 Player P1(0, 0, width / 2, height / 2, &window);
 Enemies a1;
 PlayerArrowSpawner pA(&a1);
-SpinningBlade b1(0);
+int sBladeCount = 0;
+SpinningBlade *sBlades;
 const sf::Time TimePerFrame = sf::seconds(1.f / 90.f);
 bool showQuitGameDialouge;
 bool showSettingsPage;
@@ -269,9 +270,26 @@ void gameLoop() {
     pA.drawArrows();
     // Drawing Player on the map
     P1.DrawPlayer(&window);
-    // update command for Abilities
-    b1.updateAbility();
-    b1.hitEnemy(&a1);
+    if (sBladeCount == 0){
+      sBlades = new SpinningBlade[1];
+      sBladeCount++;
+    }
+    // update spining blades
+    else if (sBladeCount < (P1.sBladeLvl + 1)){
+      
+      SpinningBlade* sBladeHold = sBlades;
+      sBlades = new SpinningBlade[sBladeCount + 1];
+      for (int i = 0; i < sBladeCount; i++){
+        sBlades[i] = sBladeHold[i];
+      }
+      sBladeCount++;
+    }
+
+    for (int i = 0; i < sBladeCount; i++){
+      sBlades[i].movement(i,sBlades);
+      sBlades[i].updateAbility();
+      sBlades[i].hitEnemy(&a1);
+    }
     // Updating Exp, UI and Map
     E1.updateExps();
     UI.DrawUIManager(&window);
