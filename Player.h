@@ -29,6 +29,9 @@ class Player {
   int expCap;
   int level;
   int animationCount;
+  
+  //abilities
+  int sBladeLvl, pArrowLvl;
 
   // Constructor with parameters, position and Screen Width and Height to set
   // position

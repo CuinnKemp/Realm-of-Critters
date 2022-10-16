@@ -17,14 +17,14 @@ class SpinningBlade : public PowerUp {
   int count;
 
   //Default constructor and destructor, 
-  SpinningBlade(int num);  // Parameter for amount of spinning blades to spawn
+  SpinningBlade();  // Parameter for amount of spinning blades to spawn
   ~SpinningBlade();
 
   // Collision Detection into enemy array
   void hitEnemy(Enemies* enemies);
 
   // movement of spinning blade
-  void movement();
+  void movement(int num, SpinningBlade* sBlades);
 
     //void updatePosition();
 

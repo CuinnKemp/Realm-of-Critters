@@ -61,11 +61,9 @@ void SpinningBlade::hitEnemy(Enemies* enemies) {
 void SpinningBlade::movement(int num, SpinningBlade* sBlades) {
   // Updates the spinning blade to move in a circular fashion around the player
   if (num != 0 && num%2 == 0){
-    std::cout << "1" << std::endl;
       count = (sBlades[num-1].count) + (100.0/num);
   }
   else if (num != 0 && num%2 != 0){
-    std::cout << "2" << std::endl;
     count = (sBlades[num-1].count) + 100;
   }
 
@@ -77,7 +75,7 @@ void SpinningBlade::movement(int num, SpinningBlade* sBlades) {
       sf::Vector2f(this->coordinates[0], this->coordinates[1]));
 
   // rotates the sprite accordingly
-  this->sprite.rotate((3.14 / 100 * P1.level) * 500);
+  this->sprite.rotate((3.14 / 100) * 500);
 
   // Iterates count which causes the spin, resets at 200 to make a perfect
   // circle
