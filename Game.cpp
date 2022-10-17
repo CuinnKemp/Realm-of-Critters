@@ -56,8 +56,8 @@ bool showQuitGameDialouge;
 bool showSettingsPage;
 bool isGameChanging;
 bool waiting;
-bool shouldLoadGame;
-int musicVolume, sfxVolume;
+bool shouldLoadGame, isButtonClicked;
+float musicVolume, sfxVolume;
 sf::Music menuMusic, mainMusic, deathMusic;
 sf::SoundBuffer buttonHovering, bigButtonHovering, buttonClicked, yesButtonSB,
     noButtonSB, arrowSB, gameOverSB;
@@ -414,6 +414,8 @@ void mainMenu() {
   quitButton.setScale(6, 6);
   quitButton.setPosition(110, 20);
 
+  sf::Event menuEvent;
+
   // Checks if mouse is hovering over the play button
 
   if (playButton.getGlobalBounds().contains(sf::Vector2f(
@@ -521,8 +523,8 @@ void mainMenu() {
         buttonSound.play();
         if (musicVolume >= 1) {
           musicVolume = musicVolume - 1;
+          musicLevel.setScale(musicVolume * 3 / 100, musicLevel.getScale().y);
         }
-        musicLevel.setScale(musicVolume * 3 / 100, musicLevel.getScale().y);
       }
     } else if (musicRightButton.getGlobalBounds().contains(sf::Vector2f(
                    window.mapPixelToCoords(sf::Mouse::getPosition(window))))) {
@@ -536,8 +538,8 @@ void mainMenu() {
         buttonSound.play();
         if (musicVolume <= 99) {
           musicVolume = musicVolume + 1;
+          musicLevel.setScale(musicVolume * 3 / 100, musicLevel.getScale().y);
         }
-        musicLevel.setScale(musicVolume * 3 / 100, musicLevel.getScale().y);
       }
     } else if (sfxLeftButton.getGlobalBounds().contains(sf::Vector2f(
                    window.mapPixelToCoords(sf::Mouse::getPosition(window))))) {
@@ -549,6 +551,10 @@ void mainMenu() {
       if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
         buttonSound.setBuffer(buttonClicked);
         buttonSound.play();
+        if (sfxVolume >= 1) {
+          sfxVolume = sfxVolume - 1;
+          sfxLevel.setScale(sfxVolume * 3 / 100, sfxLevel.getScale().y);
+        }
       }
     } else if (sfxRightButton.getGlobalBounds().contains(sf::Vector2f(
                    window.mapPixelToCoords(sf::Mouse::getPosition(window))))) {
@@ -560,6 +566,10 @@ void mainMenu() {
       if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
         buttonSound.setBuffer(buttonClicked);
         buttonSound.play();
+        if (sfxVolume <= 99) {
+          sfxVolume = sfxVolume + 1;
+          sfxLevel.setScale(sfxVolume * 3 / 100, sfxLevel.getScale().y);
+        }
       }
     }
 
