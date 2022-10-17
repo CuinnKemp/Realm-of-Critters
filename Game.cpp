@@ -1,8 +1,4 @@
-// g++ Game.cpp ResourceManager.cpp Player.cpp UIManager.cpp Enemy.cpp
-// Enemies.cpp Beast.cpp Slime.cpp Obstacle.cpp ObstacleGenerator.cpp Arrow.cpp
-// PowerUp.cpp SpinningBlade.cpp ExpBall.cpp ExpContainer.cpp ExpSpawner.cpp
-// PlayerArrow.cpp PlayerArrowSpawner.cpp -lsfml-graphics -lsfml-window
-// -lsfml-system
+//g++ Game.cpp ResourceManager.cpp Player.cpp UIManager.cpp Enemy.cpp Enemies.cpp Beast.cpp Slime.cpp Obstacle.cpp ObstacleGenerator.cpp Arrow.cpp SpinningBlade.cpp SpinningBladeSpawner.cpp ExpBall.cpp ExpContainer.cpp ExpSpawner.cpp PlayerArrow.cpp PlayerArrowSpawner.cpp -lsfml-graphics -lsfml-window -lsfml-system
 
 #include <stdlib.h>
 #include <unistd.h>
@@ -34,6 +30,7 @@
 #include "Slime.h"
 #include "SpinningBlade.h"
 #include "UIManager.h"
+#include "SpinningBladeSpawner.h"
 using namespace std;
 
 // coordinates for the player
@@ -50,8 +47,13 @@ ObstacleGenerator og;
 ExpSpawner E1;
 ResourceManager resourceManager;
 Player P1(0, 0, width / 2, height / 2, &window);
-Enemies a1;
-PlayerArrowSpawner pA(&a1);
+Enemies enemies;
+
+//Abilities
+PlayerArrowSpawner pArrows(&enemies);
+SpinningBladeSpawner sBlades(&enemies);
+
+const sf::Time TimePerFrame = sf::seconds(1.f / 90.f);
 bool showQuitGameDialouge;
 bool showSettingsPage;
 bool isGameChanging;
@@ -285,22 +287,20 @@ void gameLoop() {
     // Drawing Foliage on the Map
     window.draw(mapExtras);
     // update command for enemies
-    a1.updateEnemies();
+    enemies.updateEnemies();
     // Spawning Player Arrows, firing them at enemies
-    pA.fireCounter = pA.fireCounter + 2;
+    pArrows.fireCounter++;
     // Temp test to see how fire rate affects gameplay
-    if (pA.fireCounter >= (1 / (P1.level * 10) + (200 - (P1.level * 10))) &&
-        a1.enemyCounter > 0) {
-      arrowSound.play();
-      pA.attack();
-      pA.fireCounter = 0;
+    if (pArrows.fireCounter >= 100){
+      pArrows.attack();
+      pArrows.fireCounter = 0;
     }
-    pA.drawArrows();
+    pArrows.drawArrows();
+
+    sBlades.updateAbility();
     // Drawing Player on the map
     P1.DrawPlayer(&window);
-    // update command for Abilities
-    b1.updateAbility();
-    b1.hitEnemy(&a1);
+
     // Updating Exp, UI and Map
     E1.updateExps();
     UI.DrawUIManager(&window);
@@ -318,8 +318,12 @@ void gameLoop() {
   // Death Screen if Player runs out of health
   P1.resetPlayer();
   UI.resetUI();
+  pArrows.resetSpawner();
+  sBlades.resetSpawner();
   E1.deleteExpBalls();
-  a1.deleteEnemies();
+  enemies.deleteEnemies();
+
+
   window.clear(sf::Color::Green);
   sf::Sprite background;
   background.setTexture(resourceManager.backgroundTex);
