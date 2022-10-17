@@ -35,6 +35,8 @@ Player::Player(double Pxpos, double Pypos, double width, double height,
   this->currentExp = 0;
   this->expCap = 100;
   this->level = 1;
+  this->pArrowLvl = 1;
+  this-> sBladeLvl = 1;
 }
 
 // This should be called whenever an enemy dies to check whether player has

@@ -26,7 +26,7 @@ extern Player P1;
         this->sBladeCount++;
     }
 
-    else if (this->sBladeCount < (P1.sBladeLvl + 1)){
+    else if (this->sBladeCount < (P1.sBladeLvl)){
       
       SpinningBlade* sBladeHold = this->sBlades;
       this->sBlades = new SpinningBlade[sBladeCount + 1];

@@ -8,8 +8,10 @@
 
 #include "PlayerArrow.h"
 #include "ResourceManager.h"
+#include "Player.h"
 
 extern ResourceManager resourceManager;
+extern Player P1;
 
 PlayerArrowSpawner::PlayerArrowSpawner(Enemies* a1) {
   // Copies Enemey Array into PlayerArrowSpawner
@@ -21,30 +23,32 @@ PlayerArrowSpawner::PlayerArrowSpawner(Enemies* a1) {
 }
 
 void PlayerArrowSpawner::attack() {
-  // If there is at least one enemy alive
-  if (this->a1->enemyCounter >= 1) {
-    // Temporary Array
-    PlayerArrow* holdPlayerArrowSpawner = this->playerArrows;
+  for (int j = 1; j <= P1.pArrowLvl; j++){
+      // If there is at least one enemy alive
+    if (this->a1->enemyCounter >= j) {
+      // Temporary Array
+      PlayerArrow* holdPlayerArrowSpawner = this->playerArrows;
 
-    // Replacing old Array with incramental Larger Array
-    playerArrows = new PlayerArrow[playerArrowCounter + 1];
+      // Replacing old Array with incramental Larger Array
+      playerArrows = new PlayerArrow[playerArrowCounter + 1];
 
-    // Filling New array
-    for (int i = 0; i < playerArrowCounter; i++) {
-      playerArrows[i] = holdPlayerArrowSpawner[i];
+      // Filling New array
+      for (int i = 0; i < playerArrowCounter; i++) {
+        playerArrows[i] = holdPlayerArrowSpawner[i];
+      }
+
+      // Deleting Temp Array
+      delete[] holdPlayerArrowSpawner;
+      
+      // Spawning new Arrow
+      PlayerArrow A(a1, j);
+
+      // Filling Array and incrementing counter
+      playerArrows[playerArrowCounter] = A;
+      playerArrowCounter++;
     }
-
-    // Deleting Temp Array
-    delete[] holdPlayerArrowSpawner;
-
-    // Spawning new Arrow
-    PlayerArrow A(a1);
-
-    // Filling Array and incrementing counter
-    playerArrows[playerArrowCounter] = A;
-    playerArrowCounter++;
-    return;
   }
+  return;
 }
 
 void PlayerArrowSpawner::drawArrows() {
