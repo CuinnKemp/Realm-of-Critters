@@ -75,8 +75,5 @@ void PlayerArrowSpawner::drawArrows() {
 
 PlayerArrowSpawner::~PlayerArrowSpawner() {
   // Deletes PlayerArrows as destructor
-  for (int i = 0; i < playerArrowCounter; i++) {
-    delete &playerArrows[i];
-  }
   delete[] playerArrows;
 }
