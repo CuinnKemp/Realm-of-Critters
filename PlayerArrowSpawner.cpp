@@ -73,6 +73,13 @@ void PlayerArrowSpawner::drawArrows() {
   return;
 }
 
+void PlayerArrowSpawner::resetSpawner() {
+  delete[] playerArrows;
+
+  playerArrowCounter = 0;
+  playerArrows = new PlayerArrow[0];
+}
+
 PlayerArrowSpawner::~PlayerArrowSpawner() {
   // Deletes PlayerArrows as destructor
   delete[] playerArrows;

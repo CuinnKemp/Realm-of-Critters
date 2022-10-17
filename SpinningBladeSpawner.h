@@ -24,6 +24,8 @@ class SpinningBladeSpawner {
   SpinningBladeSpawner(Enemies* enemies);  // Parameter for amount of spinning blades to spawn
   ~SpinningBladeSpawner();
 
+  void resetSpawner();
+
   bool updateAbility();
 };
 #endif  // SPINNINGBLADESPAWNER_H

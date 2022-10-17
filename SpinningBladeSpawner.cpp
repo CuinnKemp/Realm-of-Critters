@@ -44,3 +44,8 @@ extern Player P1;
 
     return 1;
 }
+
+void SpinningBladeSpawner::resetSpawner(){
+  this->sBladeCount = 0;
+  delete[] this->sBlades;
+}

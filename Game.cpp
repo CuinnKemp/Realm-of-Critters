@@ -289,8 +289,12 @@ void gameLoop() {
   // Death Screen if Player runs out of health
   P1.resetPlayer();
   UI.resetUI();
+  pArrows.resetSpawner();
+  sBlades.resetSpawner();
   E1.deleteExpBalls();
   enemies.deleteEnemies();
+
+
   window.clear(sf::Color::Green);
   sf::Sprite background;
   background.setTexture(resourceManager.backgroundTex);

@@ -34,6 +34,8 @@ class PlayerArrowSpawner {
   // Drawing Sprite for current map
   void drawArrows();
 
+  void resetSpawner();
+
   // standard Destructor
   ~PlayerArrowSpawner();
 };
