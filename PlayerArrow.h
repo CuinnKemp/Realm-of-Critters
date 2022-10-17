@@ -39,7 +39,7 @@ class PlayerArrow {
   int counter;
 
   // constructor using current enemy array
-  PlayerArrow(Enemies* enemies);
+  PlayerArrow(Enemies* enemies, int num);
   PlayerArrow();
 
   // Out of bounds check
