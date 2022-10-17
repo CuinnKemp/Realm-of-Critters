@@ -8,19 +8,17 @@
 
 #include "Player.h"
 
-
 // External:
-extern Player P1;               // Player
-extern double xpos, ypos;       // Player Position
-extern sf::RenderWindow window; // Render Window
+extern Player P1;                // Player
+extern double xpos, ypos;        // Player Position
+extern sf::RenderWindow window;  // Render Window
 
 Arrow::Arrow() {}
 
 // Arrow Constructor with Beast Coordinates as parameters
 Arrow::Arrow(double xspawn, double yspawn) {
-  
   // initialise damage, Starting Coordinates
-  this->damage = 3;
+  this->damage = 1;
   this->arrowCoordinates[0] = xspawn;
   this->arrowCoordinates[1] = yspawn;
 
@@ -67,7 +65,8 @@ bool Arrow::UpdatePosition() {
     return 0;
   }
 
-  // updates the arrow with position and speed vector, updates sprite with new position
+  // updates the arrow with position and speed vector, updates sprite with new
+  // position
   this->arrowCoordinates[0] = this->arrowCoordinates[0] + this->speedVector[0];
   this->arrowCoordinates[1] = this->arrowCoordinates[1] + this->speedVector[1];
   this->ArrowShape.setPosition(

@@ -50,7 +50,8 @@ Slime::Slime() {
   this->sprite.setSize(sf::Vector2f(32, 32));
   this->sprite.setTexture(&resourceManager.slimeWalkDown1);
 
-  // initialises movement direction, current status and animation count
+  // initialises movement direction, current status and animation
+  // countP1.savedTime)
   this->direction = 4;
   this->isMoving = false;
   this->animationCount = 0;
@@ -68,7 +69,7 @@ void Slime::attack() {
   // detects sprite collision with the player, damages the player upon collision
   if (sqrt(pow(xpos - coordinates[0], 2) + pow(ypos - coordinates[1], 2)) <=
       50) {
-    P1.health = P1.health - 10;
+    P1.health = P1.health - 3;
   }
 }
 

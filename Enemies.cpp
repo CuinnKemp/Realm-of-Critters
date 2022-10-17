@@ -73,7 +73,7 @@ void Enemies::updateEnemies() {
   timer++;
   if (timer >=
       (1 / (P1.clock.getElapsedTime().asSeconds() + P1.savedTime) +
-       (100 - (P1.clock.getElapsedTime().asSeconds() + P1.savedTime)))) {
+       (200 - (P1.clock.getElapsedTime().asSeconds() + P1.savedTime)))) {
     this->spawnNewEnemy();
     timer = 0;
   }
