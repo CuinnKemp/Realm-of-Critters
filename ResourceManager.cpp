@@ -47,6 +47,13 @@ void ResourceManager::loadMainMenu() {
   yesButtonSelectedTex.loadFromFile("UI/YesButtonSelected.png");
   noButtonSelectedTex.loadFromFile("UI/NoButtonSelected.png");
   settingsPageTex.loadFromFile("UI/SettingsPage.png");
+
+  // Loads textures for settings page
+  leftArrowTex.loadFromFile("UI/ArrowButtonLeft.png");
+  rightArrowTex.loadFromFile("UI/ArrowButtonRight.png");
+  leftArrowSelectedTex.loadFromFile("UI/ArrowButtonSelectedLeft.png");
+  rightArrowSelectedTex.loadFromFile("UI/ArrowButtonSelectedRight.png");
+  audioLevelTex.loadFromFile("UI/AudioBar.png");
 }
 
 void ResourceManager::loadGame() {

@@ -57,10 +57,12 @@ bool showSettingsPage;
 bool isGameChanging;
 bool waiting;
 bool shouldLoadGame;
+int musicVolume, sfxVolume;
 sf::Music menuMusic, mainMusic, deathMusic;
 sf::SoundBuffer buttonHovering, bigButtonHovering, buttonClicked, yesButtonSB,
     noButtonSB, arrowSB, gameOverSB;
 sf::Sound buttonSound, arrowSound, gameOverSound;
+sf::Sprite musicLevel, sfxLevel;
 
 // Saves game stats to a file
 int saveGame(int health, int level, int currentExp, float time) {
@@ -362,7 +364,8 @@ void gameLoop() {
 void mainMenu() {
   // Setings for Main Menu UI
   sf::Sprite playButton, loadButton, settingsButton, quitButton, background,
-      menuTitle, settingsPage, exitButton;
+      menuTitle, settingsPage, exitButton, musicLeftButton, musicRightButton,
+      sfxLeftButton, sfxRightButton;
   menuTitle.setTexture(resourceManager.menuTitleTex);
   background.setTexture(resourceManager.backgroundTex);
   playButton.setTexture(resourceManager.playButtonTex, true);
@@ -370,12 +373,30 @@ void mainMenu() {
   settingsButton.setTexture(resourceManager.settingsButtonTex);
   quitButton.setTexture(resourceManager.quitButtonTex);
 
+  musicLeftButton.setTexture(resourceManager.leftArrowTex);
+  musicRightButton.setTexture(resourceManager.rightArrowTex);
+  sfxLeftButton.setTexture(resourceManager.leftArrowTex);
+  sfxRightButton.setTexture(resourceManager.rightArrowTex);
+
+  musicLevel.setTexture(resourceManager.audioLevelTex);
+  sfxLevel.setTexture(resourceManager.audioLevelTex);
+
   settingsPage.setTexture(resourceManager.settingsPageTex);
   settingsPage.setScale(3, 3);
   settingsPage.setPosition(-325, -215);
   exitButton.setScale(2, 2);
   exitButton.setPosition(-330, -220);
   exitButton.setTexture(resourceManager.quitButtonTex);
+  musicLeftButton.setScale(3, 3);
+  musicLeftButton.setPosition(60, -50);
+  musicRightButton.setScale(3, 3);
+  musicRightButton.setPosition(210, -50);
+  sfxLeftButton.setScale(3, 3);
+  sfxLeftButton.setPosition(60, 75);
+  sfxRightButton.setScale(3, 3);
+  sfxRightButton.setPosition(210, 75);
+  musicLevel.setPosition(107, -44);
+  sfxLevel.setPosition(107, 85);
 
   background.setScale(6, 6);
   background.setPosition(-480, -270);
@@ -485,9 +506,68 @@ void mainMenu() {
         buttonSound.play();
         showSettingsPage = false;
       }
+    } else if (musicLeftButton.getGlobalBounds().contains(sf::Vector2f(
+                   window.mapPixelToCoords(sf::Mouse::getPosition(window))))) {
+      // Sets selected texture for the musicLeftButton
+      musicLeftButton.setTexture(resourceManager.leftArrowSelectedTex, true);
+      buttonSound.setBuffer(buttonHovering);
+      buttonSound.play();
+      // Checks if the musicLeftButton is clicked
+      if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
+        buttonSound.setBuffer(buttonClicked);
+        buttonSound.play();
+        if (musicVolume >= 1) {
+          musicVolume = musicVolume - 1;
+        }
+        musicLevel.setScale(musicVolume * 3 / 100, musicLevel.getScale().y);
+      }
+    } else if (musicRightButton.getGlobalBounds().contains(sf::Vector2f(
+                   window.mapPixelToCoords(sf::Mouse::getPosition(window))))) {
+      // Sets selected texture for the musicRightButton
+      musicRightButton.setTexture(resourceManager.rightArrowSelectedTex, true);
+      buttonSound.setBuffer(buttonHovering);
+      buttonSound.play();
+      // Checks if the musicRightButton is clicked
+      if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
+        buttonSound.setBuffer(buttonClicked);
+        buttonSound.play();
+        if (musicVolume <= 99) {
+          musicVolume = musicVolume + 1;
+        }
+        musicLevel.setScale(musicVolume * 3 / 100, musicLevel.getScale().y);
+      }
+    } else if (sfxLeftButton.getGlobalBounds().contains(sf::Vector2f(
+                   window.mapPixelToCoords(sf::Mouse::getPosition(window))))) {
+      // Sets selected texture for the sfxLeftButton
+      sfxLeftButton.setTexture(resourceManager.leftArrowSelectedTex, true);
+      buttonSound.setBuffer(buttonHovering);
+      buttonSound.play();
+      // Checks if the sfxLeftButton is clicked
+      if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
+        buttonSound.setBuffer(buttonClicked);
+        buttonSound.play();
+      }
+    } else if (sfxRightButton.getGlobalBounds().contains(sf::Vector2f(
+                   window.mapPixelToCoords(sf::Mouse::getPosition(window))))) {
+      // Sets selected texture for the sfxRightButton
+      sfxRightButton.setTexture(resourceManager.rightArrowSelectedTex, true);
+      buttonSound.setBuffer(buttonHovering);
+      buttonSound.play();
+      // Checks if the sfxRightButton is clicked
+      if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
+        buttonSound.setBuffer(buttonClicked);
+        buttonSound.play();
+      }
     }
+
     // Draws settings page UI elements
     window.draw(settingsPage);
+    window.draw(musicLeftButton);
+    window.draw(musicRightButton);
+    window.draw(sfxLeftButton);
+    window.draw(sfxRightButton);
+    window.draw(musicLevel);
+    window.draw(sfxLevel);
     window.draw(exitButton);
   }
   // Checks if the quit button has been clicked
@@ -507,6 +587,8 @@ int main() {
   waiting = false;
   shouldLoadGame = false;
   gameState = "mainMenu";
+  musicVolume = 100;
+  sfxVolume = 100;
 
   menuMusic.openFromFile("Music/1.ogg");
   mainMusic.openFromFile("Music/17.ogg");
@@ -528,11 +610,17 @@ int main() {
   gameOverSB.loadFromFile("Sounds/GameOver.wav");
   gameOverSound.setBuffer(gameOverSB);
 
+  musicLevel.setScale(3, 3);
+  sfxLevel.setScale(3, 3);
+
   while (window.isOpen()) {
     sf::Event event;
     while (window.pollEvent(event)) {
       if (event.type == sf::Event::Closed) showQuitGameDialouge = true;
     }
+    mainMusic.setVolume(musicVolume);
+    deathMusic.setVolume(musicVolume);
+    menuMusic.setVolume(musicVolume);
     // Checks if on Main Menu Screen
     if (gameState == "mainMenu") {
       // Checks if the game state changed

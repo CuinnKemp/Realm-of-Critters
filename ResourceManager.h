@@ -21,7 +21,8 @@ class ResourceManager {
       slimeWalkDown4, slimeWalkUp1, slimeWalkUp2, slimeWalkUp3, slimeWalkUp4,
       slimeWalkLeft1, slimeWalkLeft2, slimeWalkLeft3, slimeWalkLeft4,
       slimeWalkRight1, slimeWalkRight2, slimeWalkRight3, slimeWalkRight4,
-      arrowTex;
+      arrowTex, leftArrowTex, rightArrowTex, leftArrowSelectedTex,
+      rightArrowSelectedTex, audioLevelTex;
   sf::Font defaultFont;
   ResourceManager();
   void loadMainMenu();
