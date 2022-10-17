@@ -190,6 +190,9 @@ void quitGameDialouge() {
         saveGame(P1.health, P1.level, P1.currentExp,
                  P1.clock.getElapsedTime().asSeconds() + P1.savedTime);
         encryptSaveGame();
+        mainMusic.stop();
+      } else {
+        menuMusic.stop();
       }
       buttonSound.setBuffer(yesButtonSB);
       buttonSound.play();
