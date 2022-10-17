@@ -35,24 +35,60 @@ Player::Player(double Pxpos, double Pypos, double width, double height,
 
   // Initialising Exp and levelling system
   this->currentExp = 0;
-  this->expCap = 100;
+  this->expCap = 50;
   this->level = 1;
+  this->pArrowLvl = 1;
+  this-> sBladeLvl = 1;
 }
 
 // This should be called whenever an enemy dies to check whether player has
 // levelled up
 void Player::levelPlayer() {
   if (currentExp >= expCap) {
+    sf::RectangleShape sBlade, pArrow;
+    sf::Text upgradeText;
+    
+    sBlade.setTexture(&resourceManager.shuriken);
+    pArrow.setTexture(&resourceManager.arrowTex);
+
+    sBlade.setSize(sf::Vector2f(100,120));
+    pArrow.setSize(sf::Vector2f(80,120));
+
+    upgradeText.setString(sf::String("Select Upgrade"));
+    upgradeText.setFont(resourceManager.defaultFont);
+    upgradeText.setCharacterSize(75);
+
+    upgradeText.setPosition(sf::Vector2f(this->camera.getCenter().x - (583/2.0), this->camera.getCenter().y - 100));
+    upgradeText.setFillColor(sf::Color::Black);
+
+    sBlade.setPosition(sf::Vector2f(this->camera.getCenter().x - 200, this->camera.getCenter().y + 50));
+    pArrow.setPosition(sf::Vector2f(this->camera.getCenter().x + 100, this->camera.getCenter().y + 50));
+
+    bool waiting = true;
+    while (waiting == true){
+      this->window->draw(sBlade);
+      this->window->draw(pArrow);
+      this->window->draw(upgradeText);
+      window->display();
+      if (sBlade.getGlobalBounds().contains(sf::Vector2f(
+          this->window->mapPixelToCoords(sf::Mouse::getPosition(*(this->window))))) && sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
+          this->sBladeLvl++;
+          waiting = false;
+      }
+      else if (pArrow.getGlobalBounds().contains(sf::Vector2f(
+          this->window->mapPixelToCoords(sf::Mouse::getPosition(*(this->window))))) && sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
+          this->pArrowLvl++;
+          waiting = false;
+      }
+    }
     this->level++;
-    /*
-      INSERT LEVEL UP SEQUENCE HERE
-    */
 
     this->expCap =
-        this->expCap + 100;  // increase experience required after every level
-    this->currentExp = 0;    // resets exp
+        this->expCap * 1.5;  // increase experience required after every level
+    this->currentExp = 0;  // resets exp
   }
 }
+
 
 // Resets the Player after Death Screen
 void Player::resetPlayer() {
@@ -61,13 +97,15 @@ void Player::resetPlayer() {
   ypos = 0;
   oldXpos = 0;
   oldYpos = 0;
-  currentExp = 0;
-  level = 1;
-  expCap = 100;
-  savedTime = 0;
   camera.setCenter(0, 0);
   clock.restart();
   this->sprite.setSize(sf::Vector2f(40, 40));
+  //reset levels
+  this->currentExp = 0;
+  this->expCap = 50;
+  this->level = 1;
+  this->pArrowLvl = 1;
+  this->sBladeLvl = 1;
 
   // resets variables
   this->animationCount = 0;

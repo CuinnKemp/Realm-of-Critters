@@ -15,7 +15,7 @@ extern sf::RenderWindow window;
 
 PlayerArrow::PlayerArrow() {}
 
-PlayerArrow::PlayerArrow(Enemies* enemies) {
+PlayerArrow::PlayerArrow(Enemies* enemies, int num) {
   // std::cout << enemies->enemyCounter << std::endl;
   if (enemies->enemyCounter >= 1) {
     // std::cout << "Running" << std::endl;
@@ -39,17 +39,23 @@ PlayerArrow::PlayerArrow(Enemies* enemies) {
     }
 
     // the finds the shortest distance between the player and an enemy
-    double shortest = distance[0];
+
 
     // finds place in enemies array of the enemy with the shoretest distance to
     // the player
+    
     int enemyPlaceInList = 0;
 
     // sorts distance array to find shortest distance
-    for (int i = 1; i < enemies->enemyCounter; i++) {
-      if (distance[i] < shortest) {
-        enemyPlaceInList = i;
+    for (int j = 0; j < num; j++){
+      double current = 0;
+      double shortest = distance[0];
+      for (int i = 1; i < enemies->enemyCounter; i++) {
+      if (distance[i] < shortest &&  i != enemyPlaceInList) {
+        current = i;
+        }
       }
+      enemyPlaceInList = current;
     }
 
     // sets the target coordinates to the shortest distance
