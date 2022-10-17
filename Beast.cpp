@@ -20,10 +20,12 @@ extern ResourceManager resourceManager;
 sf::SoundBuffer beastArrowSB;
 sf::Sound beastArrowSound;
 
+extern int sfxVolume;
+
 Beast::Beast() {
   beastArrowSB.loadFromFile("Sounds/Hit3.wav");
   beastArrowSound.setBuffer(beastArrowSB);
-  beastArrowSound.setVolume(50.f);
+  beastArrowSound.setVolume(sfxVolume);
   // initialises the arrow counter
   this->arrowCounter = 0;
 

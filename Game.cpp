@@ -634,6 +634,10 @@ int main() {
     mainMusic.setVolume(musicVolume);
     deathMusic.setVolume(musicVolume);
     menuMusic.setVolume(musicVolume);
+    buttonSound.setVolume(sfxVolume);
+    arrowSound.setVolume(sfxVolume);
+    gameOverSound.setVolume(sfxVolume);
+
     // Checks if on Main Menu Screen
     if (gameState == "mainMenu") {
       // Checks if the game state changed
