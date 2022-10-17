@@ -42,7 +42,7 @@ Player::Player(double Pxpos, double Pypos, double width, double height,
 // This should be called whenever an enemy dies to check whether player has
 // levelled up
 void Player::levelPlayer() {
-  if (currentExp >= -1) {
+  if (currentExp >= expCap) {
     sf::RectangleShape sBlade, pArrow;
     sf::Text upgradeText;
     
@@ -107,7 +107,7 @@ void Player::resetPlayer() {
 
   // resets variables
   this->animationCount = 0;
-  this->health = 10;
+  this->health = 100;
 }
 
 // Directional movement by adding current Position and movement speed vector in
