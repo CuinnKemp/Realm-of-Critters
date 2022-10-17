@@ -1,6 +1,5 @@
 #include "Beast.h"
 
-#include <SFML/Audio.hpp>
 #include <SFML/Graphics.hpp>
 #include <SFML/Window.hpp>
 #include <cmath>
@@ -17,15 +16,9 @@ extern sf::RenderWindow window;  // Render Window
 extern ExpSpawner E1;            // Exp Spawner
 extern ResourceManager resourceManager;
 
-sf::SoundBuffer beastArrowSB;
-sf::Sound beastArrowSound;
-
 extern int sfxVolume;
 
 Beast::Beast() {
-  beastArrowSB.loadFromFile("Sounds/Hit3.wav");
-  beastArrowSound.setBuffer(beastArrowSB);
-  beastArrowSound.setVolume(sfxVolume);
   // initialises the arrow counter
   this->arrowCounter = 0;
 
@@ -181,7 +174,6 @@ bool Beast::updateEnemy() {
   // updates firecounter, checks whether threshold value has been reached
   this->fireCounter = this->fireCounter + 2;
   if (this->fireCounter == 100) {
-    beastArrowSound.play();
     this->attack();
     this->fireCounter = 0;
   }
