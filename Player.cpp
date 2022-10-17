@@ -33,7 +33,7 @@ Player::Player(double Pxpos, double Pypos, double width, double height,
 
   // Initialising Exp and levelling system
   this->currentExp = 0;
-  this->expCap = 100;
+  this->expCap = 50;
   this->level = 1;
   this->pArrowLvl = 1;
   this-> sBladeLvl = 1;
@@ -42,7 +42,7 @@ Player::Player(double Pxpos, double Pypos, double width, double height,
 // This should be called whenever an enemy dies to check whether player has
 // levelled up
 void Player::levelPlayer() {
-  if (currentExp >= -1) {
+  if (currentExp >= expCap) {
     sf::RectangleShape sBlade, pArrow;
     sf::Text upgradeText;
     
@@ -82,7 +82,7 @@ void Player::levelPlayer() {
     this->level++;
 
     this->expCap =
-        this->expCap * 2;  // increase experience required after every level
+        this->expCap * 1.5;  // increase experience required after every level
     this->currentExp = 0;  // resets exp
   }
 }

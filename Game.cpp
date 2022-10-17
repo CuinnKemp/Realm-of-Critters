@@ -259,10 +259,9 @@ void gameLoop() {
     // update command for enemies
     enemies.updateEnemies();
     // Spawning Player Arrows, firing them at enemies
-    pArrows.fireCounter = pArrows.fireCounter + 2;
+    pArrows.fireCounter++;
     // Temp test to see how fire rate affects gameplay
-    if (pArrows.fireCounter >= (1 / P1.clock.getElapsedTime().asSeconds() +
-                           (100 - P1.clock.getElapsedTime().asSeconds()))) {
+    if (pArrows.fireCounter >= 100){
       pArrows.attack();
       pArrows.fireCounter = 0;
     }
