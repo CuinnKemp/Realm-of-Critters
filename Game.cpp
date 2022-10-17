@@ -226,7 +226,6 @@ void quitGameDialouge() {
 
 void gameLoop() {
   // Initialising Objects for Main Game
-  SpinningBlade b1(0);
   sf::Clock clk;
   sf::Time timeSinceLastUpdate = sf::Time::Zero;
   sf::Sprite backgroundMap, mapExtras;
