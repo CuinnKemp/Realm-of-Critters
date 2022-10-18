@@ -96,7 +96,7 @@ int GameLoader::loadGame() {
     for (int i = 0; i < 6; i++) {
       saveFile >> number;
       if (i == 0) {
-        if (number > 0 && number <= 100) {
+        if (number > 1 && number <= 100) {
           P1.health = number;
         } else {
           return 0;
@@ -361,6 +361,7 @@ void GameLoader::gameLoop() {
   deathText1.setFillColor(sf::Color::Green);
   deathText2.setFillColor(sf::Color::Green);
 
+  // Draws death screen
   window.draw(background);
   window.draw(deathText1);
   window.draw(deathText2);
