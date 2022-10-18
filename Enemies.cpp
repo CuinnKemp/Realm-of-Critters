@@ -1,17 +1,22 @@
+// include enemies header
 #include "Enemies.h"
 
+//include required libraries
 #include <SFML/Graphics.hpp>
 #include <SFML/Window.hpp>
 #include <cmath>
 #include <iostream>
 #include <random>
 
+// include beast slime enemy and player class definitions
 #include "Beast.h"
+#include "Slime.h"
 #include "Enemy.h"
 #include "Player.h"
-#include "Slime.h"
 
-extern Player P1;
+//external variable:
+extern Player P1; //player
+
 Enemies::Enemies() {
   // Initialises all variables, sets the enemy counter to 0,
   // creates an array of enemies, and sets the spawn rate to 5
@@ -53,6 +58,8 @@ void Enemies::checkAlives() {
     // Runs each individual updateEnemy function for each of the beasts to check
     // if they are alive
     if (!((*(enemies[i])).updateEnemy())) {
+      // calls the virtual deconstructor
+      enemies[i]->deconstructor();
       // if the enemy isnt alive, removes them from the array
       for (int j = i + 1; j < enemyCounter; j++) {
         enemies[j - 1] = enemies[j];
@@ -79,17 +86,23 @@ void Enemies::updateEnemies() {
   }
 }
 
+//soft deconstructor to clear unused memory
 void Enemies::deleteEnemies() {
+  // calls the deconstructor and deletes all the enemies in the array
   for (int i = 0; i < enemyCounter; i++) {
+    enemies[i]->deconstructor();
     delete enemies[i];
   }
+  // sets enemy counter to 0;
   enemyCounter = 0;
 }
 
 Enemies::~Enemies() {
   // Deletes all instances of enemies alive
   for (int i = 0; i < enemyCounter; i++) {
+    enemies[i]->deconstructor();
     delete enemies[i];
   }
+  // deletes the enemies array
   delete[] enemies;
 }

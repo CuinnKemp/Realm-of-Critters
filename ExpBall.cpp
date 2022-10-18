@@ -11,11 +11,10 @@
 #include "ResourceManager.h"
 
 // Extern :
-extern double xpos, ypos;        // player coordinates
 extern sf::RenderWindow window;  // Render Window
+extern Player P1; // player
+extern ResourceManager resourceManager; // resource manager
 
-extern Player P1;
-extern ResourceManager resourceManager;
 ExpBall::ExpBall() {
   // Sets Animation Texture
   sprite.setTextureRect(rectSourceSprite);

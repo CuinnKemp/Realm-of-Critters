@@ -1,16 +1,13 @@
 #ifndef ARROW_H
 #define ARROW_H
 
+// include sfml headers
+#include <SFML/System.hpp>
 #include <SFML/Graphics.hpp>
 #include <SFML/Window.hpp>
 
+// include player class definition
 #include "Player.h"
-
-
-// External:
-extern Player P1;                // Player
-extern double xpos, ypos;        // Player Position
-extern sf::RenderWindow window;  // Render Window
 
 // Projectile fired by Beast
 class Arrow {
@@ -21,10 +18,13 @@ class Arrow {
   double* targetCoordinates = new double[2];
   double* speedVector = new double[2];
 
-  //sprite
+  // arrows sprite
   sf::RectangleShape ArrowShape;
 
+  // variable to control damage of arrow
   int damage;
+
+  // variable that acts as a clock (+ 1 every loop loop is 1/fps seconds)
   int counter;
 
   // default constructor

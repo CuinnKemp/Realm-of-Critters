@@ -63,7 +63,10 @@ Slime::Slime() {
 }
 
 // Destructor upon death to delete coordinates
-Slime::~Slime() { delete[] this->coordinates; }
+void Slime::deconstructor() { 
+  delete[] this->coordinates; 
+  delete[] this->lastCoordinates;
+}
 
 void Slime::attack() {
   // detects sprite collision with the player, damages the player upon collision
