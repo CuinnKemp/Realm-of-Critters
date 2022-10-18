@@ -592,6 +592,6 @@ void GameLoader::mainMenu() {
     quitGameDialouge();
   }
 
-  window.setFramerateLimit(120);
+  window.setFramerateLimit(60);
   window.display();
 }
