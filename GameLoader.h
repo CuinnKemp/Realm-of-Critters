@@ -36,7 +36,7 @@ using namespace std;
 
 class GameLoader {
  public:
-  int saveGame(int health, int level, int currentExp, float time);
+  int saveGame(int health, int level, int currentExp, float time, int pArrowLvl, int sBladeLvl);
   int loadGame();
   void encryptSaveGame();
   void decryptSaveGame();

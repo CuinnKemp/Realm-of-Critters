@@ -68,10 +68,10 @@ extern sf::Sound buttonSound, arrowSound, gameOverSound;
 extern sf::Sprite musicLevel, sfxLevel;
 
 // Saves game stats to a file
-int GameLoader::saveGame(int health, int level, int currentExp, float time) {
+int GameLoader::saveGame(int health, int level, int currentExp, float time, int pArrowLvl, int sBladeLvl) {
   ofstream saveFile("saveGame.save");
   if (saveFile.is_open()) {
-    saveFile << health << " " << level << " " << currentExp << " " << time;
+    saveFile << health << " " << level << " " << currentExp << " " << time << " " << pArrowLvl << " " << sBladeLvl;
     saveFile.close();
   } else {
     return 0;
@@ -86,7 +86,7 @@ int GameLoader::loadGame() {
   string line;
   ifstream saveFile("saveGame.save");
   if (saveFile.is_open()) {
-    for (int i = 0; i < 4; i++) {
+    for (int i = 0; i < 6; i++) {
       saveFile >> number;
       if (i == 0) {
         if (number > 0 && number <= 100) {
@@ -98,8 +98,13 @@ int GameLoader::loadGame() {
         P1.level = number;
       } else if (i == 2) {
         P1.currentExp = number;
-      } else {
+      } else if (i = 3){
         P1.savedTime = number;
+      } else if (i = 4){
+        P1.pArrowLvl = number;
+      }
+      else if (i = 5) {
+        P1.sBladeLvl = number;
       }
     }
     saveFile.close();
@@ -166,12 +171,12 @@ void GameLoader::quitGameDialouge() {
   // If gameLoop is running, adjuts positions to remain in the centre of the
   // screen
   if (gameState == "gameLoop") {
-    dialougeBox.setPosition(-285 + P1.sprite.getPosition().x,
-                            -75 + P1.sprite.getPosition().y);
-    yesButton.setPosition(-150 + P1.sprite.getPosition().x,
-                          -10 + P1.sprite.getPosition().y);
-    noButton.setPosition(0 + P1.sprite.getPosition().x,
-                         -10 + P1.sprite.getPosition().y);
+    dialougeBox.setPosition(-285 + P1.camera.getCenter().x,
+                            -75 + P1.camera.getCenter().y);
+    yesButton.setPosition(-150 + P1.camera.getCenter().x,
+                          -10 + P1.camera.getCenter().y);
+    noButton.setPosition(0 + P1.camera.getCenter().x,
+                         -10 + P1.camera.getCenter().y);
   } else {
     dialougeBox.setPosition(-285, -75);
     yesButton.setPosition(-150, -10);
@@ -182,8 +187,8 @@ void GameLoader::quitGameDialouge() {
   if (yesButton.getGlobalBounds().contains(sf::Vector2f(
           window.mapPixelToCoords(sf::Mouse::getPosition(window))))) {
     // Sets selected texture for the yes button
-    yesButton.setPosition(-150 + P1.sprite.getPosition().x,
-                          -9 + P1.sprite.getPosition().y);
+    yesButton.setPosition(-150 + P1.camera.getCenter().x,
+                          -9 + P1.camera.getCenter().y);
     yesButton.setTexture(resourceManager.yesButtonSelectedTex, true);
     buttonSound.setBuffer(bigButtonHovering);
     buttonSound.play();
@@ -191,7 +196,7 @@ void GameLoader::quitGameDialouge() {
     if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
       if (gameState == "gameLoop") {
         saveGame(P1.health, P1.level, P1.currentExp,
-                 P1.clock.getElapsedTime().asSeconds() + P1.savedTime);
+                 P1.clock.getElapsedTime().asSeconds() + P1.savedTime, P1.pArrowLvl, P1.sBladeLvl);
         encryptSaveGame();
         mainMusic.stop();
       } else {
@@ -207,8 +212,8 @@ void GameLoader::quitGameDialouge() {
   if (noButton.getGlobalBounds().contains(sf::Vector2f(
           window.mapPixelToCoords(sf::Mouse::getPosition(window))))) {
     // Sets selected texture for the yes button
-    noButton.setPosition(0 + P1.sprite.getPosition().x,
-                         -9 + P1.sprite.getPosition().y);
+    noButton.setPosition(0 + P1.camera.getCenter().x,
+                         -9 + P1.camera.getCenter().y);
     noButton.setTexture(resourceManager.noButtonSelectedTex, true);
     buttonSound.setBuffer(bigButtonHovering);
     buttonSound.play();
