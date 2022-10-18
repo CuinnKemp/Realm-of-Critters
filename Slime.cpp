@@ -121,27 +121,7 @@ void Slime::movement() {
   lastCoordinates[1] = coordinates[1];
 }
 
-bool Slime::updateEnemy() {
-  // checks whether or not slime is alive
-  if (this->health < 0) {
-    // random exp spawn on death
-    int shouldSpawnExp = rand() % 2;
-    if (shouldSpawnExp == 0) {
-      E1.spawnNewExp(10, coordinates[0], coordinates[1]);
-    }
-    return 0;
-  }
-
-  // calls movement function
-  this->movement();
-  this->count++;
-
-  // checks for collision on count threshold
-  if (this->count == 60) {
-    this->attack();
-    this->count = 0;
-  }
-
+void Slime::animation(){
   // Animation cycle based upon direction from movement function
   if (isMoving == false) {
     switch (direction) {
@@ -231,8 +211,33 @@ bool Slime::updateEnemy() {
   }
   animationCount++;
 
-  // Draws Sprite on Screen
   window.draw(this->sprite);
+}
+
+bool Slime::updateEnemy() {
+  // checks whether or not slime is alive
+  if (this->health < 0) {
+    // random exp spawn on death
+    int shouldSpawnExp = rand() % 2;
+    if (shouldSpawnExp == 0) {
+      E1.spawnNewExp(10, coordinates[0], coordinates[1]);
+    }
+    return 0;
+  }
+
+  // calls movement function
+  this->movement();
+  this->count++;
+
+  // checks for collision on count threshold
+  if (this->count == 60) {
+    this->attack();
+    this->count = 0;
+  }
+
+  this->animation();
+
+  // Draws Sprite on Screen
 
   return 1;
 }

@@ -3,6 +3,7 @@
 
 // include beast enemy and slime headers
 #include "Beast.h"
+#include "GoldenSlime.h"
 #include "Slime.h"
 #include "Enemy.h"
 
@@ -28,6 +29,8 @@ class Enemies {
 
   // Spawns new enemy onscreen
   void spawnNewEnemy();
+
+  void goldenSlime();
 
   // Check how many Enemies are alive
   void checkAlives();

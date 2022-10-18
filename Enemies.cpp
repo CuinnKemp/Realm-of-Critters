@@ -14,6 +14,8 @@
 #include "Enemy.h"
 #include "Player.h"
 
+#include "GoldenSlime.h"
+
 //external variable:
 extern Player P1; //player
 
@@ -42,15 +44,17 @@ void Enemies::spawnNewEnemy() {
   delete[] holdEnemies;
 
   // Randomly chooses between a beast and a slime to spawn
-  if (rand() % 2 == 0) {
-    enemies[enemyCounter] = new Beast;
-  } else {
-    enemies[enemyCounter] = new Slime;
-  }
+  enemies[enemyCounter] = new GoldenSlime;
+  // if (rand() % 2 == 0) {
+  //   enemies[enemyCounter] = new Beast;
+  // } else {
+  //   enemies[enemyCounter] = new Slime;
+  // }
 
   // increases the total enemies on the screen
   enemyCounter++;
 }
+
 
 void Enemies::checkAlives() {
   // runs through every enemy in the enemies array
