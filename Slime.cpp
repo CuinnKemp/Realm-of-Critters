@@ -121,6 +121,7 @@ void Slime::movement() {
   lastCoordinates[1] = coordinates[1];
 }
 
+// animation and drawing of sprite
 void Slime::animation(){
   // Animation cycle based upon direction from movement function
   if (isMoving == false) {

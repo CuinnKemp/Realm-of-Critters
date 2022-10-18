@@ -10,22 +10,26 @@
 #include "Enemies.h"
 #include "SpinningBlade.h"
 
-// Power up of a spinning blade around the player
+// Spinning blade spawner
 class SpinningBladeSpawner {
  public:
-  // Rotation count
-  int sBladeCount;
+  // how many blades
+    int sBladeCount;
 
+  // array of spinning blades
     SpinningBlade* sBlades;
-    
+  
+  // pointer to enemies array
     Enemies* enemies;
 
-  //Default constructor and destructor, 
+  //onstructor and destructor, 
   SpinningBladeSpawner(Enemies* enemies);  // Parameter for amount of spinning blades to spawn
   ~SpinningBladeSpawner();
 
+// resets spawner for new game
   void resetSpawner();
 
+//updates the spawner and all blades
   bool updateAbility();
 };
 #endif  // SPINNINGBLADESPAWNER_H

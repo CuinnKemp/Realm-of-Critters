@@ -31,6 +31,7 @@ class Slime : public Enemy {
   // Movement for Slime
   void movement();
 
+  //animation and drawing of sprite
   virtual void animation();
 
   // Update function that loops to call other functions as nessecary

@@ -4,6 +4,7 @@
 
 class ResourceManager {
  public:
+ // create all needed textures
   sf::Texture backgroundTex, menuTitleTex, playButtonTex, loadButtonTex,
       settingsButtonTex, settingsButtonSelectedTex, quitButtonTex,
       playButtonSelectedTex, loadButtonSelectedTex, quitButtonSelectedTex,
@@ -26,10 +27,19 @@ class ResourceManager {
       goldenslimeWalkRight1, goldenslimeWalkRight2, goldenslimeWalkRight3, goldenslimeWalkRight4,
       arrowTex, leftArrowTex, rightArrowTex, leftArrowSelectedTex,
       rightArrowSelectedTex, audioLevelTex;
+
+  // create default font
   sf::Font defaultFont;
+  //constructor
   ResourceManager();
+
+  //load resources for main menu
   void loadMainMenu();
+
+  //load resources for game
   void loadGame();
+
+  //destructor
   ~ResourceManager();
 };
 #endif  // RESOURCEMANAGER_H
