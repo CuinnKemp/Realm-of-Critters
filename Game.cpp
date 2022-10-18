@@ -67,10 +67,10 @@ sf::Sound buttonSound, arrowSound, gameOverSound;
 sf::Sprite musicLevel, sfxLevel;
 
 // Saves game stats to a file
-int saveGame(int health, int level, int currentExp, float time) {
+int saveGame(int health, int level, int currentExp, float time, int pArrowLvl, int sBladeLvl) {
   ofstream saveFile("saveGame.save");
   if (saveFile.is_open()) {
-    saveFile << health << " " << level << " " << currentExp << " " << time;
+    saveFile << health << " " << level << " " << currentExp << " " << time << " " << pArrowLvl << " " << sBladeLvl;
     saveFile.close();
   } else {
     return 0;
@@ -85,7 +85,7 @@ int loadGame() {
   string line;
   ifstream saveFile("saveGame.save");
   if (saveFile.is_open()) {
-    for (int i = 0; i < 4; i++) {
+    for (int i = 0; i < 6; i++) {
       saveFile >> number;
       if (i == 0) {
         if (number > 0 && number <= 100) {
@@ -97,8 +97,12 @@ int loadGame() {
         P1.level = number;
       } else if (i == 2) {
         P1.currentExp = number;
-      } else {
+      } else if (i == 3){
         P1.savedTime = number;
+      } else if (i == 4){
+        P1.pArrowLvl = number;
+      }else if (i == 5){
+        P1.sBladeLvl = number;
       }
     }
     saveFile.close();
@@ -190,7 +194,7 @@ void quitGameDialouge() {
     if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
       if (gameState == "gameLoop") {
         saveGame(P1.health, P1.level, P1.currentExp,
-                 P1.clock.getElapsedTime().asSeconds() + P1.savedTime);
+                 P1.clock.getElapsedTime().asSeconds() + P1.savedTime, P1.pArrowLvl, P1.sBladeLvl);
         encryptSaveGame();
         mainMusic.stop();
       } else {
@@ -368,6 +372,7 @@ void gameLoop() {
 }
 
 void mainMenu() {
+  window.setFramerateLimit(60);
   P1.camera.setCenter(0,0);
   // Setings for Main Menu UI
   sf::Sprite playButton, loadButton, settingsButton, quitButton, background,
@@ -591,8 +596,6 @@ void mainMenu() {
   if (showQuitGameDialouge == true) {
     quitGameDialouge();
   }
-
-  window.setFramerateLimit(120);
   window.display();
 }
 
