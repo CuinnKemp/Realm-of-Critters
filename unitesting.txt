@@ -1,0 +1,51 @@
+Format::
+
+Scenario:
+    Expected Outcome
+    Actual Outcome
+
+
+Input Using Arrow Keys
+    Movement of Player
+    Player is able to move in 8 directions
+
+
+Closing Games using Esc Key Within game and in main menu
+    Game immediately Closes
+    Used to be an issue, Esc would not clos the game, now opts for exit prompt
+
+
+Clicking on a button
+    Goes to selected Feature
+    Wouldnt react to mouse, fixed, now highlights upon mouse hover 
+
+
+Loading the game both with and without a savegame file
+    Loads at base statistics
+    Would seg fault, now working and resets the player to base stats if tampered with
+
+
+Changing the volume for the Music and SFX Volume Sliders
+    Changes the in game volume 
+    Currently functional, each slider affects the Music and SFX present in the game respectively
+
+
+When Player Health is 0
+    Player Death screen occurs
+    Used to Seg Fault the game, changes in the main game loop now resets to main menu upon death screen promt reaction
+
+
+When Current exp = exp cap
+    Player Level up
+    Player now levels up, scales the enemies and prompts the player to upgrade one of their abilities
+
+
+When Enemy Dies
+    Enemy Disappears from screen
+    Enemies used to turn invincible and would kill the player, error due to == instead of >=, solved
+
+
+Process of testing.
+- Playtesting was the main method, playing the game over and over in different scenarios and builds of the game led to bugs we did not know existed
+- using comment lines for sections that were thought to be problematic
+- Using breakpoints to analyse the state of objects and arrays in order to discover errors
