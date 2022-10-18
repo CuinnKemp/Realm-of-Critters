@@ -211,6 +211,7 @@ void Slime::animation(){
   }
   animationCount++;
 
+  // Draws Sprite on Screen
   window.draw(this->sprite);
 }
 
@@ -236,8 +237,6 @@ bool Slime::updateEnemy() {
   }
 
   this->animation();
-
-  // Draws Sprite on Screen
 
   return 1;
 }
