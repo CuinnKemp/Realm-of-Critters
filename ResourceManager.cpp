@@ -111,6 +111,24 @@ void ResourceManager::loadGame() {
   slimeWalkRight3.loadFromFile("slimeAnimation/walkRight3.png");
   slimeWalkRight4.loadFromFile("slimeAnimation/walkRight4.png");
 
+  // Loads goldenSlime textures
+  goldenslimeWalkDown1.loadFromFile("goldenslimeAnimation/walkDown1.png");
+  goldenslimeWalkDown2.loadFromFile("goldenslimeAnimation/walkDown2.png");
+  goldenslimeWalkDown3.loadFromFile("goldenslimeAnimation/walkDown3.png");
+  goldenslimeWalkDown4.loadFromFile("goldenslimeAnimation/walkDown4.png");
+  goldenslimeWalkUp1.loadFromFile("goldenslimeAnimation/walkUp1.png");
+  goldenslimeWalkUp2.loadFromFile("goldenslimeAnimation/walkUp2.png");
+  goldenslimeWalkUp3.loadFromFile("goldenslimeAnimation/walkUp3.png");
+  goldenslimeWalkUp4.loadFromFile("goldenslimeAnimation/walkUp4.png");
+  goldenslimeWalkLeft1.loadFromFile("goldenslimeAnimation/walkLeft1.png");
+  goldenslimeWalkLeft2.loadFromFile("goldenslimeAnimation/walkLeft2.png");
+  goldenslimeWalkLeft3.loadFromFile("goldenslimeAnimation/walkLeft3.png");
+  goldenslimeWalkLeft4.loadFromFile("goldenslimeAnimation/walkLeft4.png");
+  goldenslimeWalkRight1.loadFromFile("goldenslimeAnimation/walkRight1.png");
+  goldenslimeWalkRight2.loadFromFile("goldenslimeAnimation/walkRight2.png");
+  goldenslimeWalkRight3.loadFromFile("goldenslimeAnimation/walkRight3.png");
+  goldenslimeWalkRight4.loadFromFile("goldenslimeAnimation/walkRight4.png");
+
   // Loads UI Textures
   emptyInfoTex.loadFromFile("UI/EmptyInfo.png");
   healthBarBottomTex.loadFromFile("UI/HealthBarBottom.png");

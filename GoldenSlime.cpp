@@ -49,7 +49,7 @@ GoldenSlime::GoldenSlime(){
   // Initialises sprite texture, size and shape
   this->sprite.setTextureRect(rectSourceSprite);
   this->sprite.setSize(sf::Vector2f(32, 32));
-  this->sprite.setTexture(&resourceManager.slimeWalkDown1);
+  this->sprite.setTexture(&resourceManager.goldenslimeWalkDown1);
 
   // initialises movement direction, current status and animation
   // countP1.savedTime)
@@ -60,5 +60,100 @@ GoldenSlime::GoldenSlime(){
 
   // initialises total and health
   this->count = 0;
-  this->health = 25;
+  this->health = 50;
+}
+
+void GoldenSlime::animation() {
+  // Animation cycle based upon direction from movement function
+  std::cout << direction << std::endl;
+  if (isMoving == false) {
+    std::cout << "here" << std::endl;
+    switch (direction) {
+      case 1:
+        sprite.setTexture(&resourceManager.goldenslimeWalkLeft1);
+        break;
+      case 2:
+        sprite.setTexture(&resourceManager.goldenslimeWalkRight1);
+        break;
+      case 3:
+        sprite.setTexture(&resourceManager.goldenslimeWalkUp1);
+        break;
+      case 4:
+        sprite.setTexture(&resourceManager.goldenslimeWalkDown1);
+        break;
+      default:
+        sprite.setTexture(&resourceManager.goldenslimeWalkDown1);
+    }
+  } else if (remainder(animationCount / 8, 2) == 0) {
+    switch (direction) {
+      case 1:
+        sprite.setTexture(&resourceManager.goldenslimeWalkLeft4);
+        break;
+      case 2:
+        sprite.setTexture(&resourceManager.goldenslimeWalkRight4);
+        break;
+      case 3:
+        sprite.setTexture(&resourceManager.goldenslimeWalkUp4);
+        break;
+      case 4:
+        sprite.setTexture(&resourceManager.goldenslimeWalkDown4);
+        break;
+      default:
+        sprite.setTexture(&resourceManager.goldenslimeWalkDown4);
+    }
+  } else if (remainder(animationCount / 6, 3) == 0) {
+    switch (direction) {
+      case 1:
+        sprite.setTexture(&resourceManager.goldenslimeWalkLeft3);
+        break;
+      case 2:
+        sprite.setTexture(&resourceManager.goldenslimeWalkRight3);
+        break;
+      case 3:
+        sprite.setTexture(&resourceManager.goldenslimeWalkUp3);
+        break;
+      case 4:
+        sprite.setTexture(&resourceManager.goldenslimeWalkDown3);
+        break;
+      default:
+        sprite.setTexture(&resourceManager.goldenslimeWalkDown3);
+    }
+  } else if (remainder(animationCount / 4, 2) == 0) {
+    switch (direction) {
+      case 1:
+        sprite.setTexture(&resourceManager.goldenslimeWalkLeft2);
+        break;
+      case 2:
+        sprite.setTexture(&resourceManager.goldenslimeWalkRight2);
+        break;
+      case 3:
+        sprite.setTexture(&resourceManager.goldenslimeWalkUp2);
+        break;
+      case 4:
+        sprite.setTexture(&resourceManager.goldenslimeWalkDown2);
+        break;
+      default:
+        sprite.setTexture(&resourceManager.goldenslimeWalkDown2);
+    }
+  } else {
+    switch (direction) {
+      case 1:
+        sprite.setTexture(&resourceManager.goldenslimeWalkLeft1);
+        break;
+      case 2:
+        sprite.setTexture(&resourceManager.goldenslimeWalkRight1);
+        break;
+      case 3:
+        sprite.setTexture(&resourceManager.goldenslimeWalkUp1);
+        break;
+      case 4:
+        sprite.setTexture(&resourceManager.goldenslimeWalkDown1);
+        break;
+      default:
+        sprite.setTexture(&resourceManager.goldenslimeWalkDown1);
+    }
+  }
+  animationCount++;
+
+  window.draw(sprite);
 }
