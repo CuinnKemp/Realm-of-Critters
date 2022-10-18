@@ -47,6 +47,15 @@ When Enemy Dies
     Enemy Disappears from screen
     Enemies used to turn invincible and would kill the player, error due to == instead of >=, solved
 
+Enemy Spawning Out of bounds
+    Walking into a corner of the map will spawn enemies out of bounds
+    Used to be an issue, now enemies will not spawn that are not on "solid ground"
+
+Input of other keys
+    No Input
+    SFML built in function, does not register input unless from chosen keybinds
+
+
 
 Process of testing.
 - Playtesting was the main method, playing the game over and over in different scenarios and builds of the game led to bugs we did not know existed
