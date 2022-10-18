@@ -1,19 +1,29 @@
+// include ObstacleGenerator header
 #include "ObstacleGenerator.h"
 
+//include required libraries
 #include <SFML/Graphics.hpp>
 #include <SFML/Window.hpp>
 #include <cmath>
 #include <iostream>
 #include <random>
 
+// include Obstacle and resource manager class definitions
 #include "Obstacle.h"
 #include "ResourceManager.h"
+
+//external variables
+extern ResourceManager resourceManager;
+
+
+//default constructor
 ObstacleGenerator::ObstacleGenerator() {
   // Initialising counter and size of Obstacle Array
   obstacleCounter = 0;
   obstacles = new Obstacle*[0];
 }
-extern ResourceManager resourceManager;
+
+// spawn ne obstacles 
 void ObstacleGenerator::spawnNewObstacle() {
   //Creates temporary Array of Obstacles
   Obstacle** holdObstacleGenerator = this->obstacles;
@@ -72,6 +82,7 @@ void ObstacleGenerator::spawnNewObstacle() {
   obstacleCounter++;
 }
 
+// update the obstacles
 void ObstacleGenerator::updateObstacles() {
   // updates each obstacle to draw sprites on map
   for (int i = 0; i < obstacleCounter; i++) {
@@ -79,6 +90,7 @@ void ObstacleGenerator::updateObstacles() {
   }
 }
 
+// default deconstructor 
 ObstacleGenerator::~ObstacleGenerator() {
   //destructor for obstacle array
   for (int i = 0; i < obstacleCounter; i++) {

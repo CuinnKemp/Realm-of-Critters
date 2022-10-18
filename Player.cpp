@@ -1,7 +1,10 @@
+// include Player header
 #include "Player.h"
 
+//include required libraries
 #include <SFML/Audio.hpp>
 
+// include resourceManager class definition
 #include "ResourceManager.h"
 
 // external variable of current player position and resource manager
@@ -44,47 +47,66 @@ Player::Player(double Pxpos, double Pypos, double width, double height,
 // This should be called whenever an enemy dies to check whether player has
 // levelled up
 void Player::levelPlayer() {
+  // if current exp is equal too or greater than the exp cap
   if (currentExp >= expCap) {
+    // create rectangle shapes sBlade and pArrow
     sf::RectangleShape sBlade, pArrow;
+
+    // create text
     sf::Text upgradeText;
     
+    //apply the spinning blade texture and arrow texture
     sBlade.setTexture(&resourceManager.shuriken);
     pArrow.setTexture(&resourceManager.arrowTex);
 
+    // set the size of the spinning blade and arrow
     sBlade.setSize(sf::Vector2f(100,120));
     pArrow.setSize(sf::Vector2f(80,120));
 
+    // set txt to say Select Upgrade and font and character size
     upgradeText.setString(sf::String("Select Upgrade"));
     upgradeText.setFont(resourceManager.defaultFont);
     upgradeText.setCharacterSize(75);
 
+    // set the position and colour of the text
     upgradeText.setPosition(sf::Vector2f(this->camera.getCenter().x - (583/2.0), this->camera.getCenter().y - 100));
     upgradeText.setFillColor(sf::Color::Black);
 
+    //set the postion of the spinning blade and arrow
     sBlade.setPosition(sf::Vector2f(this->camera.getCenter().x - 200, this->camera.getCenter().y + 50));
     pArrow.setPosition(sf::Vector2f(this->camera.getCenter().x + 100, this->camera.getCenter().y + 50));
 
+    // while waiting is true
     bool waiting = true;
     while (waiting == true){
+      //draw and display the buttons and text
       this->window->draw(sBlade);
       this->window->draw(pArrow);
       this->window->draw(upgradeText);
       window->display();
+
+      // if the player clicks on spinning blade increase its level
       if (sBlade.getGlobalBounds().contains(sf::Vector2f(
           this->window->mapPixelToCoords(sf::Mouse::getPosition(*(this->window))))) && sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
           this->sBladeLvl++;
+          // exit loop
           waiting = false;
       }
+      // if the player clicks on the arrow increase its level
       else if (pArrow.getGlobalBounds().contains(sf::Vector2f(
           this->window->mapPixelToCoords(sf::Mouse::getPosition(*(this->window))))) && sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
           this->pArrowLvl++;
+          // exit loop
           waiting = false;
       }
     }
+    // increase level
     this->level++;
-
+    
+    // set new exp cap
     this->expCap =
         this->expCap * 1.5;  // increase experience required after every level
+    // reset exp
     this->currentExp = 0;  // resets exp
   }
 }
@@ -92,7 +114,7 @@ void Player::levelPlayer() {
 
 // Resets the Player after Death Screen
 void Player::resetPlayer() {
-  // Sets deafault Position and camera to 0,0
+  // reset all variables to original variables
   xpos = 0;
   ypos = 0;
   oldXpos = 0;

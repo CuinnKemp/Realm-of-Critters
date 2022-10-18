@@ -1,6 +1,7 @@
 #ifndef OBSTACLEGENERATOR_H
 #define OBSTACLEGENERATOR_H
 
+// include obstacle class definition
 #include "Obstacle.h"
 
 //Aggregator class for Obstacles

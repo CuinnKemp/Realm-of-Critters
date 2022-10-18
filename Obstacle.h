@@ -1,6 +1,7 @@
 #ifndef BARRIER_H
 #define BARRIER_H
 
+//include required libraries
 #include <SFML/Graphics.hpp>
 
 //This class is for unmoving objects that have collision bounds
