@@ -1,4 +1,4 @@
-//g++ Game.cpp ResourceManager.cpp Player.cpp UIManager.cpp Enemy.cpp Enemies.cpp Beast.cpp Slime.cpp Obstacle.cpp ObstacleGenerator.cpp Arrow.cpp SpinningBlade.cpp SpinningBladeSpawner.cpp ExpBall.cpp ExpContainer.cpp ExpSpawner.cpp PlayerArrow.cpp PlayerArrowSpawner.cpp -lsfml-graphics -lsfml-window -lsfml-system
+//g++ Game.cpp ResourceManager.cpp Player.cpp UIManager.cpp Enemy.cpp Enemies.cpp Beast.cpp Slime.cpp Obstacle.cpp ObstacleGenerator.cpp Arrow.cpp SpinningBlade.cpp SpinningBladeSpawner.cpp ExpBall.cpp ExpContainer.cpp ExpSpawner.cpp PlayerArrow.cpp PlayerArrowSpawner.cpp -lsfml-graphics -lsfml-window -lsfml-system -lsfml-audio
 
 #include <stdlib.h>
 #include <unistd.h>
@@ -165,12 +165,12 @@ void quitGameDialouge() {
   // If gameLoop is running, adjuts positions to remain in the centre of the
   // screen
   if (gameState == "gameLoop") {
-    dialougeBox.setPosition(-285 + P1.sprite.getPosition().x,
-                            -75 + P1.sprite.getPosition().y);
-    yesButton.setPosition(-150 + P1.sprite.getPosition().x,
-                          -10 + P1.sprite.getPosition().y);
-    noButton.setPosition(0 + P1.sprite.getPosition().x,
-                         -10 + P1.sprite.getPosition().y);
+    dialougeBox.setPosition(-285 + P1.camera.getCenter().x,
+                            -75 + P1.camera.getCenter().y);
+    yesButton.setPosition(-150 + P1.camera.getCenter().x,
+                          -10 + P1.camera.getCenter().y);
+    noButton.setPosition(0 + P1.camera.getCenter().x,
+                         -10 + P1.camera.getCenter().y);
   } else {
     dialougeBox.setPosition(-285, -75);
     yesButton.setPosition(-150, -10);
@@ -181,8 +181,8 @@ void quitGameDialouge() {
   if (yesButton.getGlobalBounds().contains(sf::Vector2f(
           window.mapPixelToCoords(sf::Mouse::getPosition(window))))) {
     // Sets selected texture for the yes button
-    yesButton.setPosition(-150 + P1.sprite.getPosition().x,
-                          -9 + P1.sprite.getPosition().y);
+    yesButton.setPosition(-150 + P1.camera.getCenter().x,
+                          -9 + P1.camera.getCenter().y);
     yesButton.setTexture(resourceManager.yesButtonSelectedTex, true);
     buttonSound.setBuffer(bigButtonHovering);
     buttonSound.play();
@@ -205,9 +205,9 @@ void quitGameDialouge() {
   // Checks if mouse is hovering over the yes button
   if (noButton.getGlobalBounds().contains(sf::Vector2f(
           window.mapPixelToCoords(sf::Mouse::getPosition(window))))) {
-    // Sets selected texture for the yes button
-    noButton.setPosition(0 + P1.sprite.getPosition().x,
-                         -9 + P1.sprite.getPosition().y);
+    // Sets selected texture for the no button
+    noButton.setPosition(0 + P1.camera.getCenter().x,
+                         -9 + P1.camera.getCenter().y);
     noButton.setTexture(resourceManager.noButtonSelectedTex, true);
     buttonSound.setBuffer(bigButtonHovering);
     buttonSound.play();
@@ -218,7 +218,7 @@ void quitGameDialouge() {
       showQuitGameDialouge = false;
     }
   }
-  // Draws quit game dialouge UI elements
+  // Draws quit game dialouge UI elementsyes
   window.draw(dialougeBox);
   window.draw(yesButton);
   window.draw(noButton);
@@ -368,6 +368,7 @@ void gameLoop() {
 }
 
 void mainMenu() {
+  P1.camera.setCenter(0,0);
   // Setings for Main Menu UI
   sf::Sprite playButton, loadButton, settingsButton, quitButton, background,
       menuTitle, settingsPage, exitButton, musicLeftButton, musicRightButton,
