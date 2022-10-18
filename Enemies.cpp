@@ -43,13 +43,15 @@ void Enemies::spawnNewEnemy() {
   // Deletes the temporary array
   delete[] holdEnemies;
 
-  // Randomly chooses between a beast and a slime to spawn
-  enemies[enemyCounter] = new GoldenSlime;
-  // if (rand() % 2 == 0) {
-  //   enemies[enemyCounter] = new Beast;
-  // } else {
-  //   enemies[enemyCounter] = new Slime;
-  // }
+  // Randomly chooses between a beast, a slime and a golden slime to spawn
+  int randomNum = rand() % 21;
+  if (randomNum < 11) {
+    enemies[enemyCounter] = new Beast;
+  } else if (randomNum > 11){
+    enemies[enemyCounter] = new Slime;
+  }else {
+    enemies[enemyCounter] = new GoldenSlime;
+  }
 
   // increases the total enemies on the screen
   enemyCounter++;

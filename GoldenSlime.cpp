@@ -42,12 +42,6 @@ GoldenSlime::GoldenSlime(){
   // Sets Sprite Position and size
   this->sprite.setPosition(
       sf::Vector2f(this->coordinates[0], this->coordinates[1]));
-  this->sprite.setSize(sf::Vector2f(16, 16));
-
-  // Loads Animation Files
-
-  // Initialises sprite texture, size and shape
-  this->sprite.setTextureRect(rectSourceSprite);
   this->sprite.setSize(sf::Vector2f(32, 32));
   this->sprite.setTexture(&resourceManager.goldenslimeWalkDown1);
 
@@ -60,7 +54,7 @@ GoldenSlime::GoldenSlime(){
 
   // initialises total and health
   this->count = 0;
-  this->health = 50;
+  this->health = 100;
 }
 
 void GoldenSlime::animation() {
