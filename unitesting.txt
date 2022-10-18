@@ -3,6 +3,7 @@ Format::
 Scenario:
     Expected Outcome
     Actual Outcome
+    Extra Detail
 
 
 Input Using Arrow Keys
@@ -13,6 +14,7 @@ Input Using Arrow Keys
 Closing Games using Esc Key Within game and in main menu
     Game immediately Closes
     Used to be an issue, Esc would not clos the game, now opts for exit prompt
+    If in GameLoop, runs saveGame() and EncryptSaveGame() in order to Encrypt save files
 
 
 Clicking on a button
@@ -23,6 +25,7 @@ Clicking on a button
 Loading the game both with and without a savegame file
     Loads at base statistics
     Would seg fault, now working and resets the player to base stats if tampered with
+    it now runs decryptSaveGame() and then loadGame() and checks if the valuess are within reason to detect if the savegame has been tampered with, if so, reset savegame
 
 
 Changing the volume for the Music and SFX Volume Sliders
