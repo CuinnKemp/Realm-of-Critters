@@ -31,9 +31,11 @@ class Beast : public Enemy {
   bool isMoving;
   int animationCount;
 
-  //Default constructors & Destructors
+  //Default constructor
   Beast();
-  ~Beast();
+
+  // virtual deconstructor used to delete an enemy of from the array of enemies
+  void deconstructor();
 
   // Spawns a projectile to fire at the Player
   void attack();

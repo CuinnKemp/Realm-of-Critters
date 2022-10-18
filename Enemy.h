@@ -19,6 +19,9 @@ class Enemy {
   sf::IntRect rectSourceSprite;
   sf::Sprite sprite;
 
+  // virtual soft deconstructor 
+  virtual void deconstructor();
+
   // Virtual Function which is repeated every loop to update position and actions
   virtual bool updateEnemy();
 };

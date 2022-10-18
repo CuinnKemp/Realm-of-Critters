@@ -1,5 +1,7 @@
+// include Beast header file containing class definition
 #include "Beast.h"
 
+// include neccesary libraries
 #include <SFML/Audio.hpp>
 #include <SFML/Graphics.hpp>
 #include <SFML/Window.hpp>
@@ -7,25 +9,29 @@
 #include <iostream>
 #include <random>
 
+// include Arrow, enemy, expspawner and Resource manager class definitions
 #include "Arrow.h"
 #include "Enemy.h"
 #include "ExpSpawner.h"
 #include "ResourceManager.h"
 
+//external variables and objects:
 extern double xpos, ypos;        // Player Position
 extern sf::RenderWindow window;  // Render Window
 extern ExpSpawner E1;            // Exp Spawner
 extern ResourceManager resourceManager;
+extern int sfxVolume;
 
+//create sfml sound buffer and sound objects
 sf::SoundBuffer beastArrowSB;
 sf::Sound beastArrowSound;
 
-extern int sfxVolume;
-
 Beast::Beast() {
+  // load and configure sound
   beastArrowSB.loadFromFile("Sounds/Hit3.wav");
   beastArrowSound.setBuffer(beastArrowSB);
   beastArrowSound.setVolume(sfxVolume);
+
   // initialises the arrow counter
   this->arrowCounter = 0;
 
@@ -33,14 +39,25 @@ Beast::Beast() {
   // player
   this->coordinates[0] = xpos + rand() % 800 - 400;
   this->coordinates[1] = ypos + rand() % 800 - 400;
+  // if x coordinate is less than -1600, out of bounds
   if (coordinates[0] < -1600) {
+    //move x coordinate in bounds
     coordinates[0] = coordinates[0] + 400;
-  } else if (coordinates[0] > 1600) {
+  } 
+  // if x coordinate greater than 1600, out of bounds
+  else if (coordinates[0] > 1600) {
+    // move x coordinate in bounds
     coordinates[0] = coordinates[0] - 400;
   }
+
+  // if y coordinate is less than -1600, out of bounds
   if (coordinates[1] < -1600) {
+    // move y coordinate in bounds
     coordinates[1] = coordinates[1] + 400;
-  } else if (coordinates[1] > 1600) {
+  } 
+  // if y coordinate greater than 1600, out of bounds
+  else if (coordinates[1] > 1600) {
+    // move y coordinate in bounds
     coordinates[1] = coordinates[1] - 400;
   }
 
@@ -54,7 +71,6 @@ Beast::Beast() {
   this->sprite.setSize(sf::Vector2f(16, 16));
 
   // Initialises the movement, direction, sprite size & texture of the enemy
-
   this->sprite.setTextureRect(rectSourceSprite);
   this->sprite.setSize(sf::Vector2f(32, 32));
   this->sprite.setTexture(&resourceManager.walkDown1);
@@ -69,8 +85,12 @@ Beast::Beast() {
   this->health = 50;
 }
 
-// destructor deletes the coordinates of the current enemy
-Beast::~Beast() { delete[] this->coordinates; }
+// virtual destructor deletes the allocated memory of the current enemy
+void Beast::deconstructor() { 
+  delete[] this->coordinates; 
+  delete[] this->Arrows;
+  delete[] this->lastCoordinates;
+}
 
 // Called when Firecounter reaches a threshold value,
 // used to shoot a projectile at the player

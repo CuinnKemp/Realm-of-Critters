@@ -1,9 +1,10 @@
 #ifndef ENEMIES_H
 #define ENEMIES_H
 
+// include beast enemy and slime headers
 #include "Beast.h"
-#include "Enemy.h"
 #include "Slime.h"
+#include "Enemy.h"
 
 // Enemies is an aggregator of all Enemy subclasses such as Beast and Slime
 class Enemies {

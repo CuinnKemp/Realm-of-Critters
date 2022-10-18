@@ -23,7 +23,7 @@ class Slime : public Enemy {
 
   // Standard Constructor & Destructor
   Slime();
-  ~Slime();
+  void deconstructor();
 
   // Collision Detection
   void attack();
