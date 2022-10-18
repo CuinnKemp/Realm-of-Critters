@@ -1,8 +1,13 @@
-//g++ Game.cpp ResourceManager.cpp Player.cpp UIManager.cpp Enemy.cpp Enemies.cpp Beast.cpp Slime.cpp Obstacle.cpp ObstacleGenerator.cpp Arrow.cpp SpinningBlade.cpp SpinningBladeSpawner.cpp ExpBall.cpp ExpContainer.cpp ExpSpawner.cpp PlayerArrow.cpp PlayerArrowSpawner.cpp -lsfml-graphics -lsfml-window -lsfml-system -lsfml-audio
+// g++ Game.cpp ResourceManager.cpp Player.cpp UIManager.cpp Enemy.cpp
+// Enemies.cpp Beast.cpp Slime.cpp Obstacle.cpp ObstacleGenerator.cpp Arrow.cpp
+// SpinningBlade.cpp SpinningBladeSpawner.cpp ExpBall.cpp ExpContainer.cpp
+// ExpSpawner.cpp PlayerArrow.cpp PlayerArrowSpawner.cpp -lsfml-graphics
+// -lsfml-window -lsfml-system -lsfml-audio
 
 // include required libraries
 #include <stdlib.h>
 #include <unistd.h>
+
 #include <SFML/Audio.hpp>
 #include <SFML/Graphics.hpp>
 #include <SFML/System.hpp>
@@ -22,6 +27,7 @@
 #include "ExpBall.h"
 #include "ExpContainer.h"
 #include "ExpSpawner.h"
+#include "GameLoader.h"
 #include "Obstacle.h"
 #include "ObstacleGenerator.h"
 #include "Player.h"
@@ -30,9 +36,8 @@
 #include "ResourceManager.h"
 #include "Slime.h"
 #include "SpinningBlade.h"
-#include "UIManager.h"
 #include "SpinningBladeSpawner.h"
-#include "GameLoader.h"
+#include "UIManager.h"
 
 // coordinates for the player
 double xpos, ypos;
@@ -50,20 +55,20 @@ ResourceManager resourceManager;
 Player P1(0, 0, width / 2, height / 2, &window);
 Enemies enemies;
 
-//Abilities
+// Abilities
 PlayerArrowSpawner pArrows(&enemies);
 SpinningBladeSpawner sBlades(&enemies);
 
-//initilise variables
+// initilise variables
 const sf::Time TimePerFrame = sf::seconds(1.f / 90.f);
 bool showQuitGameDialouge;
 bool showSettingsPage;
 bool isGameChanging;
 bool waiting;
-bool shouldLoadGame, isButtonClicked;
+bool shouldLoadGame, isButtonClicked, playSFX;
 float musicVolume, sfxVolume;
 
-//initialise music and sound variables 
+// initialise music and sound variables
 sf::Music menuMusic, mainMusic, deathMusic;
 sf::SoundBuffer buttonHovering, bigButtonHovering, buttonClicked, yesButtonSB,
     noButtonSB, arrowSB, gameOverSB;
@@ -81,11 +86,12 @@ int main() {
   isGameChanging = true;
   waiting = false;
   shouldLoadGame = false;
+  playSFX = false;
   gameState = "mainMenu";
   musicVolume = 100;
   sfxVolume = 100;
 
-  //loads music
+  // loads music
   menuMusic.openFromFile("Music/1.ogg");
   mainMusic.openFromFile("Music/17.ogg");
   deathMusic.openFromFile("Music/15.ogg");
@@ -109,7 +115,7 @@ int main() {
   gameOverSB.loadFromFile("Sounds/GameOver.wav");
   gameOverSound.setBuffer(gameOverSB);
 
-  //set scale of music and sfx sliders
+  // set scale of music and sfx sliders
   musicLevel.setScale(3, 3);
   sfxLevel.setScale(3, 3);
 
@@ -121,7 +127,8 @@ int main() {
       if (event.type == sf::Event::Closed) showQuitGameDialouge = true;
     }
 
-    //set all sounds to the musicand sound effect volume (can be changed in settings)
+    // set all sounds to the musicand sound effect volume (can be changed in
+    // settings)
     mainMusic.setVolume(musicVolume);
     deathMusic.setVolume(musicVolume);
     menuMusic.setVolume(musicVolume);
@@ -142,7 +149,7 @@ int main() {
         // start menu music
         menuMusic.play();
       }
-      //run main menu function from game loader
+      // run main menu function from game loader
       G1.mainMenu();
     }
     // Checks if on Main Game Screen
@@ -152,7 +159,7 @@ int main() {
         // Load assets for main game
         resourceManager.loadGame();
         isGameChanging = false;
-        //stops music that could be playing
+        // stops music that could be playing
         menuMusic.stop();
         deathMusic.stop();
         // starts main game music
@@ -165,6 +172,6 @@ int main() {
     }
   }
 
-  //returns 0 (game runs successfully)
+  // returns 0 (game runs successfully)
   return 0;
 }

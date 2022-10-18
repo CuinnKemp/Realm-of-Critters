@@ -1,4 +1,10 @@
-//g++ Game.cpp ResourceManager.cpp Player.cpp UIManager.cpp Enemy.cpp Enemies.cpp Beast.cpp Slime.cpp Obstacle.cpp ObstacleGenerator.cpp Arrow.cpp SpinningBlade.cpp SpinningBladeSpawner.cpp ExpBall.cpp ExpContainer.cpp ExpSpawner.cpp PlayerArrow.cpp PlayerArrowSpawner.cpp -lsfml-graphics -lsfml-window -lsfml-system
+// g++ Game.cpp ResourceManager.cpp Player.cpp UIManager.cpp Enemy.cpp
+// Enemies.cpp Beast.cpp Slime.cpp Obstacle.cpp ObstacleGenerator.cpp Arrow.cpp
+// SpinningBlade.cpp SpinningBladeSpawner.cpp ExpBall.cpp ExpContainer.cpp
+// ExpSpawner.cpp PlayerArrow.cpp PlayerArrowSpawner.cpp -lsfml-graphics
+// -lsfml-window -lsfml-system
+
+#include "GameLoader.h"
 
 #include <stdlib.h>
 #include <unistd.h>
@@ -29,9 +35,8 @@
 #include "ResourceManager.h"
 #include "Slime.h"
 #include "SpinningBlade.h"
-#include "UIManager.h"
 #include "SpinningBladeSpawner.h"
-#include "GameLoader.h"
+#include "UIManager.h"
 using namespace std;
 
 // coordinates for the player
@@ -39,8 +44,8 @@ extern double xpos, ypos;
 extern std ::string gameState;
 
 // Window and Desktop Settings for the Viewport
-extern double width ;
-extern double height ;
+extern double width;
+extern double height;
 extern sf::RenderWindow window;
 
 // Initialising Objects
@@ -50,7 +55,7 @@ extern ResourceManager resourceManager;
 extern Player P1;
 extern Enemies enemies;
 
-//Abilities
+// Abilities
 extern PlayerArrowSpawner pArrows;
 extern SpinningBladeSpawner sBlades;
 
@@ -59,19 +64,21 @@ extern bool showQuitGameDialouge;
 extern bool showSettingsPage;
 extern bool isGameChanging;
 extern bool waiting;
-extern bool shouldLoadGame, isButtonClicked;
+extern bool shouldLoadGame, isButtonClicked, playSFX;
 extern float musicVolume, sfxVolume;
 extern sf::Music menuMusic, mainMusic, deathMusic;
-extern sf::SoundBuffer buttonHovering, bigButtonHovering, buttonClicked, yesButtonSB,
-    noButtonSB, arrowSB, gameOverSB;
+extern sf::SoundBuffer buttonHovering, bigButtonHovering, buttonClicked,
+    yesButtonSB, noButtonSB, arrowSB, gameOverSB;
 extern sf::Sound buttonSound, arrowSound, gameOverSound;
 extern sf::Sprite musicLevel, sfxLevel;
 
 // Saves game stats to a file
-int GameLoader::saveGame(int health, int level, int currentExp, float time, int pArrowLvl, int sBladeLvl) {
+int GameLoader::saveGame(int health, int level, int currentExp, float time,
+                         int pArrowLvl, int sBladeLvl) {
   ofstream saveFile("saveGame.save");
   if (saveFile.is_open()) {
-    saveFile << health << " " << level << " " << currentExp << " " << time << " " << pArrowLvl << " " << sBladeLvl;
+    saveFile << health << " " << level << " " << currentExp << " " << time
+             << " " << pArrowLvl << " " << sBladeLvl;
     saveFile.close();
   } else {
     return 0;
@@ -98,12 +105,11 @@ int GameLoader::loadGame() {
         P1.level = number;
       } else if (i == 2) {
         P1.currentExp = number;
-      } else if (i = 3){
+      } else if (i == 3) {
         P1.savedTime = number;
-      } else if (i = 4){
+      } else if (i == 4) {
         P1.pArrowLvl = number;
-      }
-      else if (i = 5) {
+      } else if (i == 5) {
         P1.sBladeLvl = number;
       }
     }
@@ -191,12 +197,17 @@ void GameLoader::quitGameDialouge() {
                           -9 + P1.camera.getCenter().y);
     yesButton.setTexture(resourceManager.yesButtonSelectedTex, true);
     buttonSound.setBuffer(bigButtonHovering);
-    buttonSound.play();
+    // Checks if hovering button sound has not played
+    if (playSFX) {
+      buttonSound.play();
+      playSFX = false;
+    }
     // Checks if the yes button is clicked
     if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
       if (gameState == "gameLoop") {
         saveGame(P1.health, P1.level, P1.currentExp,
-                 P1.clock.getElapsedTime().asSeconds() + P1.savedTime, P1.pArrowLvl, P1.sBladeLvl);
+                 P1.clock.getElapsedTime().asSeconds() + P1.savedTime,
+                 P1.pArrowLvl, P1.sBladeLvl);
         encryptSaveGame();
         mainMusic.stop();
       } else {
@@ -209,20 +220,26 @@ void GameLoader::quitGameDialouge() {
     }
   }
   // Checks if mouse is hovering over the yes button
-  if (noButton.getGlobalBounds().contains(sf::Vector2f(
-          window.mapPixelToCoords(sf::Mouse::getPosition(window))))) {
+  else if (noButton.getGlobalBounds().contains(sf::Vector2f(
+               window.mapPixelToCoords(sf::Mouse::getPosition(window))))) {
     // Sets selected texture for the yes button
     noButton.setPosition(0 + P1.camera.getCenter().x,
                          -9 + P1.camera.getCenter().y);
     noButton.setTexture(resourceManager.noButtonSelectedTex, true);
     buttonSound.setBuffer(bigButtonHovering);
-    buttonSound.play();
+    // Checks if hovering button sound has not played
+    if (playSFX) {
+      buttonSound.play();
+      playSFX = false;
+    }
     // Checks if the no button is clicked
     if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
       buttonSound.setBuffer(noButtonSB);
       buttonSound.play();
       showQuitGameDialouge = false;
     }
+  } else {
+    playSFX = true;
   }
   // Draws quit game dialouge UI elements
   window.draw(dialougeBox);
@@ -232,8 +249,6 @@ void GameLoader::quitGameDialouge() {
 
 void GameLoader::gameLoop() {
   // Initialising Objects for Main Game
-  sf::Clock clk;
-  sf::Time timeSinceLastUpdate = sf::Time::Zero;
   sf::Sprite backgroundMap, mapExtras;
   UIManager UI(0, 0, width / 2, height / 2, &window);
   // Setings for Map and Extras
@@ -261,8 +276,6 @@ void GameLoader::gameLoop() {
   for (int i = 0; i < 25; i++) {
     E1.spawnNewExp();
   }
-  sf::Time dt = clk.restart();
-  timeSinceLastUpdate += dt;
   while (P1.isAlive() && window.isOpen()) {
     while (window.pollEvent(event)) {
       if (event.type == sf::Event::Closed) showQuitGameDialouge = true;
@@ -296,7 +309,7 @@ void GameLoader::gameLoop() {
     // Spawning Player Arrows, firing them at enemies
     pArrows.fireCounter++;
     // Temp test to see how fire rate affects gameplay
-    if (pArrows.fireCounter >= 100){
+    if (pArrows.fireCounter >= 100) {
       pArrows.attack();
       pArrows.fireCounter = 0;
     }
@@ -327,7 +340,6 @@ void GameLoader::gameLoop() {
   sBlades.resetSpawner();
   E1.deleteExpBalls();
   enemies.deleteEnemies();
-
 
   window.clear(sf::Color::Green);
   sf::Sprite background;
@@ -378,6 +390,7 @@ void GameLoader::mainMenu() {
   sf::Sprite playButton, loadButton, settingsButton, quitButton, background,
       menuTitle, settingsPage, exitButton, musicLeftButton, musicRightButton,
       sfxLeftButton, sfxRightButton;
+  sf::Clock clock;
   menuTitle.setTexture(resourceManager.menuTitleTex);
   background.setTexture(resourceManager.backgroundTex);
   playButton.setTexture(resourceManager.playButtonTex, true);
@@ -425,75 +438,96 @@ void GameLoader::mainMenu() {
 
   sf::Event menuEvent;
 
-  // Checks if mouse is hovering over the play button
+  if (!showSettingsPage && !showQuitGameDialouge) {
+    // Checks if mouse is hovering over the play button
+    if (playButton.getGlobalBounds().contains(sf::Vector2f(
+            window.mapPixelToCoords(sf::Mouse::getPosition(window))))) {
+      // Sets selected texture for the play button
+      playButton.setPosition(-196, 14);
+      playButton.setTexture(resourceManager.playButtonSelectedTex, true);
+      buttonSound.setBuffer(buttonHovering);
+      // Checks if hovering button sound has not played
+      if (playSFX) {
+        buttonSound.play();
+        playSFX = false;
+      }
 
-  if (playButton.getGlobalBounds().contains(sf::Vector2f(
-          window.mapPixelToCoords(sf::Mouse::getPosition(window))))) {
-    // Sets selected texture for the play button
-    playButton.setPosition(-196, 14);
-    playButton.setTexture(resourceManager.playButtonSelectedTex, true);
-    buttonSound.setBuffer(buttonHovering);
-    buttonSound.play();
-    // Checks if the play button is clicked
-    if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
-      buttonSound.setBuffer(buttonClicked);
-      buttonSound.play();
-      gameState = "gameLoop";
-      isGameChanging = true;
+      // Checks if the play button is clicked
+      if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
+        buttonSound.setBuffer(buttonClicked);
+        buttonSound.play();
+        gameState = "gameLoop";
+        isGameChanging = true;
+      }
     }
-  }
-  // Checks if mouse is hovering over the quit button
-  else if (quitButton.getGlobalBounds().contains(sf::Vector2f(
-               window.mapPixelToCoords(sf::Mouse::getPosition(window))))) {
-    // Sets selected texture for the quit button
-    quitButton.setPosition(104, 14);
-    quitButton.setTexture(resourceManager.quitButtonSelectedTex, true);
-    buttonSound.setBuffer(buttonHovering);
-    buttonSound.play();
-    // Checks if the quit button is clicked
-    if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
-      buttonSound.setBuffer(buttonClicked);
-      buttonSound.play();
+    // Checks if mouse is hovering over the quit button
+    else if (quitButton.getGlobalBounds().contains(sf::Vector2f(
+                 window.mapPixelToCoords(sf::Mouse::getPosition(window))))) {
+      // Sets selected texture for the quit button
+      quitButton.setPosition(104, 14);
+      quitButton.setTexture(resourceManager.quitButtonSelectedTex, true);
+      buttonSound.setBuffer(buttonHovering);
+      // Checks if hovering button sound has not played
+      if (playSFX) {
+        buttonSound.play();
+        playSFX = false;
+      }
+      // Checks if the quit button is clicked
+      if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
+        buttonSound.setBuffer(buttonClicked);
+        buttonSound.play();
+        showQuitGameDialouge = true;
+      }
+    }
+    // Checks if mouse is hovering over the settings button
+    else if (settingsButton.getGlobalBounds().contains(sf::Vector2f(
+                 window.mapPixelToCoords(sf::Mouse::getPosition(window))))) {
+      // Sets selected texture for the settings button
+      settingsButton.setPosition(4, 14);
+      settingsButton.setTexture(resourceManager.settingsButtonSelectedTex,
+                                true);
+      buttonSound.setBuffer(buttonHovering);
+      // Checks if hovering button sound has not played
+      if (playSFX) {
+        buttonSound.play();
+        playSFX = false;
+      }
+      // Checks if the settings button is clicked
+      if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
+        buttonSound.setBuffer(buttonClicked);
+        buttonSound.play();
+        showSettingsPage = true;
+      }
+
+    } else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
       showQuitGameDialouge = true;
     }
-  }
-  // Checks if mouse is hovering over the settings button
-  else if (settingsButton.getGlobalBounds().contains(sf::Vector2f(
-               window.mapPixelToCoords(sf::Mouse::getPosition(window))))) {
-    // Sets selected texture for the settings button
-    settingsButton.setPosition(4, 14);
-    settingsButton.setTexture(resourceManager.settingsButtonSelectedTex, true);
-    buttonSound.setBuffer(buttonHovering);
-    buttonSound.play();
-    // Checks if the settings button is clicked
-    if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
-      buttonSound.setBuffer(buttonClicked);
-      buttonSound.play();
-      showSettingsPage = true;
-    }
+    // Checks if mouse is hovering over the load button
+    else if (loadButton.getGlobalBounds().contains(sf::Vector2f(
+                 window.mapPixelToCoords(sf::Mouse::getPosition(window))))) {
+      // Sets selected texture for the load button
+      loadButton.setPosition(-96, 14);
+      loadButton.setTexture(resourceManager.loadButtonSelectedTex, true);
+      buttonSound.setBuffer(buttonHovering);
+      // Checks if hovering button sound has not played
+      if (playSFX) {
+        buttonSound.play();
+        playSFX = false;
+      }
+      // Checks if the load button is clicked
+      if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
+        buttonSound.setBuffer(buttonClicked);
+        buttonSound.play();
+        shouldLoadGame = true;
+        gameState = "gameLoop";
+        isGameChanging = true;
+      }
 
-  } else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
-    showQuitGameDialouge = true;
-  }
-  // Checks if mouse is hovering over the load button
-  else if (loadButton.getGlobalBounds().contains(sf::Vector2f(
-               window.mapPixelToCoords(sf::Mouse::getPosition(window))))) {
-    // Sets selected texture for the load button
-    loadButton.setPosition(-96, 14);
-    loadButton.setTexture(resourceManager.loadButtonSelectedTex, true);
-    buttonSound.setBuffer(buttonHovering);
-    buttonSound.play();
-    // Checks if the load button is clicked
-    if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
-      buttonSound.setBuffer(buttonClicked);
-      buttonSound.play();
-      shouldLoadGame = true;
-      gameState = "gameLoop";
-      isGameChanging = true;
+    } else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
+      showQuitGameDialouge = true;
+    } else if (!showQuitGameDialouge) {
+      playSFX = true;
     }
-
-  } else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
-    showQuitGameDialouge = true;
   }
 
   // Draws UI elements
@@ -505,7 +539,7 @@ void GameLoader::mainMenu() {
   window.draw(quitButton);
 
   // Checks if the settings button has been clicked
-  if (showSettingsPage == true) {
+  if (showSettingsPage) {
     // Checks if mouse is hovering over the exit button
     if (exitButton.getGlobalBounds().contains(sf::Vector2f(
             window.mapPixelToCoords(sf::Mouse::getPosition(window))))) {
@@ -513,7 +547,11 @@ void GameLoader::mainMenu() {
       exitButton.setPosition(-332, -222);
       exitButton.setTexture(resourceManager.quitButtonSelectedTex, true);
       buttonSound.setBuffer(buttonHovering);
-      buttonSound.play();
+      // Checks if hovering button sound has not played
+      if (playSFX) {
+        buttonSound.play();
+        playSFX = false;
+      }
       // Checks if the exit button is clicked
       if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
         buttonSound.setBuffer(buttonClicked);
@@ -525,7 +563,11 @@ void GameLoader::mainMenu() {
       // Sets selected texture for the musicLeftButton
       musicLeftButton.setTexture(resourceManager.leftArrowSelectedTex, true);
       buttonSound.setBuffer(buttonHovering);
-      buttonSound.play();
+      // Checks if hovering button sound has not played
+      if (playSFX) {
+        buttonSound.play();
+        playSFX = false;
+      }
       // Checks if the musicLeftButton is clicked
       if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
         buttonSound.setBuffer(buttonClicked);
@@ -540,7 +582,11 @@ void GameLoader::mainMenu() {
       // Sets selected texture for the musicRightButton
       musicRightButton.setTexture(resourceManager.rightArrowSelectedTex, true);
       buttonSound.setBuffer(buttonHovering);
-      buttonSound.play();
+      // Checks if hovering button sound has not played
+      if (playSFX) {
+        buttonSound.play();
+        playSFX = false;
+      }
       // Checks if the musicRightButton is clicked
       if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
         buttonSound.setBuffer(buttonClicked);
@@ -555,7 +601,11 @@ void GameLoader::mainMenu() {
       // Sets selected texture for the sfxLeftButton
       sfxLeftButton.setTexture(resourceManager.leftArrowSelectedTex, true);
       buttonSound.setBuffer(buttonHovering);
-      buttonSound.play();
+      // Checks if hovering button sound has not played
+      if (playSFX) {
+        buttonSound.play();
+        playSFX = false;
+      }
       // Checks if the sfxLeftButton is clicked
       if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
         buttonSound.setBuffer(buttonClicked);
@@ -570,7 +620,11 @@ void GameLoader::mainMenu() {
       // Sets selected texture for the sfxRightButton
       sfxRightButton.setTexture(resourceManager.rightArrowSelectedTex, true);
       buttonSound.setBuffer(buttonHovering);
-      buttonSound.play();
+      // Checks if hovering button sound has not played
+      if (playSFX) {
+        buttonSound.play();
+        playSFX = false;
+      }
       // Checks if the sfxRightButton is clicked
       if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
         buttonSound.setBuffer(buttonClicked);
@@ -580,6 +634,8 @@ void GameLoader::mainMenu() {
           sfxLevel.setScale(sfxVolume * 3 / 100, sfxLevel.getScale().y);
         }
       }
+    } else {
+      playSFX = true;
     }
 
     // Draws settings page UI elements
