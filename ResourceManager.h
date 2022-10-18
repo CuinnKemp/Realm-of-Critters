@@ -20,7 +20,10 @@ class ResourceManager {
       settingsPageTex, slimeWalkDown1, slimeWalkDown2, slimeWalkDown3,
       slimeWalkDown4, slimeWalkUp1, slimeWalkUp2, slimeWalkUp3, slimeWalkUp4,
       slimeWalkLeft1, slimeWalkLeft2, slimeWalkLeft3, slimeWalkLeft4,
-      slimeWalkRight1, slimeWalkRight2, slimeWalkRight3, slimeWalkRight4,
+      goldenslimeWalkRight1, goldenslimeWalkRight2, goldenslimeWalkRight3, goldenslimeWalkRight4,goldenslimeWalkDown1, goldenslimeWalkDown2, goldenslimeWalkDown3,
+      goldenslimeWalkDown4, goldenslimeWalkUp1, goldenslimeWalkUp2, goldenslimeWalkUp3, goldenslimeWalkUp4,
+      goldenslimeWalkLeft1, goldenslimeWalkLeft2, goldenslimeWalkLeft3, goldenslimeWalkLeft4,
+      goldenslimeWalkRight1, goldenslimeWalkRight2, goldenslimeWalkRight3, goldenslimeWalkRight4,
       arrowTex, leftArrowTex, rightArrowTex, leftArrowSelectedTex,
       rightArrowSelectedTex, audioLevelTex;
   sf::Font defaultFont;
