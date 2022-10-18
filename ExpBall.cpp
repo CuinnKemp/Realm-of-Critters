@@ -1,16 +1,18 @@
+// include expball header
 #include "ExpBall.h"
 
+//include neccesary libraries
 #include <SFML/Graphics.hpp>
 #include <SFML/Window.hpp>
 #include <cmath>
 #include <iostream>
 #include <random>
 
-#include "ExpContainer.h"
+//include Player and resource manager class definitions
 #include "Player.h"
 #include "ResourceManager.h"
 
-// Extern :
+// External variables:
 extern sf::RenderWindow window;  // Render Window
 extern Player P1; // player
 extern ResourceManager resourceManager; // resource manager
@@ -25,6 +27,7 @@ ExpBall::ExpBall() {
   timer = 0;
 }
 
+// update exp function
 bool ExpBall::updateExp() {
   // Draws Exp Ball
   window.draw(this->sprite);
@@ -74,6 +77,7 @@ bool ExpBall::updateExp() {
   return 1;
 }
 
+// collected function
 void ExpBall::collected() {
   // Adds Exp to the player after collision
   P1.currentExp = P1.currentExp + expPoints;

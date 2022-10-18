@@ -1,8 +1,8 @@
 #ifndef EXPCONTAINER_H
 #define EXPCONTAINER_H
 
+//include required libraries
 #include <SFML/Graphics.hpp>
-#include <SFML/Window.hpp>
 
 // Virtual Class for Exp Ball
 class ExpContainer {

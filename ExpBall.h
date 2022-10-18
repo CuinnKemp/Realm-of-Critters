@@ -1,6 +1,7 @@
 #ifndef EXPBALL_H
 #define EXPBALL_H
 
+// include required library
 #include <SFML/Graphics.hpp>
 
 // Exp ball, manages the sprite and collision detection upon monster death

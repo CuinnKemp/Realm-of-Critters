@@ -1,6 +1,7 @@
 #ifndef EXPSPAWNER_H
 #define EXPSPAWNER_H
 
+// include expball class definition
 #include "ExpBall.h"
 
 // Aggregate of all Current Exp Balls

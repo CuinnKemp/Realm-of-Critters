@@ -1,18 +1,18 @@
+// include expspawner header
 #include "ExpSpawner.h"
 
+//include required libraries
 #include <SFML/Graphics.hpp>
 #include <SFML/Window.hpp>
-#include <cmath>
-#include <iostream>
-#include <random>
 
+//include expball class definition
 #include "ExpBall.h"
 
 // External : 
 extern double xpos, ypos;       // Player Coordinates
 extern sf::RenderWindow window; // Render Window
 
-
+// default constructor
 ExpSpawner::ExpSpawner() {
 
   // Intialisation of counter, array, spawn rate, timer, value of exp
@@ -77,6 +77,7 @@ void ExpSpawner::spawnNewExp(int expPoint, double xpos, double ypos) {
   expBallsCounter++;
 }
 
+// check alives function to check whether exps have been collected
 void ExpSpawner::checkAlives() {
 
   // for every exp ball live
@@ -96,6 +97,7 @@ void ExpSpawner::checkAlives() {
   }
 }
 
+// checks for "dead" exps and spawns new exps randomly
 void ExpSpawner::updateExps() {
   // Collision Detection
   this->checkAlives();
@@ -116,6 +118,7 @@ ExpSpawner::~ExpSpawner() {
   delete[] expBalls;
 }
 
+// soft deconstructor for expballs
 void ExpSpawner::deleteExpBalls() {
   // Deletes all exp balls upon command;
   for (int i = 0; i < expBallsCounter; i++) {
