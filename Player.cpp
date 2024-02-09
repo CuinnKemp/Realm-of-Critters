@@ -105,7 +105,7 @@ void Player::levelPlayer() {
     
     // set new exp cap
     this->expCap =
-        this->expCap * 1.5;  // increase experience required after every level
+        this->expCap * 1.10;  // increase experience required after every level
     // reset exp
     this->currentExp = 0;  // resets exp
   }

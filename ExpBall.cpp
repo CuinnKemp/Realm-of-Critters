@@ -81,6 +81,11 @@ bool ExpBall::updateExp() {
 void ExpBall::collected() {
   // Adds Exp to the player after collision
   P1.currentExp = P1.currentExp + expPoints;
+  if (P1.health < 100 - expPoints/10){
+    P1.health += expPoints/10;
+  } else if (P1.health != 100){ 
+    P1.health = 100;
+  }
 
   // Runs player Levelling sequence
   P1.levelPlayer();
